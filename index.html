@@ -1,51 +1,56 @@
 <!-- https://aframe.io/docs/1.5.0/introduction/entity-component-system.html -->
 <html>
- <head>
-   <title>Community Components Example</title>
-   <meta name="description" content="Community Components Example">
-   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script> 
-   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-particle-system-component@a5a8449/dist/aframe-particle-system-component.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
-   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script>
- </head>
- <body>
-   <a-scene>
-       <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
-     
-     <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
-     material="src: ./assets/models/kitchen/appliance_oven.png"
-     position="0 0 -2"
-     rotation="0 0 0"
-     scale="0.1 0.1 0.1"></a-entity>
 
-     <a-entity
-  obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-  position="0 -1 0"
-  rotation="0 180 0"
-  scale="4 4 4"
-></a-entity>
+<head>
+  <title>Community Components Example</title>
+  <meta name="description" content="Community Components Example">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/c-frame/aframe-particle-system-component@a5a8449/dist/aframe-particle-system-component.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script>
+</head>
 
-<a-entity
-obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-position="0 -1 3.84"
-rotation="0 180 0"
-scale="4 4 4"
-></a-entity>
-<a-entity
-obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-position="-3.84 -1 3.84"
-rotation="0 180 0"
-scale="4 4 4"
-></a-entity>
+<body>
+  <a-scene>
+    <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
-<a-entity
-obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-position="-3.84 -1 0"
-rotation="0 180 0"
-scale="4 4 4"
-></a-entity>
-     
-     
-   </a-scene>
- </body>
+    <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
+      material="src: ./assets/models/kitchen/appliance_oven.png" position="0 0 -2" rotation="0 0 0"
+      scale="0.1 0.1 0.1"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
+      position="0 -1 0" rotation="0 180 0" scale="4 4 4"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
+      position="0 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
+      position="-3.84 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
+      position="-3.84 -1 0" rotation="0 180 0" scale="4 4 4"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="-1 0 0" rotation="0 180 0"
+      scale="1 1 1 " material="color: #DD3F61;"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="0 0 0" rotation="0 180 0" scale="1 1 1 "
+      material="color: #622828;"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="1 0 0" rotation="0 180 0" scale="1 1 1 "
+      material="color: #320707;"></a-entity>
+
+    <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="-1 0 -1" rotation="0 180 0"
+      scale="1 1 1 " material="src: ./assets/models/ingredients/texturepain.webp;"></a-entity>
+
+
+    <a-entity obj-model="obj: ./assets/models/ingredients/cheese.obj; mtl: ./assets/models/ingredients/cheese.mtl.bak"
+      position="-1 0 1" rotation="0 180 0" scale="1 1 1 "></a-entity>
+
+
+    
+
+
+  </a-scene>
+</body>
+
 </html>
