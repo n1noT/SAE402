@@ -23,80 +23,105 @@
     <a-assets>
       <a-asset-item id="freezer" src="./assets/models/fridge/Freezer.glb"></a-asset-item>
     </a-assets>
+      <a-asset-item id="door-close" src="./assets/models/fridge/door/door-close.glb"></a-asset-item>
+    </a-assets>
+    </a-assets>
+      <a-asset-item id="door-open" src="./assets/models/fridge/door/door-open.glb"></a-asset-item>
+    </a-assets>
     <a-assets>
       <a-asset-item id="shelf" src="./assets/models/shelf/Shelf.glb"></a-asset-item>
     </a-assets>
     <a-assets>
-      <a-asset-item id="shelf" src="./assets/models/bins/Recycle.glb"></a-asset-item>
+      <a-asset-item id="recycle" src="./assets/models/bins/Recycle.glb"></a-asset-item>
     </a-assets>
     <a-assets>
-      <a-asset-item id="shelf" src="./assets/models/bins/Trash.glb"></a-asset-item>
+      <a-asset-item id="trash" src="./assets/models/bins/Trash.glb"></a-asset-item>
     </a-assets>
     <a-assets>
-      <a-asset-item id="shelf" src="./assets/models/stove/Stove.glb"></a-asset-item>
+      <a-asset-item id="stove" src="./assets/models/stove/Stove.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="button" src="./assets/models/btn/Button.glb"></a-asset-item>
     </a-assets>
 
     <!-- FOUR -->
     <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
       material="src: ./assets/models/kitchen/appliance_oven.png" position="0 -0.2 -2.7" rotation="0 0 0"
       scale="0.1 0.1 0.1"></a-entity>
-    <!-- Text Four--> 
+    <!-- Btn Four -->
+    <a-entity gltf-model="./assets/models/btn/button.glb" position="0 0.4 -2.1" scale="0.02 0.02 0.02" rotation="90 0 0"
+      material="color: #FF0000"></a-entity>
+    <!-- Text Four-->
     <a-text value="Four" position="0 1 -2.7" color="#000" align="center"></a-text>
 
     <!--PLANCHA  -->
     <a-box class="Cube" position="-2 -0.2 -2.6" rotation="0 0 0" color="#888" scale="1.5 1.6 1.3"></a-box>
-    <!-- Text Plancha--> 
+    <!-- Text Plancha-->
     <a-text value="Plancha" position="-2 1 -2.6" color="#000" align="center"></a-text>
 
-    <!--Stove 1-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-2.3 0.7 -2.8" scale="0.06 0.06 0.06"
-      ></a-entity>
-    <!--Stove 2-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-1.7 0.7 -2.8" scale="0.06 0.06 0.06"
-      ></a-entity>
-    <!--Stove 3-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-2.3 0.7 -2.3" scale="0.06 0.06 0.06"
-      ></a-entity>
-    <!--Stove 4-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-1.7 0.7 -2.3" scale="0.06 0.06 0.06"
-      ></a-entity>
-    
+    <!--Plaque de cuisson 1-->
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-2.2 0.7 -2.8" scale="0.06 0.06 0.06"></a-entity>
+    <!--Btn 1-->
+    <a-entity gltf-model="./assets/models/btn/button.glb" position="-2.6 0.6 -2.8" scale="0.02 0.02 0.02"></a-entity>
 
-    <!--Fridge  -->
-    <a-entity gltf-model="./assets/models/fridge/Freezer.glb" rotation="0 270 0" position="2 -2 -2" scale="0.05 0.05 0.05"
-      ></a-entity>
-    <!-- Text fridge--> 
+    <!--Plaque de cuisson 2-->
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-1.8 0.7 -2.8" scale="0.06 0.06 0.06"></a-entity>
+    <!--Btn 2-->
+    <a-entity gltf-model="./assets/models/btn/button.glb" position="-1.4 0.6 -2.8" scale="0.02 0.02 0.02"></a-entity>
+
+    <!--Plaque de cuisson 3-->
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-2.2 0.7 -2.3" scale="0.06 0.06 0.06"></a-entity>
+    <!--Btn 3-->
+    <a-entity gltf-model="./assets/models/btn/button.glb" position="-1.4 0.6 -2.3" scale="0.02 0.02 0.02"
+      material="color: #FF0000"></a-entity>
+
+    <!--Plaque de cuisson 4-->
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-1.8 0.7 -2.3" scale="0.06 0.06 0.06"></a-entity>
+    <!--Btn 4-->
+    <a-entity gltf-model="./assets/models/btn/button.glb" position="-2.6 0.6 -2.3" scale="0.02 0.02 0.02"></a-entity>
+
+
+    <!--Frigo  -->
+    <a-entity gltf-model="./assets/models/fridge/Freezer.glb" rotation="0 180 0" position="3 -1 -2"
+      scale="0.03 0.04 0.08"></a-entity>
+    <a-entity gltf-model="./assets/models/fridge/door/door-close.glb" rotation="0 270 0" position="2 0.5 -1.18"
+      scale="0.9 1.1 1"></a-entity>
+      
+    <!-- Text Frigo-->
     <a-text value="Frigo" rotation="0 270 0" position="1.8 2 -1.2" color="#000" align="center"></a-text>
 
     <!--Étagère  -->
-    <a-entity gltf-model="./assets/models/shelf/Shelf.glb" rotation="0 270 0" position="2.5 0 1.7" scale="2 1 1.5 "
-      ></a-entity>
-    <!-- Text Étagère--> 
+    <a-entity gltf-model="./assets/models/shelf/Shelf.glb" rotation="0 270 0" position="2.5 0 1.7"
+      scale="2 1 1.5 "></a-entity>
+    <!-- Text Étagère-->
     <a-text value="Stock" rotation="0 270 0" position="2.5 1 1.7" color="#000" align="center"></a-text>
 
     <!--Recycler  -->
-    <a-entity gltf-model="./assets/models/bins/Recycle.glb" rotation="0  0 0" position="0 -0.3 2.5" scale="1 1 2 "
-      ></a-entity>
-    <!-- Text Recycle--> 
+    <a-entity gltf-model="./assets/models/bins/Recycle.glb" rotation="0  0 0" position="0 -0.3 2.5"
+      scale="1 1 2 "></a-entity>
+    <!-- Text Recycle-->
     <a-text value="Recycler" rotation="0 180 0" position="0 0.6 2.8" color="#000" align="center"></a-text>
 
     <!--Compost -->
-    <a-entity gltf-model="./assets/models/bins/Trash.glb" rotation="0  0 0" position="-1.3 -0.3 2.8" scale="0.3 0.3 0.3"
-      ></a-entity>
-    <!-- Text Compost--> 
+    <a-entity gltf-model="./assets/models/bins/Trash.glb" rotation="0  0 0" position="-1.3 -0.3 2.8"
+      scale="0.3 0.3 0.3"></a-entity>
+    <!-- Text Compost-->
     <a-text value="Compost" rotation="0 180 0" position="-1.3 0.6 2.8" color="#000" align="center"></a-text>
 
-    
+
 
     <!-- SOLS -->
-    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-       position="0 -1 0" rotation="0 180 0" scale="4 4 4"></a-entity>
-    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-       position="0 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
-    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"
-       position="-3.84 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
-    <a-entity obj-model="obj: ./assets/models/floor/model.obj; mtl: ./assets/models/floor/materials.mtl.bak"  position="-3.84 -1 0" rotation="0 180 0"
-      scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj" material="color: #DED5C5"
+      position="0 -1 0" rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj"
+    material="color: #DED5C5"
+      position="0 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj"
+    material="color: #DED5C5"
+      position="-3.84 -1 3.84" rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ./assets/models/floor/model.obj"
+    material="color: #DED5C5"
+      position="-3.84 -1 0" rotation="0 180 0" scale="4 4 4"></a-entity>
 
     <!-- MURS CUISINE -->
     <a-entity gltf-model="./assets/models/wall/Normal-Wall.glb" rotation="0 90 0" position="-1.5 -4.3 0"
