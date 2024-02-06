@@ -1,12 +1,14 @@
 class Ingredient {
-    constructor(nom) {
+    constructor(nom, tri) {
       this.nom = nom;
+      this.tri = tri
     }
 }
 
 class IngredientACuire extends Ingredient {
-    constructor(nom,temps, couleur) {
-        super(nom);
+    constructor(nom, tri, temps, couleur) {
+        super(nom, tri);
+        
         this.etat = 'cru';
         this.temps = temps
         this.couleur = couleur
@@ -53,12 +55,12 @@ class Frigo {
 
 
 // Liste des ingrédients créés
-const pain = new Ingredient('pain');
-const fromage = new Ingredient('fromage');
-const steak = new IngredientACuire('steak', 60, '#DD3F61');
-const steakCuit = new IngredientACuire('steak', 60, '#DD3F61');
+const pain = new Ingredient('pain', 'compost');
+const fromage = new Ingredient('fromage', 'compost');
+const steak = new IngredientACuire('steak', 'compost', 60, '#DD3F61');
+const steakCuit = new IngredientACuire('steak',  'compost', 60, '#DD3F61');
 steakCuit.cui('#DFFFF01')
-const pouletCuit = new IngredientACuire('steak', 60, '#DD3F61');
+const pouletCuit = new IngredientACuire('steak', 'compost', 60, '#DD3F61');
 pouletCuit.cui('#DFFFF01')
 
 
@@ -113,7 +115,7 @@ commandeClient(1)
 
 
 let handlerClickOnFridge = function(){
-    let porte = document.querySelector('.fridge-door')
+    let porte = document.querySelector('#fridge-door')
 
    // if(ev.target.className == 'frigo-door'){
         if(porte.dataset.etat == 'ouvert'){
