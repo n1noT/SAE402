@@ -75,14 +75,10 @@ class Plancha extends KitchenElement {
 // Fonction pour simuler un clic sur un bouton
 function cliquerSurBouton(idBouton) {
     let id =  '#' + idBouton;
-    console.log(id)
     let bouton = document.querySelector(id);
-    console.log(bouton)
     if (bouton) {
         // Change l'état du bouton
-        const couleurActuelle = bouton.getAttribute('material').color;
-        const nouvelleCouleur = couleurActuelle === '#E92323' ? '#00FF00' : '#E92323';
-        bouton.setAttribute('material', 'color', nouvelleCouleur);
+        bouton.setAttribute('material', 'color : #00FF00');
     } else {
         console.log(`Le bouton avec l'ID ${idBouton} n'existe pas.`);
     }
