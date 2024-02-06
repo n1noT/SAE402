@@ -31,24 +31,27 @@ class IngredientACuire extends Ingredient {
 const pain = new Ingredient('pain');
 const fromage = new Ingredient('fromage');
 const steak = new IngredientACuire('steak', 60, '#DD3F61');
-const poulet = new IngredientACuire('poulet', 40, '#DD3F61');
+const steakCuit = new IngredientACuire('steak', 60, '#DD3F61');
+steakCuit.cui('#DFFFF01')
+const pouletCuit = new IngredientACuire('steak', 60, '#DD3F61');
+pouletCuit.cui('#DFFFF01')
 
-
+console.log(steak.cui('#DDFGD0'));
 // Tableau des commandes faites par les clients
 let commandes = [];
 
 // Tableau des recettes que les clients peuvent commander 
 let dataRecette = [
     {nom: 'burger boeuf', niveau:1, ingredients:[
-        pain, steak.cui(), pain
+        pain, steakCuit, pain
     ]
     },
     {nom: 'burger poulet', niveau:1, ingredients:[
-        pain, poulet.cui(), pain
+        pain, pouletCuit, pain
     ]
     },
     {nom: 'double burger', niveau:2, ingredients:[
-        pain, fromage, steak.cui(), pain, steak, pain
+        pain, fromage, steak, pain, steak, pain
     ]
     },
 ]
@@ -81,5 +84,8 @@ let commandeClient = function(niveauMax){
 }
 
 commandeClient(1)
+
+console.log(commandes)
+  
 
 
