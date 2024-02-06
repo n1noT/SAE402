@@ -39,16 +39,16 @@ let commandes = [];
 
 // Tableau des recettes que les clients peuvent commander 
 let dataRecette = [
-    {niveau:1, ingredients:[
-        pain, steak, pain
+    {nom: 'burger boeuf', niveau:1, ingredients:[
+        pain, steak.cui(), pain
     ]
     },
-    {niveau:1, ingredients:[
-        pain, poulet, pain
+    {nom: 'burger poulet', niveau:1, ingredients:[
+        pain, poulet.cui(), pain
     ]
     },
-    {niveau:2, ingredients:[
-        pain, fromage, steak, pain, steak, pain
+    {nom: 'double burger', niveau:2, ingredients:[
+        pain, fromage, steak.cui(), pain, steak, pain
     ]
     },
 ]
@@ -57,8 +57,8 @@ let dataRecette = [
 
 let assiettes = [
     {num: 1, assiette:[]},
-    {num: 2, assiette:[]},
-    {num: 3, assiette:[]},
+    // {num: 2, assiette:[]},
+    // {num: 3, assiette:[]},
 ]
 
 // Génére une commande aléatoire selon les recettes contenues 
@@ -76,7 +76,7 @@ let commandeClient = function(niveauMax){
     
     let commande = dataRecette[index]
 
-    commandes.push(commande.ingredients)
+    commandes.push(commande)
     
 }
 
