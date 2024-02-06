@@ -29,28 +29,6 @@ class IngredientACuire extends Ingredient {
 }
 
 
-
-class Frigo {
-    constructor(model){
-        this.model = model
-        this.etat = 'ferme';
-    }
-
-    ouvrir(model) {
-        console.log(`le frigo est ouvert.`);
-        this.model = model
-        this.etat = 'ouvert';
-
-    }
-
-    fermer(model) {
-        console.log(`le frigo est fermé.`);
-        this.model = model
-        this.etat = 'ferme';
-    }
-
-
-}
   
 
 
@@ -91,6 +69,8 @@ let assiettes = [
     // {num: 3, assiette:[]},
 ]
 
+let main = []
+
 // Génére une commande aléatoire selon les recettes contenues 
 // dans le tableau dataRecette et leur niveau associé.
 // La commande est placé dans le tableau commandes contenant toutes les commandes
@@ -114,13 +94,14 @@ commandeClient(1)
 
 
 
-let handlerClickOnFridge = function(){
+let handlerClickOnFridge = function(ev){
     let porte = document.querySelector('#fridge-door')
 
-   // if(ev.target.className == 'frigo-door'){
+   if(ev.target.className == 'frigo-door'){
         if(porte.dataset.etat == 'ouvert'){
             porte.setAttribute('gltf-model','./assets/models/fridge/door/door-open.glb');
             porte.setAttribute('rotation','0 90 180');
+            porte.setAttribute('scale','0.8 0.9 0.6');
             porte.dataset.etat = 'ferme'
         
             return
@@ -128,14 +109,16 @@ let handlerClickOnFridge = function(){
         if(porte.dataset.etat == 'ferme'){
             porte.setAttribute('gltf-model','./assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation','0 90 180');
+            porte.setAttribute('scale','0.9 1.1 1');
             porte.dataset.etat = 'ouvert'
             
             return
         }
 
-   // }
+   }
 }
 
 
 
-
+let testFridge = document.querySelector('#btn-fridge');
+testFridge.addEventListener('click', handlerClickOnFridge);
