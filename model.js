@@ -27,6 +27,31 @@ class IngredientACuire extends Ingredient {
 }
 
 
+
+class Frigo {
+    constructor(model){
+        this.model = model
+        this.etat = 'ferme';
+    }
+
+    ouvrir(model) {
+        console.log(`le frigo est ouvert.`);
+        this.model = model
+        this.etat = 'ouvert';
+
+    }
+
+    fermer(model) {
+        console.log(`le frigo est fermé.`);
+        this.model = model
+        this.etat = 'ferme';
+    }
+
+
+}
+  
+
+
 // Liste des ingrédients créés
 const pain = new Ingredient('pain');
 const fromage = new Ingredient('fromage');
@@ -36,7 +61,7 @@ steakCuit.cui('#DFFFF01')
 const pouletCuit = new IngredientACuire('steak', 60, '#DD3F61');
 pouletCuit.cui('#DFFFF01')
 
-console.log(steak.cui('#DDFGD0'));
+
 // Tableau des commandes faites par les clients
 let commandes = [];
 
@@ -85,7 +110,30 @@ let commandeClient = function(niveauMax){
 
 commandeClient(1)
 
-console.log(commandes)
-  
+
+
+let handlerClickOnFridge = function(){
+    let porte = document.querySelector('.fridge-door')
+
+   // if(ev.target.className == 'frigo-door'){
+        if(porte.dataset.etat == 'ouvert'){
+            porte.setAttribute('gltf-model','./assets/models/fridge/door/door-open.glb');
+            porte.setAttribute('rotation','0 90 180');
+            porte.dataset.etat = 'ferme'
+        
+            return
+        }
+        if(porte.dataset.etat == 'ferme'){
+            porte.setAttribute('gltf-model','./assets/models/fridge/door/door-close.glb');
+            porte.setAttribute('rotation','0 90 180');
+            porte.dataset.etat = 'ouvert'
+            
+            return
+        }
+
+   // }
+}
+
+
 
 
