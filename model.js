@@ -26,6 +26,78 @@ class IngredientACuire extends Ingredient {
 
 }
 
+class KitchenElement {
+    constructor(nom){
+        this.nom = nom;
+        this.etat = 'off'
+    }
+
+    on(){
+        console.log(`${this.nom} is on`);
+        this.etat = 'on';
+    }
+
+    off(){
+        console.log(`${this.nom} is off`);
+        this.etat = 'off';
+    }
+}
+
+class Plancha extends KitchenElement {
+    constructor(nom, bouton) {
+        super(nom);
+        this.bouton = bouton;
+    }
+
+    // Méthode pour activer la plancha
+    on() {
+        super.on();
+        this.bouton.forEach(id => {
+            const button = document.querySelector(`#${id}`);
+            if (button) {
+                button.setAttribute('material', 'color', '#00FF00'); 
+            }
+        });
+    }
+
+
+    off() {
+        super.off();
+        this.bouton.forEach(id => {
+            const button = document.querySelector(`#${id}`);
+            if (button) {
+                button.setAttribute('material', 'color', '#E92323'); 
+            }
+        });
+    }
+}
+
+// Fonction pour simuler un clic sur un bouton
+function cliquerSurBouton(idBouton) {
+    let id =  '#' + idBouton;
+    console.log(id)
+    let bouton = document.querySelector(id);
+    console.log(bouton)
+    if (bouton) {
+        // Change l'état du bouton
+        const couleurActuelle = bouton.getAttribute('material').color;
+        const nouvelleCouleur = couleurActuelle === '#E92323' ? '#00FF00' : '#E92323';
+        bouton.setAttribute('material', 'color', nouvelleCouleur);
+    } else {
+        console.log(`Le bouton avec l'ID ${idBouton} n'existe pas.`);
+    }
+}
+
+// Créer une instance de la plancha avec les ID des boutons
+const plancha = new Plancha('maPlancha', ['plancha_btn1', 'plancha_btn2', 'plancha_btn3', 'plancha_btn4']);
+
+// Appeler la méthode on() pour activer la plancha
+plancha.on();
+
+// Appeler la fonction pour simuler un clic sur un bouton
+
+
+
 
 // Liste des ingrédients créés
 const pain = new Ingredient('pain');
@@ -82,3 +154,4 @@ let commandeClient = function(niveauMax){
 
 commandeClient(1)
 
+cliquerSurBouton('plancha_btn3');
