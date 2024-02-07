@@ -58,14 +58,14 @@
       position="-3.8 -1.110 0" rotation="0 90 0" scale="1.920 1.1 1"></a-gltf-model>
 
     <!-- Commande Bulle 1 -->
-      <a-gltf-model src="./assets/models/cmd/speech.glb"
-      position="-5 2.5 -1.5" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model>
+      <!-- <a-gltf-model src="./assets/models/cmd/speech.glb"
+      position="-5 2.5 -1.5" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model> -->
     <!-- Commande Bulle 2 -->
-      <a-gltf-model src="./assets/models/cmd/speech.glb"
-      position="-5 2.5 0" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model>
+      <!-- <a-gltf-model src="./assets/models/cmd/speech.glb"
+      position="-5 2.5 0" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model> -->
     <!-- Commande Bulle 3 -->
-      <a-gltf-model src="./assets/models/cmd/speech.glb"
-      position="-5 2.5 1.5" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model>
+      <!-- <a-gltf-model src="./assets/models/cmd/speech.glb"
+      position="-5 2.5 1.5" rotation="0 90 0" scale="0.5 3 1"></a-gltf-model> -->
 
       
 
@@ -204,6 +204,27 @@
     <!-- CIEL -->
     <a-sky color="#87CEEB"></a-sky>
 
+    <!-- CHARACTER -->
+    <a-gltf-model src="./assets/character/BeachCharacter.glb" position="-5.7 -1 0" rotation="0 90 0" scale="2 2 2"></a-gltf-model>
+
+    <a-gltf-model src="./assets/models/cmd/speech.glb" position="-5.5 4 0" rotation="0 90 0" scale="2 2 1"></a-gltf-model>
+
+    <a-entity
+      id="commande"
+      position="-5.2 4.6 1.1"
+      rotation="0 90 0"
+      text="value: un burger et plus vite que ca !; color: black; width: 5; align: center"
+    ></a-entity>
+      <!-- Ajoutez une entité de texte pour afficher le timer -->
+      <a-entity
+        id="timer"
+        position="-5.2 4.1 1.1"
+        rotation="0 90 0"
+        text="value: 5; color: black; width: 8; align: center"
+      ></a-entity>
+
+      <!-- Ajoutez une entité qui gère la logique du timer -->
+      <a-entity timer-controller></a-entity>
 
 
 >>>>>>> 6d7126efa3b2159307c0c840dff331410e9f33b4
@@ -211,6 +232,7 @@
   </a-scene>
 
   <script type="module" src="model.js"></script>
+  <script type="module" src="timer.js"></script>
 </body>
 
 </html>
