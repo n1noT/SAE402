@@ -1,3 +1,5 @@
+import "./model.js";
+
 AFRAME.registerComponent('timer-controller', {
     init: function () {
         // Récupérez l'entité du timer
