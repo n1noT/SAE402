@@ -13,11 +13,12 @@
 </head>
 
 <body>
-  <button id="btn-fridge"class="frigo-door" style="position: absolute; top: 5px; left: 5px; z-index:1000;">frigo</button>
-  <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+  
+  <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js" cursor="rayOrigin: mouse">
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
-    
+    <a-cursor></a-cursor>
+
     <!-- Steak cru STOCK -->
     <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="2.4 0.5 -0.7" rotation="0 180 0"
       scale="1 1 1 " material="color: #DD3F61;"></a-entity>
@@ -151,8 +152,8 @@
     <a-entity gltf-model="./assets/models/fridge/Freezer.glb" rotation="0 180 0" position="3 -1 -2"
       scale="0.03 0.04 0.08"></a-entity>
       <!-- Porte frigo -->
-    <a-entity id="fridge-door" gltf-model="./assets/models/fridge/door/door-close.glb" rotation="0 270 0" position="2 0.5 -1.18" data-etat="ouvert"
-      scale="0.9 1.1 1"></a-entity>
+    <a-entity id="fridge-door" class="frigo-door" gltf-model="./assets/models/fridge/door/door-close.glb" rotation="0 270 0" position="2 0.5 -1.18" data-etat="ouvert"
+      scale="0.9 1.1 1" clickable></a-entity>
       
     <!-- Text Frigo-->
     <a-text value="Frigo" rotation="0 270 0" position="1.8 2 -1.2" color="#000" align="center"></a-text>

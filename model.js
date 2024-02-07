@@ -96,7 +96,7 @@ commandeClient(1)
 
 let handlerClickOnFridge = function(ev){
     let porte = document.querySelector('#fridge-door')
-
+    
    if(ev.target.className == 'frigo-door'){
         if(porte.dataset.etat == 'ouvert'){
             porte.setAttribute('gltf-model','./assets/models/fridge/door/door-open.glb');
@@ -120,5 +120,19 @@ let handlerClickOnFridge = function(ev){
 
 
 
-let testFridge = document.querySelector('#btn-fridge');
+let testFridge = document.querySelector('#fridge-door');
 testFridge.addEventListener('click', handlerClickOnFridge);
+
+let handlerClickOnConso = function(ev){
+    let cursor = document.querySelector('a-cursor')
+    if(ev.target.className == 'consommable'){
+        if(main.length < 1){
+            ev.position = cursor.position
+        }
+    }
+}
+
+
+
+let scene = document.querySelector('a-scene');
+scene.addEventListener('click', handlerClickOnConso);
