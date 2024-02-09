@@ -66,6 +66,58 @@ function handlerClicSurBouton(ev) {
 }
 
 
+// FRIDGE
+let handlerClickOnFridge = function (ev) {
+    let porte = document.querySelector('#fridge-door');
+    let tuto1 = document.querySelector('#tuto_step1');
+    let tuto2 = document.querySelector('#tuto_step2');
+    let tuto3 = document.querySelector('#tuto_step3');
+    let tuto5 = document.querySelector('#tuto_step5');
+
+
+    if (ev.target.className == 'frigo-door') {
+        if (porte.dataset.etat == 'ouvert') {
+            if (tuto3.dataset.etat == 'actif') {
+                tuto3.setAttribute('value', ' ');
+                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+                porte.setAttribute('rotation', '0 90 180');
+                porte.setAttribute('scale', '0.8 0.9 0.6');
+                porte.dataset.etat = 'ferme'
+                tuto3.dataset.etat = 'inactif';
+                tuto1.setAttribute('value', ' ')
+                tuto2.setAttribute('value', ' ')
+                tuto5.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                tuto5.dataset.etat = 'actif';
+
+                return
+            }
+            else {
+                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+                porte.setAttribute('rotation', '0 90 180');
+                porte.setAttribute('scale', '0.8 0.9 0.6');
+                porte.dataset.etat = 'ferme'
+
+                return
+
+            }
+
+        }
+        if (porte.dataset.etat == 'ferme') {
+
+            porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
+            porte.setAttribute('rotation', '0 90 180');
+            porte.setAttribute('scale', '0.9 1.1 1');
+            porte.dataset.etat = 'ouvert'
+            tuto5.setAttribute('value', ' ');
+            return
+
+        }
+
+    }
+}
+
+
+
 
 
 // Liste des ingrédients créés
@@ -82,7 +134,7 @@ let commandes = [];
 let dataRecette = [
     {
         nom: 'burger boeuf', niveau: 1, ingredients: [
-            pain, steak.cui(), fromage,   pain
+            pain, steak.cui(), fromage, pain
         ]
     },
     {
@@ -127,7 +179,11 @@ commandeClient(1)
 
 
 // LISTENER GRILL
-let GRILL = document.querySelectorAll('.grill_btn');
-GRILL.forEach(bouton => {
+let grill = document.querySelectorAll('.grill_btn');
+grill.forEach(bouton => {
     bouton.addEventListener('click', handlerClicSurBouton);
 });
+
+// LISTENER FRIDGE
+let fridge = document.querySelector('#fridge-door');
+fridge.addEventListener('click', handlerClickOnFridge);
