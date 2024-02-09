@@ -183,7 +183,7 @@ let handlerClickOnConso = function (ev) {
             ing.setAttribute('scale', ev.target.getAttribute('scale'));
             ing.setAttribute('material', ev.target.getAttribute('material'));
             ing.classList.add('consommable');
-            ing.entity = ev.target.dataset.id
+            ing.dataset.id = ev.target.dataset.id
             ing.dataset.stock = 'stock'
 
             document.querySelector('a-scene').appendChild(ing);
