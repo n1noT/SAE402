@@ -49,7 +49,6 @@ class KitchenElement {
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
     console.log(bouton)
-    // 
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
             bouton.setAttribute('material', 'color : #2ECB2C');
@@ -148,6 +147,8 @@ let dataRecette = [
 // Tableau contenant les 3 assiettes où l'on prépare les commandes
 let assiettes = [[], [], []]
 
+let plaques = [[], [], [], []]
+
 let main = []
 
 
@@ -231,7 +232,7 @@ let handlerClickOnConso = function (ev) {
                     ing.classList.add('consommable');
                     ing.dataset.id = ev.target.dataset.id
                     ing.dataset.stock = 'stock'
-                    tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                    tutoFridge.setAttribute('value', 'Clic de nouveau sur la porte pour fermer le frigo !');
                     tutoFridge.dataset.etat = "inactif"
                     document.querySelector('a-scene').appendChild(ing);
     
@@ -273,6 +274,26 @@ let handlerClickOnConso = function (ev) {
         console.log("non-stop")
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
+        if (main.length < 1) {
+            if (ev.target.id == 'inAssiette') {
+                assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
+                console.log('clic sur assiette PLEINE ')
+                console.log(assiettes[0])
+            };
+
+            if (!ev.target.hasAttribute('follow-hand')) {
+                ev.target.setAttribute('follow-hand', '');
+                ev.target.dataset.stock = null
+                ev.target.id = 'handed'
+
+                main.push(ev.target.dataset.id)
+            }
+            console.log('main')
+            console.log(main)
+            // Arrête le script sinon la suite annulera cette action
+            return
+        }
+
         if (main.length < 1) {
             if (ev.target.id == 'inAssiette') {
                 assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
