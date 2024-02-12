@@ -48,15 +48,15 @@ let commandes = [];
 // Tableau des recettes que les clients peuvent commander 
 let dataRecette = [
     {nom: 'burger boeuf', niveau:1, ingredients:[
-        pain, steakCuit, pain
+        'pain', 'steak cuit', 'pain'
     ]
     },
     {nom: 'burger poulet', niveau:1, ingredients:[
-        pain, pouletCuit, pain
+        'pain', 'poulet cuit', 'pain'
     ]
     },
     {nom: 'double burger', niveau:2, ingredients:[
-        pain, fromage, steak, pain, steak, pain
+        'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
     ]
     },
 ]
@@ -90,7 +90,7 @@ let commandeClient = function(niveauMax){
     
 }
 
-commandeClient(1)
+commandeClient(2)
 
 
 
@@ -125,6 +125,16 @@ let testFridge = document.querySelector('#btn-fridge');
 testFridge.addEventListener('click', handlerClickOnFridge);
 
 
+
+
+
+
+
+
+
+
+
+
 let currentCommand = commandes[commandes.length -1];
 console.log(currentCommand.nom);
 
@@ -136,6 +146,7 @@ AFRAME.registerComponent('timer-controller', {
         // Récupérez l'entité du timer
         var timerEntity = document.getElementById('timer');
         var commandeEntity = document.getElementById('commande');
+        var ingredientsEntity = document.getElementById('ingredients');
 
         // Initialisez le timer à 10 secondes
         var timerValue = 10;
@@ -144,6 +155,7 @@ AFRAME.registerComponent('timer-controller', {
         this.interval = setInterval(function () {
             if (timerValue > 0) {
                 commandeEntity.setAttribute('text', 'value', `Je voudrais un ${currentCommand.nom} !`);
+                ingredientsEntity.setAttribute('text', 'value', commandes[commandes.length -1].ingredients)
                 timerValue--;
             }
 
