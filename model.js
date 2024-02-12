@@ -72,25 +72,19 @@ let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
     let tuto1 = document.querySelector('#tuto_step1');
     let tuto2 = document.querySelector('#tuto_step2');
-    let tuto3 = document.querySelector('#tuto_step3');
-    let tuto4 = document.querySelector('#tuto_step4');
-    let tuto5 = document.querySelector('#tuto_step5');
+    let tutoFridge = document.querySelector('#tuto_stepFridge');
 
 
     if (ev.target.className == 'frigo-door') {
-        if (porte.dataset.etat == 'ouvert') {
-            if (tuto3.dataset.etat == 'actif') {
-                tuto3.setAttribute('value', ' ');
+        if (porte.dataset.etat == 'ferme') {
+            if (tutoFridge.dataset.etat == 'actif') {
+                tuto1.setAttribute("value", " ");
+                tuto2.setAttribute("value", " ");
                 porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
                 porte.setAttribute('rotation', '0 90 180');
                 porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ferme'
-                tuto3.dataset.etat = 'inactif';
-                tuto1.setAttribute('value', ' ');
-                tuto2.setAttribute('value', ' ');
-                tuto4.setAttribute('value', 'Clic une fois sur le steak pour le recuperer !');
-                tuto4.dataset.etat = 'actif';
-                console.log(tuto4.dataset.etat)
+                porte.dataset.etat = 'ouvert'
+                tutoFridge.setAttribute('value', 'Clic une fois sur le steak pour le recuperer ! ');
 
                 return
             }
@@ -98,20 +92,19 @@ let handlerClickOnFridge = function (ev) {
                 porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
                 porte.setAttribute('rotation', '0 90 180');
                 porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ferme'
+                porte.dataset.etat = 'ouvert'
 
                 return
-
             }
-
         }
-        if (porte.dataset.etat == 'ferme') {
+        if (porte.dataset.etat == 'ouvert') {
 
             porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
-            porte.dataset.etat = 'ouvert'
-            tuto5.setAttribute('value', ' ');
+            porte.dataset.etat = 'ferme'
+            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !')
+            tutoFridge.dataset.etat = 'inactif'
             return
 
         }
@@ -221,17 +214,15 @@ AFRAME.registerComponent('follow-hand', {
 
 
 let handlerClickOnConso = function (ev) {
-    let tuto4 = document.querySelector('#tuto_step4');
-    let tuto5 = document.querySelector('#tuto_step5');
-    console.log(tuto4.dataset.etat);
+    let tutoFridge = document.querySelector('#tuto_stepFridge');
+
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
             if (ev.target.dataset.id == 'steak') {
-                if (tuto4.dataset.etat == 'inactif') {
-
+                if(tutoFridge.dataset.etat == 'actif'){
                     // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
                     let ing = document.createElement('a-entity');
-
+    
                     ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
                     ing.setAttribute('position', ev.target.getAttribute('position'));
                     ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
@@ -240,13 +231,10 @@ let handlerClickOnConso = function (ev) {
                     ing.classList.add('consommable');
                     ing.dataset.id = ev.target.dataset.id
                     ing.dataset.stock = 'stock'
-                    tuto4.setAttribute('value', ' ');
-                    tuto4.dataset.etat = 'inactif';
-                    tuto5.setAttribute('value', 'Clic de nouveau pour le fermer !');
-                    tuto5.dataset.etat = 'actif';
-
+                    tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                    tutoFridge.dataset.etat = "inactif"
                     document.querySelector('a-scene').appendChild(ing);
-
+    
                     // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
                     if (main.length == 1) {
                         console.log("stop")
@@ -254,6 +242,30 @@ let handlerClickOnConso = function (ev) {
                     }
 
                 }
+                else {
+                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+                    let ing = document.createElement('a-entity');
+    
+                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+                    ing.setAttribute('position', ev.target.getAttribute('position'));
+                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
+                    ing.setAttribute('material', ev.target.getAttribute('material'));
+                    ing.classList.add('consommable');
+                    ing.dataset.id = ev.target.dataset.id
+                    ing.dataset.stock = 'stock'
+
+                    document.querySelector('a-scene').appendChild(ing);
+    
+                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+                    if (main.length == 1) {
+                        console.log("stop")
+                        return
+                    }
+                }
+
+
+
 
             }
         }
