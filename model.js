@@ -49,6 +49,7 @@ class KitchenElement {
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
     console.log(bouton)
+    // 
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
             bouton.setAttribute('material', 'color : #2ECB2C');
@@ -72,6 +73,7 @@ let handlerClickOnFridge = function (ev) {
     let tuto1 = document.querySelector('#tuto_step1');
     let tuto2 = document.querySelector('#tuto_step2');
     let tuto3 = document.querySelector('#tuto_step3');
+    let tuto4 = document.querySelector('#tuto_step4');
     let tuto5 = document.querySelector('#tuto_step5');
 
 
@@ -84,10 +86,11 @@ let handlerClickOnFridge = function (ev) {
                 porte.setAttribute('scale', '0.8 0.9 0.6');
                 porte.dataset.etat = 'ferme'
                 tuto3.dataset.etat = 'inactif';
-                tuto1.setAttribute('value', ' ')
-                tuto2.setAttribute('value', ' ')
-                tuto5.setAttribute('value', 'Clic de nouveau pour le fermer !');
-                tuto5.dataset.etat = 'actif';
+                tuto1.setAttribute('value', ' ');
+                tuto2.setAttribute('value', ' ');
+                tuto4.setAttribute('value', 'Clic une fois sur le steak pour le recuperer !');
+                tuto4.dataset.etat = 'actif';
+                console.log(tuto4.dataset.etat)
 
                 return
             }
@@ -150,12 +153,10 @@ let dataRecette = [
 ]
 
 // Tableau contenant les 3 assiettes où l'on prépare les commandes
+let assiettes = [[], [], []]
 
-let assiettes = [
-    { num: 1, assiette: [] },
-    // {num: 2, assiette:[]},
-    // {num: 3, assiette:[]},
-]
+let main = []
+
 
 // Génére une commande aléatoire selon les recettes contenues 
 // dans le tableau dataRecette et leur niveau associé.
@@ -175,8 +176,187 @@ let commandeClient = function (niveauMax) {
 
 }
 
-commandeClient(1)
+function updateFollowerPosition(toFollow) {
+    // Obtenir une référence à l'entité de la caméra
+    var camera = document.getElementById('camera');
+    // Obtenir la position de la caméra
+    var cameraPosition = camera.getAttribute('position');
 
+    // Définir la position de l'entité suiveuse à une distance fixe de la caméra
+    var distance = 1; // Distance désirée
+    var followerPosition = {
+        x: cameraPosition.x,
+        y: cameraPosition.y,
+        z: cameraPosition.z - distance // Ajustez cette valeur pour changer la distance
+    };
+
+    // Mettre à jour la position de l'entité suiveuse
+    var follower = document.getElementById(toFollow);
+    follower.setAttribute('position', followerPosition);
+}
+
+
+AFRAME.registerComponent('follow-hand', {
+    tick: function () {
+        // Obtenir une référence à l'entité de la caméra
+        var camera = document.getElementById('camera');
+        // Obtenir la direction dans laquelle la caméra regarde
+        var cameraDirection = new THREE.Vector3();
+        camera.object3D.getWorldDirection(cameraDirection);
+
+        // Définir la distance à laquelle l'entité suiveuse doit être placée devant la caméra
+        var distance = -1.5; // Distance désirée
+
+        // Calculer la position de l'entité suiveuse
+        var followerPosition = new THREE.Vector3();
+        followerPosition.copy(camera.object3D.position).addScaledVector(cameraDirection, distance);
+
+        // Mettre à jour la position de l'entité suiveuse
+        this.el.object3D.position.copy(followerPosition);
+
+
+    }
+});
+
+
+
+let handlerClickOnConso = function (ev) {
+    let tuto4 = document.querySelector('#tuto_step4');
+    let tuto5 = document.querySelector('#tuto_step5');
+    console.log(tuto4.dataset.etat);
+    if (ev.target.className == 'consommable') {
+        if (ev.target.dataset.stock == 'stock') {
+            if (ev.target.dataset.id == 'steak') {
+                if (tuto4.dataset.etat == 'inactif') {
+
+                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+                    let ing = document.createElement('a-entity');
+
+                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+                    ing.setAttribute('position', ev.target.getAttribute('position'));
+                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
+                    ing.setAttribute('material', ev.target.getAttribute('material'));
+                    ing.classList.add('consommable');
+                    ing.dataset.id = ev.target.dataset.id
+                    ing.dataset.stock = 'stock'
+                    tuto4.setAttribute('value', ' ');
+                    tuto4.dataset.etat = 'inactif';
+                    tuto5.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                    tuto5.dataset.etat = 'actif';
+
+                    document.querySelector('a-scene').appendChild(ing);
+
+                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+                    if (main.length == 1) {
+                        console.log("stop")
+                        return
+                    }
+
+                }
+
+            }
+        }
+
+        console.log("non-stop")
+
+        // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
+        if (main.length < 1) {
+            if (ev.target.id == 'inAssiette') {
+                assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
+                console.log('clic sur assiette PLEINE ')
+                console.log(assiettes[0])
+            };
+
+            if (!ev.target.hasAttribute('follow-hand')) {
+                ev.target.setAttribute('follow-hand', '');
+                ev.target.dataset.stock = null
+                ev.target.id = 'handed'
+
+                main.push(ev.target.dataset.id)
+            }
+            console.log('main')
+            console.log(main)
+            // Arrête le script sinon la suite annulera cette action
+            return
+        }
+
+        // Si la main est pleine on retire follow-hand ce qui "pose" l'objet dans la main dans l'espace
+        if (main.length == 1) {
+            if (ev.target.hasAttribute('follow-hand')) {
+                ev.target.removeAttribute('follow-hand');
+                if (ev.target.id == 'handed') {
+                    ev.target.id = ''
+                    main.shift()
+                }
+            }
+            console.log('main')
+            console.log(main)
+            return
+        }
+
+
+    }
+
+
+
+
+}
+
+
+
+
+let handlerClickOnAssiette = function (ev) {
+
+
+    if (ev.target.className == 'assiette') {
+        if (main.length < 1) {
+            return
+        }
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let yObj = 1
+                for (let i = 0; i < assiettes[0].length; i++) {
+                    yObj += 0.05
+                }
+                console.log(yObj)
+
+                let posAssiette = ev.target.getAttribute('position')
+
+                let posObj = {
+                    x: posAssiette.x,
+                    y: yObj,
+                    z: posAssiette.z
+                }
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inAssiette'
+
+                assiettes[0].push(objMain.dataset.id)
+                console.log(assiettes[0])
+                main.shift()
+            }
+
+            console.log('clic sur assiette VIDE')
+            console.log(assiettes[0])
+
+            return
+        }
+    }
+}
+
+
+
+// LISTENER SCENE
+
+let scene = document.querySelector('a-scene');
+scene.addEventListener('click', handlerClickOnConso);
+scene.addEventListener('click', handlerClickOnAssiette);
 
 // LISTENER GRILL
 let grill = document.querySelectorAll('.grill_btn');
