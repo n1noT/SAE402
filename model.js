@@ -49,17 +49,17 @@ let commandes = [];
 let dataRecette = [
     {
         nom: 'burger boeuf', niveau: 1, ingredients: [
-            pain, steakCuit, pain
+            'pain', 'steak cuit', 'pain'
         ]
     },
     {
         nom: 'burger poulet', niveau: 1, ingredients: [
-            pain, pouletCuit, pain
+            'pain', 'poulet cuit', 'pain'
         ]
     },
     {
         nom: 'double burger', niveau: 2, ingredients: [
-            pain, fromage, steak, pain, steak, pain
+            'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
         ]
     },
 ]
@@ -201,7 +201,7 @@ let handlerClickOnConso = function (ev) {
         if (main.length < 1) {
             if(ev.target.id == 'inAssiette'){
                 assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur assiette PLEINE ')
+                console.log('clic sur assiette PLEINE')
                 console.log(assiettes[0])
             };
 
@@ -248,7 +248,7 @@ let handlerClickOnConso = function (ev) {
 let handlerClickOnAssiette = function (ev) {
 
 
-    if (ev.target.className == 'assiette') {
+    if (ev.target.className == 'assiette' || ev.target.id == 'inAssiette') {
         if (main.length < 1) {
             return
         }
@@ -258,7 +258,7 @@ let handlerClickOnAssiette = function (ev) {
 
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-
+                console.log(assiettes[0].length)
                 let yObj = 1
                 for (let i= 0; i<assiettes[0].length; i++) {
                     yObj += 0.05
