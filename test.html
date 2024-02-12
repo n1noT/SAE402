@@ -8,12 +8,12 @@
   <script
     src="https://cdn.jsdelivr.net/gh/c-frame/aframe-particle-system-component@a5a8449/dist/aframe-particle-system-component.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script>
-  <<<<<<< HEAD </head>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script></head>
 
 <body>
   <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
-    cursor="rayOrigin: mouse">
+    cursor="rayOrigin: mouse"stats>
+   
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
     <a-cursor></a-cursor>
@@ -56,8 +56,13 @@
     <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 -1.5" rotation="0 180 0"
       scale="4 4 4" class="assiette"></a-gltf-model> -->
 
+      <!-- Assiette  -->
     <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 0" rotation="0 180 0"
       scale="4 4 4" class="assiette"></a-gltf-model>
+      <!--Btn Vider Assiette-->
+    <a-entity id="btn_empty_plate" class="" obj-model="obj: ./assets/models/btn/button.obj;"
+    position="-3 1.025 -0.8" scale="0.2 0.4 0.2" material="color: #E92323;" data-etat="off"
+    clickable></a-entity>
 
     <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3. 1 1.5" rotation="0 90 0"
       scale="4 4 4" class="assiette"></a-gltf-model> -->

@@ -97,9 +97,6 @@ commandeClient(1)
 
 
 
-
-
-
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
@@ -214,10 +211,7 @@ function handlerClicSurBouton(ev) {
     }
 }
 
-let grill = document.querySelectorAll('.grill_btn');
-grill.forEach(bouton => {
-    bouton.addEventListener('click', handlerClicSurBouton);
-});
+
 
 
 
@@ -226,56 +220,34 @@ let handlerClickOnConso = function (ev) {
 
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
-            if (ev.target.dataset.id == 'steak') {
-                if(tutoFridge.dataset.etat == 'actif'){
-                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-                    let ing = document.createElement('a-entity');
-    
-                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-                    ing.setAttribute('position', ev.target.getAttribute('position'));
-                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
-                    ing.setAttribute('material', ev.target.getAttribute('material'));
-                    ing.classList.add('consommable');
-                    ing.dataset.id = ev.target.dataset.id
-                    ing.dataset.stock = 'stock'
-                    tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
-                    tutoFridge.dataset.etat = "inactif"
-                    document.querySelector('a-scene').appendChild(ing);
-    
-                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-                    if (main.length == 1) {
-                        console.log("stop")
-                        return
-                    }
-
-                }
-                else {
-                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-                    let ing = document.createElement('a-entity');
-    
-                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-                    ing.setAttribute('position', ev.target.getAttribute('position'));
-                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
-                    ing.setAttribute('material', ev.target.getAttribute('material'));
-                    ing.classList.add('consommable');
-                    ing.dataset.id = ev.target.dataset.id
-                    ing.dataset.stock = 'stock'
-
-                    document.querySelector('a-scene').appendChild(ing);
-    
-                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-                    if (main.length == 1) {
-                        console.log("stop")
-                        return
-                    }
-                }
-
-
-
+            if(tutoFridge.dataset.etat == 'actif'){
+                        
+                tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                tutoFridge.dataset.etat = "inactif"
 
             }
+
+            // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+            let ing = document.createElement('a-entity');
+    
+            ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+            ing.setAttribute('position', ev.target.getAttribute('position'));
+            ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+            ing.setAttribute('scale', ev.target.getAttribute('scale'));
+            ing.setAttribute('material', ev.target.getAttribute('material'));
+            ing.classList.add('consommable');
+            ing.dataset.id = ev.target.dataset.id
+            ing.dataset.stock = 'stock'
+
+            document.querySelector('a-scene').appendChild(ing);
+    
+            // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+            if (main.length == 1) {
+                console.log("stop")
+                return
+            }
+        
+            
         }
 
         console.log("non-stop")
@@ -283,9 +255,7 @@ let handlerClickOnConso = function (ev) {
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
             if (ev.target.id == 'inAssiette') {
-                assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur assiette PLEINE ')
-                console.log(assiettes[0])
+                return
             };
 
             if (!ev.target.hasAttribute('follow-hand')) {
@@ -322,9 +292,6 @@ let handlerClickOnConso = function (ev) {
 
 
 }
-
-
-
 
 
 let handlerClickOnAssiette = function (ev) {
@@ -370,6 +337,57 @@ let handlerClickOnAssiette = function (ev) {
         }
     }
 }
+
+function handlerClickOnEmptyBtn(ev) {
+    if (ev.target.id== 'btn_empty_plate') {
+        if (assiettes[0].length < 1 ) {
+            return
+
+        }
+        else {
+            let allIngInAssiette = document.querySelectorAll("#inAssiette")
+            let allIngInEmpty = document.querySelectorAll("#emptyAssiette")
+
+            // Récupére tous les ingrédients dans l'assiette et en dehors
+            let allIng = [...allIngInAssiette, ...allIngInEmpty]
+            
+            allIng.sort()
+            
+            let yObj = 1.4
+            let posBtn= ev.target.getAttribute('position')
+
+            // Vide le tableau des ingrédients dans assiette
+            for(let ing of allIng){
+
+                let posObj = {
+                    x: posBtn.x,
+                    y: yObj,
+                    z: posBtn.z
+                }
+
+                yObj += 0.2
+
+                ing.id = 'emptyAssiette'
+                ing.setAttribute('position', posObj)
+            }
+
+            // Vide le tableau des ingrédients dans assiette
+            while (assiettes[0].length > 0) {
+                assiettes[0].pop();
+            }
+
+            
+        }
+    }
+}
+
+let grill = document.querySelectorAll('.grill_btn');
+grill.forEach(bouton => {
+    bouton.addEventListener('click', handlerClicSurBouton);
+});
+
+let emptyBtn = document.querySelector('#btn_empty_plate');
+emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 
 
 
