@@ -72,6 +72,8 @@ let assiettes = [[],[],[]]
 
 let main = []
 
+
+
 // Génére une commande aléatoire selon les recettes contenues 
 // dans le tableau dataRecette et leur niveau associé.
 // La commande est placé dans le tableau commandes contenant toutes les commandes
@@ -95,25 +97,49 @@ commandeClient(1)
 
 
 
+
+
+
+// FRIDGE
 let handlerClickOnFridge = function (ev) {
-    let porte = document.querySelector('#fridge-door')
+    let porte = document.querySelector('#fridge-door');
+    let tuto1 = document.querySelector('#tuto_step1');
+    let tuto2 = document.querySelector('#tuto_step2');
+    let tutoFridge = document.querySelector('#tuto_stepFridge');
+
 
     if (ev.target.className == 'frigo-door') {
-        if (porte.dataset.etat == 'ouvert') {
-            porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
-            porte.setAttribute('rotation', '0 90 180');
-            porte.setAttribute('scale', '0.8 0.9 0.6');
-            porte.dataset.etat = 'ferme'
-
-            return
-        }
         if (porte.dataset.etat == 'ferme') {
+            if (tutoFridge.dataset.etat == 'actif') {
+                tuto1.setAttribute("value", " ");
+                tuto2.setAttribute("value", " ");
+                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+                porte.setAttribute('rotation', '0 90 180');
+                porte.setAttribute('scale', '0.8 0.9 0.6');
+                porte.dataset.etat = 'ouvert'
+                tutoFridge.setAttribute('value', 'Clic une fois sur le steak pour le recuperer ! ');
+
+                return
+            }
+            else {
+                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+                porte.setAttribute('rotation', '0 90 180');
+                porte.setAttribute('scale', '0.8 0.9 0.6');
+                porte.dataset.etat = 'ouvert'
+
+                return
+            }
+        }
+        if (porte.dataset.etat == 'ouvert') {
+
             porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
-            porte.dataset.etat = 'ouvert'
-
+            porte.dataset.etat = 'ferme'
+            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !')
+            tutoFridge.dataset.etat = 'inactif'
             return
+
         }
 
     }
@@ -167,31 +193,88 @@ AFRAME.registerComponent('follow-hand', {
     }
 });
 
+// GRILL - BOUTONS
+function handlerClicSurBouton(ev) {
+    let bouton = ev.target;
+    console.log(bouton)
+    // 
+    if (ev.target.className == 'grill_btn') {
+        if (bouton.dataset.etat == 'off') {
+            bouton.setAttribute('material', 'color : #2ECB2C');
+            bouton.dataset.etat = 'on'
+
+            return
+        }
+        else if (bouton.dataset.etat == 'on') {
+            bouton.setAttribute('material', 'color : #E92323');
+            bouton.dataset.etat = 'off'
+
+            return
+        }
+    }
+}
+
+let grill = document.querySelectorAll('.grill_btn');
+grill.forEach(bouton => {
+    bouton.addEventListener('click', handlerClicSurBouton);
+});
 
 
 
 let handlerClickOnConso = function (ev) {
+    let tutoFridge = document.querySelector('#tuto_stepFridge');
 
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
-            // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-            let ing = document.createElement('a-entity');
+            if (ev.target.dataset.id == 'steak') {
+                if(tutoFridge.dataset.etat == 'actif'){
+                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+                    let ing = document.createElement('a-entity');
+    
+                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+                    ing.setAttribute('position', ev.target.getAttribute('position'));
+                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
+                    ing.setAttribute('material', ev.target.getAttribute('material'));
+                    ing.classList.add('consommable');
+                    ing.dataset.id = ev.target.dataset.id
+                    ing.dataset.stock = 'stock'
+                    tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
+                    tutoFridge.dataset.etat = "inactif"
+                    document.querySelector('a-scene').appendChild(ing);
+    
+                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+                    if (main.length == 1) {
+                        console.log("stop")
+                        return
+                    }
 
-            ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-            ing.setAttribute('position', ev.target.getAttribute('position'));
-            ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-            ing.setAttribute('scale', ev.target.getAttribute('scale'));
-            ing.setAttribute('material', ev.target.getAttribute('material'));
-            ing.classList.add('consommable');
-            ing.dataset.id = ev.target.dataset.id
-            ing.dataset.stock = 'stock'
+                }
+                else {
+                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+                    let ing = document.createElement('a-entity');
+    
+                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+                    ing.setAttribute('position', ev.target.getAttribute('position'));
+                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
+                    ing.setAttribute('material', ev.target.getAttribute('material'));
+                    ing.classList.add('consommable');
+                    ing.dataset.id = ev.target.dataset.id
+                    ing.dataset.stock = 'stock'
 
-            document.querySelector('a-scene').appendChild(ing);
+                    document.querySelector('a-scene').appendChild(ing);
+    
+                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+                    if (main.length == 1) {
+                        console.log("stop")
+                        return
+                    }
+                }
 
-            // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-            if (main.length == 1) {
-                console.log("stop")
-                return
+
+
+
             }
         }
 
@@ -199,9 +282,9 @@ let handlerClickOnConso = function (ev) {
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
-            if(ev.target.id == 'inAssiette'){
+            if (ev.target.id == 'inAssiette') {
                 assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur assiette PLEINE')
+                console.log('clic sur assiette PLEINE ')
                 console.log(assiettes[0])
             };
 
@@ -222,7 +305,7 @@ let handlerClickOnConso = function (ev) {
         if (main.length == 1) {
             if (ev.target.hasAttribute('follow-hand')) {
                 ev.target.removeAttribute('follow-hand');
-                if(ev.target.id == 'handed'){
+                if (ev.target.id == 'handed') {
                     ev.target.id = ''
                     main.shift()
                 }
@@ -232,14 +315,13 @@ let handlerClickOnConso = function (ev) {
             return
         }
 
-        
+
     }
 
 
 
 
 }
-
 
 
 
