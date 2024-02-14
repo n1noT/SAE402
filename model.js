@@ -220,10 +220,10 @@ let handlerClickOnConso = function (ev) {
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
             if (ev.target.dataset.id == 'steak') {
-                if(tutoFridge.dataset.etat == 'actif'){
+                if (tutoFridge.dataset.etat == 'actif') {
                     // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
                     let ing = document.createElement('a-entity');
-    
+
                     ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
                     ing.setAttribute('position', ev.target.getAttribute('position'));
                     ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
@@ -235,7 +235,7 @@ let handlerClickOnConso = function (ev) {
                     tutoFridge.setAttribute('value', 'Clic de nouveau sur la porte pour fermer le frigo !');
                     tutoFridge.dataset.etat = "inactif"
                     document.querySelector('a-scene').appendChild(ing);
-    
+
                     // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
                     if (main.length == 1) {
                         console.log("stop")
@@ -246,7 +246,7 @@ let handlerClickOnConso = function (ev) {
                 else {
                     // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
                     let ing = document.createElement('a-entity');
-    
+
                     ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
                     ing.setAttribute('position', ev.target.getAttribute('position'));
                     ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
@@ -257,7 +257,7 @@ let handlerClickOnConso = function (ev) {
                     ing.dataset.stock = 'stock'
 
                     document.querySelector('a-scene').appendChild(ing);
-    
+
                     // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
                     if (main.length == 1) {
                         console.log("stop")
@@ -281,24 +281,10 @@ let handlerClickOnConso = function (ev) {
                 console.log(assiettes[0])
             };
 
-            if (!ev.target.hasAttribute('follow-hand')) {
-                ev.target.setAttribute('follow-hand', '');
-                ev.target.dataset.stock = null
-                ev.target.id = 'handed'
-
-                main.push(ev.target.dataset.id)
-            }
-            console.log('main')
-            console.log(main)
-            // Arrête le script sinon la suite annulera cette action
-            return
-        }
-
-        if (main.length < 1) {
-            if (ev.target.id == 'inAssiette') {
-                assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur assiette PLEINE ')
-                console.log(assiettes[0])
+            if (ev.target.id == 'inGrill') {
+                plaques[0] = plaques[0].filter(ing => ing != ev.target.dataset.id)
+                console.log('clic sur plaque PLEINE ')
+                console.log(plaques[0])
             };
 
             if (!ev.target.hasAttribute('follow-hand')) {
@@ -314,6 +300,7 @@ let handlerClickOnConso = function (ev) {
             return
         }
 
+
         // Si la main est pleine on retire follow-hand ce qui "pose" l'objet dans la main dans l'espace
         if (main.length == 1) {
             if (ev.target.hasAttribute('follow-hand')) {
@@ -327,6 +314,8 @@ let handlerClickOnConso = function (ev) {
             console.log(main)
             return
         }
+
+
 
 
     }
@@ -383,6 +372,68 @@ let handlerClickOnAssiette = function (ev) {
     }
 }
 
+let steakcuit = function(obj){
+    obj.setAttribute('material', 'color : #622828')
+}
+
+let handlerClickOnGrill = function (ev) {
+
+    let btn = document.querySelectorAll('.grill_btn')
+    let plaque = document.querySelectorAll('.grill')
+    console.log(plaque)
+    console.log(btn)
+    let timer = 0; 
+
+    let objMain = main[0];
+    if (ev.target.className == 'grill') {
+        if (main.length < 1) {
+            return
+        }
+
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+            console.log(objMain)
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let yObj = 1
+                for (let i = 0; i < plaques[0].length; i++) {
+                    yObj += 0
+                }
+                console.log(yObj)
+
+                let posGrill = ev.target.getAttribute('position')
+
+                let posObj = {
+                    x: posGrill.x,
+                    y: posGrill.y,
+                    z: posGrill.z
+                }
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inGrill'
+
+                plaques[0].push(objMain.dataset.id)
+                console.log(plaques[0])
+                main.shift()
+            }
+
+            
+            
+            console.log('clic sur plaque VIDE')
+            console.log(plaques[0])
+            
+            return
+            
+        }
+        
+    }setTimeout(
+        objMain.setAttribute('material', 'color : #622828')
+    , 5000);
+}
+
+
 
 
 // LISTENER SCENE
@@ -390,6 +441,7 @@ let handlerClickOnAssiette = function (ev) {
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
 scene.addEventListener('click', handlerClickOnAssiette);
+scene.addEventListener('click', handlerClickOnGrill);
 
 // LISTENER GRILL
 let grill = document.querySelectorAll('.grill_btn');

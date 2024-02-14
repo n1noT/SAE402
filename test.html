@@ -8,12 +8,12 @@
   <script
     src="https://cdn.jsdelivr.net/gh/c-frame/aframe-particle-system-component@a5a8449/dist/aframe-particle-system-component.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script>
-  <<<<<<< HEAD </head>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script></head>
 
 <body>
   <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
-    cursor="rayOrigin: mouse">
+    cursor="rayOrigin: mouse"stats>
+   
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
     <a-cursor></a-cursor>
@@ -53,38 +53,25 @@
 
     <!-- PLATEAU -->
 
-    <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 -1.5" rotation="0 180 0"
-      scale="4 4 4" class="assiette"></a-gltf-model>
+    <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 -1.5" rotation="0 180 0"
+      scale="4 4 4" class="assiette"></a-gltf-model> -->
 
+      <!-- Assiette  -->
     <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 0" rotation="0 180 0"
       scale="4 4 4" class="assiette"></a-gltf-model>
+      <!--Btn Vider Assiette-->
+    <a-entity id="btn_empty_plate" class="" obj-model="obj: ./assets/models/btn/button.obj;"
+    position="-3 1.025 -0.8" scale="0.2 0.4 0.2" material="color: #E92323;" data-etat="off"
+    clickable></a-entity>
 
-    <a-gltf-model src="./assets/models/tools/plate.glb" position="-3. 1 1.5" rotation="0 90 0"
-      scale="4 4 4" class="assiette"></a-gltf-model>
+    <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3. 1 1.5" rotation="0 90 0"
+      scale="4 4 4" class="assiette"></a-gltf-model> -->
 
 
     <!-- PLAN DE TRAVAIL -->
     <a-gltf-model src="./assets/models/kitchen/counter.glb" position="-3 -1.110 0" rotation="0 90 0"
       scale="1.920 1.1 1"></a-gltf-model>
 
-    <!-- Commande Bulle 1 -->
-    <a-gltf-model src="./assets/models/cmd/speech.glb" position="-5 2.5 -1.5" rotation="0 90 0"
-      scale="0.5 3 1"></a-gltf-model>
-    <!-- Commande Bulle 2 -->
-    <a-gltf-model src="./assets/models/cmd/speech.glb" position="-5 2.5 0" rotation="0 90 0"
-      scale="0.5 3 1"></a-gltf-model>
-    <!-- Commande Bulle 3 -->
-    <a-gltf-model src="./assets/models/cmd/speech.glb" position="-5 2.5 1.5" rotation="0 90 0"
-      scale="0.5 3 1"></a-gltf-model>
-
-
-
-
-
-
-
-
-    =======
 
 
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
@@ -136,29 +123,29 @@
     <a-text value="Grill" position="-0.1 1.2 -2.5" color="#000" align="center"></a-text>
 
     <!--Plaque de cuisson 1-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.8" scale="0.06 0.06 0.06" class="grill" data-grill="1"></a-entity>
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.8" scale="0.06 0.06 0.06"></a-entity>
     <!--Btn 1-->
     <a-entity id="grill_btn1" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="-0.58 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="1"></a-entity>
+      position="-0.58 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
 
     <!--Plaque de cuisson 2-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.8" scale="0.06 0.06 0.06" class="grill" data-grill="2"></a-entity>
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.8" scale="0.06 0.06 0.06"></a-entity>
     <!--Btn 2-->
     <a-entity id="grill_btn2" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="0.48 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="2"></a-entity>
+      position="0.48 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
 
     <!--Plaque de cuisson 3-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.4" scale="0.06 0.06 0.06" class="grill" data-grill="3"></a-entity>
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.4" scale="0.06 0.06 0.06"></a-entity>
     <!--Btn 3-->
     <a-entity id="grill_btn3" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
       position="-0.58 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
-      data-grill="3" ></a-entity>
+      clickable></a-entity>
 
     <!--Plaque de cuisson 4-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.4" scale="0.06 0.06 0.06" class="grill" data-grill="4"></a-entity>
+    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.4" scale="0.06 0.06 0.06"></a-entity>
     <!--Btn 4-->
     <a-entity id="grill_btn4" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="0.48 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="4"></a-entity>
+      position="0.48 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
 
 
     <!--Frigo  -->
