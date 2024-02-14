@@ -49,7 +49,7 @@ let commandes = [];
 let dataRecette = [
     {
         nom: 'burger boeuf', niveau: 1, ingredients: [
-            'pain', 'steak cuit', 'pain'
+            'pain', 'steak', 'pain'
         ]
     },
     {
@@ -62,15 +62,15 @@ let dataRecette = [
             'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
         ]
     },
-]
+];
 
 
 
 // Tableau contenant les 3 assiettes où l'on prépare les commandes
 
-let assiettes = [[],[],[]]
+let assiettes = [[],[],[]];
 
-let main = []
+let main = [];
 
 
 
@@ -87,13 +87,42 @@ let commandeClient = function (niveauMax) {
         index = Math.floor(Math.random() * dataRecette.length);
     }
 
-    let commande = dataRecette[index]
+    let commande = dataRecette[index];
 
-    commandes.push(commande)
+    commandes.push(commande);
 
 }
 
+
 commandeClient(1)
+
+let currentCommand = commandes[commandes.length -1];
+console.log(currentCommand.nom);
+
+console.log(commandes[commandes.length -1].ingredients);
+
+let validerCommande = function (){
+    let assiette = assiettes[0];
+    let commande = currentCommand.ingredients
+
+    if(assiette.length == commande.length){
+        let bool = true
+
+        for(let i = 0; i<assiette.length; i++){
+            if(assiette[i] != commande[i] ){
+                bool = false
+            }
+        }
+
+        return bool
+    }
+    else{
+        return false
+    }
+}
+
+
+
 
 
 
@@ -188,6 +217,43 @@ AFRAME.registerComponent('follow-hand', {
 
 
     }
+});
+
+AFRAME.registerComponent('timer-controller', {
+    init: function () {
+        // Récupérez l'entité du timer
+        var timerEntity = document.getElementById('timer');
+        var commandeEntity = document.getElementById('commande');
+        var ingredientsEntity = document.getElementById('ingredients');
+
+        // Initialisez le timer à 10 secondes
+        var timerValue = 1000;
+
+        // Mettez à jour le timer chaque seconde
+        this.interval = setInterval(function () {
+            if (timerValue > 0) {
+                commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length -1].nom} !`);
+                ingredientsEntity.setAttribute('text', 'value', commandes[commandes.length -1].ingredients)
+                timerValue--;
+            }
+
+            // Mettez à jour le texte du timer
+            timerEntity.setAttribute('text', 'value', timerValue);
+
+            // Changez la couleur en rouge lorsque le timer atteint 0
+            if (timerValue === 0) {
+                commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
+
+                timerEntity.setAttribute('text', 'color', 'red');
+                timerEntity.setAttribute('text', 'value', '0');
+            }
+        }, 1000);
+    },
+
+    // Assurez-vous de nettoyer l'intervalle lors de la suppression du composant
+    remove: function () {
+        clearInterval(this.interval);
+    },
 });
 
 // GRILL - BOUTONS
@@ -381,6 +447,87 @@ function handlerClickOnEmptyBtn(ev) {
     }
 }
 
+function handlerClickOnBell(ev) {
+    if (ev.target.id== 'bell_validate') {
+        if (assiettes[0].length < 1 ) {
+            return
+
+        }
+        else {
+            var commandeEntity = document.getElementById('valide');
+            let assiette = document.querySelectorAll('#inAssiette')
+
+            if(validerCommande() == true){
+                commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
+                // commandeEntity.setAttribute('text', 'color', '0x00ffff')
+                for(let ing of assiette){
+                    ing.remove()
+                }
+
+                while (assiettes[0].length > 0) {
+                    assiettes[0].pop();
+                }
+                console.log(commandes)
+                commandes.shift()
+                console.log(commandes)
+                commandeClient(1)
+                console.log(commandes)
+            
+            }
+            else{
+                commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
+                // commandeEntity.setAttribute('text', 'color', '0xff00')
+                
+                for(let ing of assiette){
+                    ing.remove()
+                }
+
+                while (assiettes[0].length > 0) {
+                    assiettes[0].pop();
+                }
+                console.log(commandes)
+                commandes.shift()
+                console.log(commandes)
+                commandeClient(1)
+                console.log(commandes)
+            }
+            /*
+            let allIngInAssiette = document.querySelectorAll("#inAssiette")
+            let allIngInEmpty = document.querySelectorAll("#emptyAssiette")
+
+            // Récupére tous les ingrédients dans l'assiette et en dehors
+            let allIng = [...allIngInAssiette, ...allIngInEmpty]
+            
+            allIng.sort()
+            
+            let yObj = 1.4
+            let posBtn= ev.target.getAttribute('position')
+
+            // Vide le tableau des ingrédients dans assiette
+            for(let ing of allIng){
+
+                let posObj = {
+                    x: posBtn.x,
+                    y: yObj,
+                    z: posBtn.z
+                }
+
+                yObj += 0.2
+
+                ing.id = 'emptyAssiette'
+                ing.setAttribute('position', posObj)
+            }
+
+            // Vide le tableau des ingrédients dans assiette
+            while (assiettes[0].length > 0) {
+                assiettes[0].pop();
+            }
+            */
+            
+        }
+    }
+}
+
 let grill = document.querySelectorAll('.grill_btn');
 grill.forEach(bouton => {
     bouton.addEventListener('click', handlerClicSurBouton);
@@ -389,6 +536,8 @@ grill.forEach(bouton => {
 let emptyBtn = document.querySelector('#btn_empty_plate');
 emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 
+let validBell = document.querySelector('#bell_validate');
+validBell.addEventListener('click', handlerClickOnBell);
 
 
 let scene = document.querySelector('a-scene');
