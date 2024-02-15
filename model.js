@@ -302,8 +302,9 @@ let handlerClickOnConso = function (ev) {
             ing.setAttribute('scale', ev.target.getAttribute('scale'));
             ing.setAttribute('material', ev.target.getAttribute('material'));
             ing.classList.add('consommable');
-            ing.dataset.id = ev.target.dataset.id
-            ing.dataset.stock = 'stock'
+            ing.dataset.id = ev.target.dataset.id;
+            ing.dataset.stock = 'stock';
+            ing.dataset.tri = 'compost';
 
             document.querySelector('a-scene').appendChild(ing);
     
