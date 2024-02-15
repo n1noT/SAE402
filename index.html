@@ -117,46 +117,45 @@
       <a-asset-item id="speech" src="./assets/models/cmd/Speech.glb"></a-asset-item>
     </a-assets>
 
-    <!-- FOUR -->
-    <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
-      material="src: ./assets/models/kitchen/appliance_oven.png" position="-0.05 -0.25 -2.6" rotation="0 0 0"
-      scale="0.13 0.1 0.1"></a-entity>
-    <!-- Btn Four -->
-    <a-entity id="grill_btn-four" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="-0.05 0.35 -1.95" rotation="90 0 0" scale="0.16 0.3 0.15" material="color: #E92323;"
-      data-etat="off"></a-entity>
+   <!-- FOUR -->
+   <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
+   material="src: ./assets/models/kitchen/appliance_oven.png" position="-0.05 -0.25 -2.6" rotation="0 0 0"
+   scale="0.13 0.1 0.1"></a-entity>
+ <!-- Btn Four -->
+ <a-entity id="grill_btn-four" class="grill_btnfour" obj-model="obj: ./assets/models/btn/button.obj;"
+   position="-0.05 0.35 -1.95" rotation="90 0 0" scale="0.16 0.3 0.15" material="color: #E92323;"
+   data-etat="off"></a-entity>
 
 
-    <!--PLANCHA  -->
-    <a-box class="Cube" position="-0.05 -0.2 -2.8" rotation="0 0 0" color="#888" scale="1.390 1.6 1.3"></a-box>
-    <!-- Text Plancha-->
-    <a-text value="Grill" position="-0.1 1.2 -2.5" color="#000" align="center"></a-text>
+ <!--PLANCHA  -->
+ <a-box class="Cube" position="-0.05 -0.2 -2.8" rotation="0 0 0" color="#888" scale="1.390 1.6 1.3"></a-box>
+ <!-- Text Plancha-->
+ <a-text value="Grill" position="-0.1 1.2 -2.5" color="#000" align="center"></a-text>
 
-    <!--Plaque de cuisson 1-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.8" scale="0.06 0.06 0.06"></a-entity>
-    <!--Btn 1-->
-    <a-entity id="grill_btn1" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="-0.58 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
+ <!--Plaque de cuisson 1-->
+ <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.8" scale="0.06 0.06 0.06" class="grill" data-grill="1"></a-entity>
+ <!--Btn 1-->
+ <a-entity id="grill_btn1" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
+   position="-0.58 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="1"></a-entity>
 
-    <!--Plaque de cuisson 2-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.8" scale="0.06 0.06 0.06"></a-entity>
-    <!--Btn 2-->
-    <a-entity id="grill_btn2" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="0.48 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
+ <!--Plaque de cuisson 2-->
+ <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.8" scale="0.06 0.06 0.06" class="grill" data-grill="2"></a-entity>
+ <!--Btn 2-->
+ <a-entity id="grill_btn2" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
+   position="0.48 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="2"></a-entity>
 
-    <!--Plaque de cuisson 3-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.4" scale="0.06 0.06 0.06"></a-entity>
-    <!--Btn 3-->
-    <a-entity id="grill_btn3" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="-0.58 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
-      clickable></a-entity>
+ <!--Plaque de cuisson 3-->
+ <a-entity gltf-model="./assets/models/stove/Stove.glb" position="-0.25 0.6 -2.4" scale="0.06 0.06 0.06" class="grill" data-grill="3"></a-entity>
+ <!--Btn 3-->
+ <a-entity id="grill_btn3" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
+   position="-0.58 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
+   data-grill="3" ></a-entity>
 
-    <!--Plaque de cuisson 4-->
-    <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.4" scale="0.06 0.06 0.06"></a-entity>
-    <!--Btn 4-->
-    <a-entity id="grill_btn4" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
-      position="0.48 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"></a-entity>
-
+ <!--Plaque de cuisson 4-->
+ <a-entity gltf-model="./assets/models/stove/Stove.glb" position="0.15 0.6 -2.4" scale="0.06 0.06 0.06" class="grill" data-grill="4"></a-entity>
+ <!--Btn 4-->
+ <a-entity id="grill_btn4" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
+   position="0.48 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off" data-grill="4"></a-entity>
 
     <!--Frigo  -->
     <a-entity gltf-model="./assets/models/fridge/Freezer.glb" rotation="0 180 0" position="3 -1 -2"

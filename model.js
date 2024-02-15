@@ -23,6 +23,9 @@ let dataRecette = [
 // Tableau contenant les 3 assiettes où l'on prépare les commandes 
 let assiettes = [[], [], []];
 
+// Tableau contenant les 4 contenances des plaques de cuisson
+let plaques = [[], [], [], []]
+
 // Tableau contenant les objet dans la main
 let main = [];
 
@@ -282,6 +285,7 @@ let handlerClickOnConso = function (ev) {
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
+            // Si un ingrédient est dans l'assiette on ne peut pas le reprendre pour ne pas créer de conflit entre le tableau asseite[i] et la vue 
             if (ev.target.id == 'inAssiette') {
                 return
             };
@@ -364,6 +368,77 @@ let handlerClickOnAssiette = function (ev) {
         }
     }
 }
+
+let steakcuit = function (objMain) {
+    objMain.setAttribute('material', 'color : #622828');
+    objMain.dataset.id += " cuit"
+};
+
+let steakcrame = function (objMain) {
+    objMain.setAttribute('material', 'color : #210202');
+    objMain.dataset.id = "crame"
+};
+
+
+let handlerClickOnGrill = function (ev) {
+    let btn = document.querySelectorAll('.grill_btn');
+    let plaque = document.querySelectorAll('.grill');
+
+    // Récupérer l'index de la plaque sur laquelle on a cliqué
+    let plaqueIndex = Array.from(plaque).indexOf(ev.target);
+
+    if (ev.target.className == 'grill') {
+        if (main.length < 1) {
+            return;
+        }
+
+        if (main.length == 1 && plaqueIndex !== -1 && btn[plaqueIndex].dataset.etat === 'on') {
+            let objMain = document.querySelector('#handed');
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+                
+                let yObj = 1;
+                for (let i = 0; i < plaques[0].length; i++) {
+                    yObj += 0;
+                }
+                console.log(yObj);
+
+                let posGrill = ev.target.getAttribute('position');
+
+                let posObj = {
+                    x: posGrill.x,
+                    y: posGrill.y,
+                    z: posGrill.z
+                };
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inGrill';
+
+    
+                setTimeout(function () {
+                    let objCuit = objMain;
+                    steakcuit(objCuit);
+                }, 5000);
+
+                setTimeout(function () {
+                    if (objMain.id === 'inGrill'){
+                        let objCrame = objMain;
+                    steakcrame(objCrame);
+                    }
+                }, 10000);
+
+                plaques[0].push(objMain.dataset.id);
+                console.log(plaques[0]);
+
+                main.shift();
+            }
+            console.log(objMain.dataset.id)
+            console.log('clic sur plaque VIDE');
+            console.log(plaques[0]);
+            return;
+        }
+    }
+};
 
 function handlerClickOnEmptyBtn(ev) {
     if (ev.target.id == 'btn_empty_plate') {
@@ -506,6 +581,8 @@ function handlerClickOnBell(ev) {
     }
 }
 
+
+
 function handlerClickOnStart(ev){
     if(ev.target.id=='start'){
         commandeClient(1);
@@ -542,7 +619,6 @@ grill.forEach(bouton => {
 let emptyBtn = document.querySelector('#btn_empty_plate');
 emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 
-
 let putCompost = document.querySelector('#compost_bin');
 putCompost.addEventListener('click', handlerClickOnCompost);
 
@@ -553,4 +629,5 @@ validBell.addEventListener('click', handlerClickOnBell);
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
 scene.addEventListener('click', handlerClickOnAssiette);
+scene.addEventListener('click', handlerClickOnGrill);
 
