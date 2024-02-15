@@ -263,8 +263,9 @@ let handlerClickOnConso = function (ev) {
             ing.setAttribute('scale', ev.target.getAttribute('scale'));
             ing.setAttribute('material', ev.target.getAttribute('material'));
             ing.classList.add('consommable');
-            ing.dataset.id = ev.target.dataset.id
-            ing.dataset.stock = 'stock'
+            ing.dataset.id = ev.target.dataset.id;
+            ing.dataset.stock = 'stock';
+            ing.dataset.tri = 'compost';
 
             document.querySelector('a-scene').appendChild(ing);
 
@@ -516,6 +517,15 @@ function handlerClickOnStart(ev){
     }
 }
 
+function handlerClickOnCompost() {
+    let hand = document.querySelector('#handed');
+    if(hand.dataset.tri == "compost"){
+        hand.remove();
+        main.pop();
+        console.log(main)
+    }
+}
+
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
 
@@ -531,6 +541,10 @@ grill.forEach(bouton => {
 
 let emptyBtn = document.querySelector('#btn_empty_plate');
 emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
+
+
+let putCompost = document.querySelector('#compost_bin');
+putCompost.addEventListener('click', handlerClickOnCompost);
 
 let validBell = document.querySelector('#bell_validate');
 validBell.addEventListener('click', handlerClickOnBell);
