@@ -543,3 +543,4 @@ validBell.addEventListener('click', handlerClickOnBell);
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
 scene.addEventListener('click', handlerClickOnAssiette);
+
