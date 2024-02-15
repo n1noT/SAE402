@@ -531,7 +531,12 @@ function handlerClickOnBell(ev) {
 
 
 function handlerClickOnCompost() {
-    console.log("test");
+    let hand = document.querySelector('#handed');
+    if(hand.dataset.tri == "compost"){
+        hand.remove();
+        main.pop();
+        console.log(main)
+    }
 }
 
 
