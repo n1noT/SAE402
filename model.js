@@ -528,6 +528,14 @@ function handlerClickOnBell(ev) {
     }
 }
 
+
+
+function handlerClickOnCompost() {
+    console.log("test");
+}
+
+
+
 let grill = document.querySelectorAll('.grill_btn');
 grill.forEach(bouton => {
     bouton.addEventListener('click', handlerClicSurBouton);
@@ -538,6 +546,10 @@ emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 
 let validBell = document.querySelector('#bell_validate');
 validBell.addEventListener('click', handlerClickOnBell);
+
+
+let putCompost = document.querySelector('#compost_bin');
+putCompost.addEventListener('click', handlerClickOnCompost);
 
 
 let scene = document.querySelector('a-scene');
