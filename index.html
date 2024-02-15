@@ -37,6 +37,10 @@
     <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="2.4 0.5 -0.7" rotation="0 180 0"
       scale="1 1 1 " material="color: #DD3F61;" class="consommable" data-id="steak" data-stock="stock"></a-entity>
 
+    <!-- Poulet cru STOCK -->
+    <a-entity obj-model="obj: ./assets/models/ingredients/butter.obj;" position="2.4 1.5 -1" rotation="0 180 0" scale="0.2 0.2 0.2" material="src: ./assets/models/ingredients/chicken.jpg;" class="consommable" data-id="poulet" data-stock="stock"></a-entity>
+
+
     <!-- Pain STOCK -->
     <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="2.4 0.3 1" rotation="0 180 0"
       scale="1 1 1 " material="src: ./assets/models/ingredients/texturepain.webp;" class="consommable" data-id="pain"
@@ -204,47 +208,15 @@
     <a-entity gltf-model="./assets/models/wall/Normal-Wall.glb" rotation="0 270 0" position="1.5 -4.3 0"
       scale="2 1 1"></a-entity>
 
-      <!-- CHARACTER -->
-    <a-gltf-model src="./assets/models/character/BeachCharacter.glb" position="-5.7 -1 0" rotation="0 90 0" scale="2 2 2"></a-gltf-model>
-
-    <a-gltf-model src="./assets/models/cmd/speech.glb" position="-5.5 4 0" rotation="0 90 0" scale="2 2 1"></a-gltf-model>
-
-    <a-entity
-      id="commande"
-      position="-5.2 4.6 1.1"
-      rotation="0 90 0"
-      text="value: un burger et plus vite que ca !; color: black; width: 5; align: center"
-    ></a-entity>
-
-    <a-entity
-      id="valide"
-      position="-5.2 4.6 -2"
-      rotation="0 90 0"
-      text="value: ; color: black; width: 5; align: center"
-    ></a-entity>
-
-    <a-entity
-      id="ingredients"
-      position="-5.2 4.2 1.1"
-      rotation="0 90 0"
-      text="value: ; color: black; width: 5; align: center"
-    ></a-entity>
-      <!-- Ajoutez une entité de texte pour afficher le timer -->
-      <a-entity
-        id="timer"
-        position="-5.2 3.9 1.1"
-        rotation="0 90 0"
-        text="value: 10; color: black; width: 8; align: center"
-      ></a-entity>
-
-      <!-- Ajoutez une entité qui gère la logique du timer -->
-      <a-entity timer-controller></a-entity>
-
 
     <!-- CIEL -->
     <a-sky color="#87CEEB"></a-sky>
+    
+    <a-text rotation="0 90 0" position="-1.4 2 1" scale="0.4 0.4 0.4" color="#000000" id="valide"></a-box>
 
-
+    <!-- DEMARRER LE JEU !!!!! -->
+    <a-box rotation="0 90 0" position="-1.5 2 0" scale="0.8 0.3 0.1" color="#00FF00" id="start"></a-box>
+    <a-text value="LANCER LE JEU" rotation="0 90 0" position="-1.4 2 0.325" scale="0.4 0.4 0.4" color="#000000" id="start"></a-box>
 
   </a-scene>
 
