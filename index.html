@@ -13,11 +13,10 @@
 
 <body>
   <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
-    cursor="rayOrigin: mouse">
+    cursor="rayOrigin: mouse" stats>
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
-    <a-cursor></a-cursor>
-
+    
     <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
 
     <!-- TUTO -->
@@ -125,7 +124,7 @@
       material="src: ./assets/models/kitchen/appliance_oven.png" position="-0.05 -0.25 -2.6" rotation="0 0 0"
       scale="0.13 0.1 0.1"></a-entity>
     <!-- Btn Four -->
-    <a-entity id="grill_btn-four" class="grill_btn" obj-model="obj: ./assets/models/btn/button.obj;"
+    <a-entity id="grill_btn-four" class="grill_btnfour" obj-model="obj: ./assets/models/btn/button.obj;"
       position="-0.05 0.35 -1.95" rotation="90 0 0" scale="0.16 0.3 0.15" material="color: #E92323;"
       data-etat="off"></a-entity>
 
