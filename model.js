@@ -1,73 +1,136 @@
-class Ingredient {
-    constructor(nom) {
-        this.nom = nom;
-    }
+// Tableau des commandes faites par les clients
+let commandes = [];
+
+// Tableau des recettes que les clients peuvent commander 
+let dataRecette = [
+    {
+        nom: 'burger boeuf', niveau: 1, ingredients: [
+            'pain', 'steak cuit', 'pain'
+        ]
+    },
+    {
+        nom: 'burger poulet', niveau: 1, ingredients: [
+            'pain', 'poulet cuit', 'pain'
+        ]
+    },
+    {
+        nom: 'double burger', niveau: 2, ingredients: [
+            'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
+        ]
+    },
+];
+
+// Tableau contenant les 3 assiettes où l'on prépare les commandes 
+let assiettes = [[], [], []];
+
+// Tableau contenant les 4 contenances des plaques de cuisson
+let plaques = [[], [], [], []]
+
+// Tableau contenant les objet dans la main
+let main = [];
+
+let commandeEntity = function () {
+    var bulle = document.createElement('a-gltf-model');
+    bulle.setAttribute('src', './assets/models/cmd/speech.glb');
+    bulle.setAttribute('position', '-5.5 4 0');
+    bulle.setAttribute('rotation', '0 90 0');
+    bulle.setAttribute('scale', '2 2 1');
+    bulle.id = 'bulle';
+
+    var character = document.createElement('a-gltf-model');
+    character.setAttribute('src', './assets/models/character/BeachCharacter.glb');
+    character.setAttribute('position', '-5.7 -1 0');
+    character.setAttribute('rotation', '0 90 0');
+    character.setAttribute('scale', '2 2 2');
+
+    var commandeEntity = document.createElement('a-entity');
+    commandeEntity.setAttribute('id', 'commande');
+    commandeEntity.setAttribute('position', '-5.2 4.6 1.1');
+    commandeEntity.setAttribute('rotation', '0 90 0');
+    commandeEntity.setAttribute('text', 'value: un burger et plus vite que ca !; color: black; width: 5; align: center');
+
+    var valideEntity = document.createElement('a-entity');
+    valideEntity.setAttribute('id', 'valide');
+    valideEntity.setAttribute('position', '-5.2 4.6 -2');
+    valideEntity.setAttribute('rotation', '0 90 0');
+    valideEntity.setAttribute('text', 'value: ; color: black; width: 5; align: center');
+
+    var ingredientsEntity = document.createElement('a-entity');
+    ingredientsEntity.setAttribute('id', 'ingredients');
+    ingredientsEntity.setAttribute('position', '-5.2 4.2 1.1');
+    ingredientsEntity.setAttribute('rotation', '0 90 0');
+    ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 5; align: center');
+
+    var timerEntity = document.createElement('a-entity');
+    timerEntity.setAttribute('id', 'timer');
+    timerEntity.setAttribute('position', '-5.2 3.9 1.1');
+    timerEntity.setAttribute('rotation', '0 90 0');
+    timerEntity.setAttribute('text', 'value: 10; color: black; width: 8; align: center');
+
+    var timerControllerEntity = document.createElement('a-entity');
+    timerControllerEntity.setAttribute('timer-controller', '');
+
+
+    var fullCommande = document.createElement('a-entity');
+    fullCommande.id = 'fullCommande'
+
+    fullCommande.appendChild(bulle);
+    fullCommande.appendChild(character);
+    fullCommande.appendChild(commandeEntity);
+    fullCommande.appendChild(valideEntity);
+    fullCommande.appendChild(ingredientsEntity);
+    fullCommande.appendChild(timerEntity);
+    fullCommande.appendChild(timerControllerEntity);
+
+    var scene = document.querySelector('a-scene');
+    scene.appendChild(fullCommande);
 }
 
-class IngredientACuire extends Ingredient {
-    constructor(nom, temps, couleur) {
-        super(nom);
-        this.etat = 'cru';
-        this.temps = temps
-        this.couleur = couleur
+// Génére une commande aléatoire selon les recettes contenues 
+// dans le tableau dataRecette et leur niveau associé.
+// La commande est placé dans le tableau commandes contenant toutes les commandes
+let commandeClient = function (niveauMax) {
+
+    let index = Math.floor(Math.random() * dataRecette.length);
+
+    while (dataRecette[index].niveau > niveauMax) {
+        index = Math.floor(Math.random() * dataRecette.length);
     }
 
-    cui(couleur) {
-        console.log(`${this.nom} est en train de cuire.`);
-        this.etat = 'cuit';
-        this.couleur = couleur
-    }
+    let commande = dataRecette[index];
+    commandes.push(commande);
 
-    crame(couleur) {
-        console.log(`${this.nom} est cramé !`);
-        this.etat = 'crame';
-        this.couleur = couleur
+    let cmd = document.querySelector('#fullCommande')
+
+    if (cmd) {
+        cmd.remove()
+        commandeEntity()
+    }
+    else {
+        commandeEntity()
     }
 
 }
 
-class KitchenElement {
-    constructor(nom) {
-        this.nom = nom;
-        this.etat = 'off'
-    }
 
-    on() {
-        console.log(`${this.nom} is on`);
-        this.etat = 'on';
-    }
+let validerCommande = function () {
+    let currentCommand = commandes[commandes.length - 1];
+    let assiette = assiettes[0];
+    let commande = currentCommand.ingredients
 
-    off() {
-        console.log(`${this.nom} is off`);
-        this.etat = 'off';
-    }
-}
+    if (assiette.length == commande.length) {
+        let bool = true
 
-
-
-// GRILL - BOUTONS
-function handlerClicSurBouton(ev) {
-    let bouton = ev.target;
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
-    console.log(bouton)
-
-    if (ev.target.className == 'grill_btn') {
-        if (bouton.dataset.etat == 'off') {
-            bouton.setAttribute('material', 'color : #2ECB2C');
-            bouton.dataset.etat = 'on'
-            if (tutoGrill.dataset.etat == 'actif') {
-                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
-                );
+        for (let i = 0; i < assiette.length; i++) {
+            if (assiette[i] != commande[i]) {
+                bool = false
             }
-            return
         }
-        else if (bouton.dataset.etat == 'on') {
-            bouton.setAttribute('material', 'color : #E92323');
-            bouton.dataset.etat = 'off'
 
-
-            return
-        }
+        return bool
+    }
+    else {
+        return false
     }
 }
 
@@ -79,7 +142,6 @@ let handlerClickOnFridge = function (ev) {
     let tuto2 = document.querySelector('#tuto_step2');
     let tutoFridge = document.querySelector('#tuto_stepFridge');
     let tutoGrill = document.querySelector('#tuto_stepGrill');
-
 
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
@@ -119,65 +181,7 @@ let handlerClickOnFridge = function (ev) {
     }
 }
 
-
-
-
-
-// Liste des ingrédients créés
-const pain = new Ingredient('pain');
-const fromage = new Ingredient('fromage');
-const steak = new IngredientACuire('steak', 60, '#DD3F61');
-const poulet = new IngredientACuire('poulet', 40, '#DD3F61');
-
-
-// Tableau des commandes faites par les clients
-let commandes = [];
-
-// Tableau des recettes que les clients peuvent commander 
-let dataRecette = [
-    {
-        nom: 'burger boeuf', niveau: 1, ingredients: [
-            pain, steak.cui(), fromage, pain
-        ]
-    },
-    {
-        nom: 'burger poulet', niveau: 1, ingredients: [
-            pain, poulet.cui(), pain
-        ]
-    },
-    {
-        nom: 'double burger', niveau: 2, ingredients: [
-            pain, fromage, steak.cui(), pain, steak, pain
-        ]
-    },
-]
-
-// Tableau contenant les 3 assiettes où l'on prépare les commandes
-let assiettes = [[], [], []]
-
-let plaques = [[], [], [], []]
-
-let main = []
-
-
-// Génére une commande aléatoire selon les recettes contenues 
-// dans le tableau dataRecette et leur niveau associé.
-// La commande est placé dans le tableau commandes contenant toutes les commandes
-
-let commandeClient = function (niveauMax) {
-
-    let index = Math.floor(Math.random() * dataRecette.length);
-
-    while (dataRecette[index].niveau > niveauMax) {
-        index = Math.floor(Math.random() * dataRecette.length);
-    }
-
-    let commande = dataRecette[index]
-
-    commandes.push(commande)
-
-}
-
+// Fonction pour mettre à jour la position de l'entité "follower" à une distance fixe de la caméra
 function updateFollowerPosition(toFollow) {
     // Obtenir une référence à l'entité de la caméra
     var camera = document.getElementById('camera');
@@ -220,6 +224,30 @@ AFRAME.registerComponent('follow-hand', {
     }
 });
 
+// GRILL - BOUTONS
+function handlerClicSurBouton(ev) {
+    let bouton = ev.target;
+    console.log(bouton)
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
+    // 
+    if (ev.target.className == 'grill_btn') {
+        if (bouton.dataset.etat == 'off') {
+            bouton.setAttribute('material', 'color : #2ECB2C');
+            bouton.dataset.etat = 'on'
+            if (tutoGrill.dataset.etat == 'actif') {
+                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
+                );
+            }
+            return
+        }
+        else if (bouton.dataset.etat == 'on') {
+            bouton.setAttribute('material', 'color : #E92323');
+            bouton.dataset.etat = 'off'
+
+            return
+        }
+    }
+}
 
 
 let handlerClickOnConso = function (ev) {
@@ -243,8 +271,9 @@ let handlerClickOnConso = function (ev) {
             ing.setAttribute('scale', ev.target.getAttribute('scale'));
             ing.setAttribute('material', ev.target.getAttribute('material'));
             ing.classList.add('consommable');
-            ing.dataset.id = ev.target.dataset.id
-            ing.dataset.stock = 'stock'
+            ing.dataset.id = ev.target.dataset.id;
+            ing.dataset.stock = 'stock';
+            ing.dataset.tri = 'compost';
 
             document.querySelector('a-scene').appendChild(ing);
 
@@ -257,13 +286,11 @@ let handlerClickOnConso = function (ev) {
 
         }
 
-
-
-
         console.log("non-stop")
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
+            // Si un ingrédient est dans l'assiette on ne peut pas le reprendre pour ne pas créer de conflit entre le tableau asseite[i] et la vue 
             if (ev.target.id == 'inAssiette') {
                 return
             };
@@ -281,7 +308,6 @@ let handlerClickOnConso = function (ev) {
             return
         }
 
-
         // Si la main est pleine on retire follow-hand ce qui "pose" l'objet dans la main dans l'espace
         if (main.length == 1) {
             if (ev.target.hasAttribute('follow-hand')) {
@@ -296,18 +322,18 @@ let handlerClickOnConso = function (ev) {
             return
         }
 
+
     }
 
+
+
+
 }
-
-
-
-
 
 let handlerClickOnAssiette = function (ev) {
 
 
-    if (ev.target.className == 'assiette') {
+    if (ev.target.className == 'assiette' || ev.target.id == 'inAssiette') {
         if (main.length < 1) {
             return
         }
@@ -317,7 +343,7 @@ let handlerClickOnAssiette = function (ev) {
 
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-
+                console.log(assiettes[0].length)
                 let yObj = 1
                 for (let i = 0; i < assiettes[0].length; i++) {
                     yObj += 0.05
@@ -393,26 +419,26 @@ let handlerClickOnGrill = function (ev) {
 
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
-
                 if (tutoGrill.dataset.etat == 'actif') {
-                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit !");
+                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
                 }
                 setTimeout(function () {
-                if (tutoGrill.dataset.etat == 'actif') {
-                                    tutoGrill.setAttribute('value', " Recupere ton steak avant qu'il ne brule et dirige-toi vers le plan de travail !");
-                                    }
+                    if (tutoGrill.dataset.etat == 'actif') {
+                        tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                    }
                     let objCuit = objMain;
                     steakcuit(objCuit);
                 }, 5000);
 
-                
+
                 setTimeout(function () {
-                    
                     if (objMain.id === 'inGrill') {
                         let objCrame = objMain;
                         steakcrame(objCrame);
+                        steakcrame(objCrame);
                     }
-                }, 10000);
+                }, 15000);
+                
 
                 plaques[0].push(objMain.dataset.id);
                 console.log(plaques[0]);
@@ -427,6 +453,159 @@ let handlerClickOnGrill = function (ev) {
     }
 };
 
+function handlerClickOnEmptyBtn(ev) {
+    if (ev.target.id == 'btn_empty_plate') {
+        if (assiettes[0].length < 1) {
+            return
+
+        }
+        else {
+            let allIngInAssiette = document.querySelectorAll("#inAssiette")
+            let allIngInEmpty = document.querySelectorAll("#emptyAssiette")
+
+            // Récupére tous les ingrédients dans l'assiette et en dehors
+            let allIng = [...allIngInAssiette, ...allIngInEmpty]
+
+            allIng.sort()
+
+            let yObj = 1.4
+            let posBtn = ev.target.getAttribute('position')
+
+            // Vide le tableau des ingrédients dans assiette
+            for (let ing of allIng) {
+
+                let posObj = {
+                    x: posBtn.x,
+                    y: yObj,
+                    z: posBtn.z
+                }
+
+                yObj += 0.2
+
+                ing.id = 'emptyAssiette'
+                ing.setAttribute('position', posObj)
+            }
+
+            // Vide le tableau des ingrédients dans assiette
+            while (assiettes[0].length > 0) {
+                assiettes[0].pop();
+            }
+
+
+        }
+    }
+}
+
+AFRAME.registerComponent('timer-controller', {
+    init: function () {
+
+
+        var timerEntity = document.getElementById('timer');
+        var bulle = document.getElementById('bulle');
+        var commandeEntity = document.getElementById('commande');
+        var ingredientsEntity = document.getElementById('ingredients');
+
+        // Initialisez le timer à 100 secondes
+        var timerValue = 100;
+
+        // Met à jour le timer chaque seconde
+        this.interval = setInterval(function () {
+            if (timerValue > 0) {
+                commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length - 1].nom} !`);
+                ingredientsEntity.setAttribute('text', 'value', commandes[commandes.length - 1].ingredients)
+                timerValue--;
+            }
+
+            // Met à jour le texte du timer
+            timerEntity.setAttribute('text', 'value', timerValue);
+
+            if (timerValue === 0) {
+                commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
+
+                timerEntity.setAttribute('text', 'color', 'red');
+                timerEntity.setAttribute('text', 'value', '0');
+
+                commandeClient(1)
+                clearInterval(this.interval)
+            }
+        }, 1000);
+    },
+
+    // Assurez-vous de nettoyer l'intervalle lors de la suppression du composant
+    remove: function () {
+        clearInterval(this.interval);
+    },
+});
+
+function handlerClickOnBell(ev) {
+    if (ev.target.id == 'bell_validate') {
+        if (assiettes[0].length < 1) {
+            return
+
+        }
+        else {
+            var commandeEntity = document.getElementById('valide');
+            let assiette = document.querySelectorAll('#inAssiette')
+
+            if (validerCommande() == true) {
+                commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
+                // commandeEntity.setAttribute('text', 'color', '0x00ffff')
+                for (let ing of assiette) {
+                    ing.remove()
+                }
+
+                while (assiettes[0].length > 0) {
+                    assiettes[0].pop();
+                }
+
+                console.log(commandes)
+
+                while (commandes.length > 0) {
+                    commandes.pop()
+                }
+
+                console.log(commandes)
+                commandeClient(1)
+                console.log(commandes)
+
+            }
+            else {
+                commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
+                // commandeEntity.setAttribute('text', 'color', '0xff00')
+
+                for (let ing of assiette) {
+                    ing.remove()
+                }
+
+                while (assiettes[0].length > 0) {
+                    assiettes[0].pop();
+                }
+
+
+                console.log(commandes)
+
+                commandes.pop()
+                console.log(commandes[0])
+                commandeClient(1)
+                console.log(commandes)
+            }
+
+        }
+    }
+}
+
+
+
+function handlerClickOnStart(ev) {
+    if (ev.target.id == 'start') {
+        commandeClient(1);
+
+        let start = document.querySelectorAll('#start');
+        start.forEach(elt => {
+            elt.remove();
+        });
+    }
+}
 
 function handlerClickOnCompost() {
     let hand = document.querySelector('#handed');
@@ -437,29 +616,30 @@ function handlerClickOnCompost() {
     }
 }
 
+let fridge = document.querySelector('#fridge-door');
+fridge.addEventListener('click', handlerClickOnFridge);
 
+let start = document.querySelectorAll('#start');
+start.forEach(bouton => {
+    bouton.addEventListener('click', handlerClickOnStart);
+});
 
-
-
-
-
-// LISTENER SCENE
-
-let scene = document.querySelector('a-scene');
-scene.addEventListener('click', handlerClickOnConso);
-scene.addEventListener('click', handlerClickOnAssiette);
-scene.addEventListener('click', handlerClickOnGrill);
-
-// LISTENER GRILL
 let grill = document.querySelectorAll('.grill_btn');
 grill.forEach(bouton => {
     bouton.addEventListener('click', handlerClicSurBouton);
 });
 
-// LISTENER FRIDGE
-let fridge = document.querySelector('#fridge-door');
-fridge.addEventListener('click', handlerClickOnFridge);
+let emptyBtn = document.querySelector('#btn_empty_plate');
+emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 
-// LISTENER COMPOST 
 let putCompost = document.querySelector('#compost_bin');
 putCompost.addEventListener('click', handlerClickOnCompost);
+
+let validBell = document.querySelector('#bell_validate');
+validBell.addEventListener('click', handlerClickOnBell);
+
+
+let scene = document.querySelector('a-scene');
+scene.addEventListener('click', handlerClickOnConso);
+scene.addEventListener('click', handlerClickOnAssiette);
+scene.addEventListener('click', handlerClickOnGrill);
