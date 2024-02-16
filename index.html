@@ -16,7 +16,12 @@
    
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
-    <a-cursor></a-cursor>
+    <!-- Contrôleur gauche -->
+    <a-entity id="left-controller" vive-controls="hand: left" raycaster="showLine: true; far: 100; interval: 1000;"></a-entity>
+    
+    <!-- Contrôleur droit -->
+    <a-entity id="right-controller" vive-controls="hand: right" raycaster="showLine: true; far: 100; interval: 1000;"></a-entity>
+  
 
     <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
 
@@ -37,8 +42,9 @@
     <a-entity obj-model="obj: ./assets/models/ingredients/base.obj; " position="2.4 0.5 -0.7" rotation="0 180 0"
       scale="1 1 1 " material="color: #DD3F61;" class="consommable" data-id="steak" data-stock="stock" data-tri="compost"></a-entity>
 
-    <!-- Poulet cru STOCK -->
-    <a-entity obj-model="obj: ./assets/models/ingredients/butter.obj;" position="2.4 1.5 -1" rotation="0 180 0" scale="0.2 0.2 0.2" material="src: ./assets/models/ingredients/chicken.jpg;" class="consommable" data-id="poulet" data-stock="stock" data-tri="compost"></a-entity>
+    <!-- Thon Boite STOCK -->
+    <!-- <a-entity obj-model="obj: ./assets/models/ingredients/tuna-can.obj; " position="2.4 1.5 -0.7" rotation="0 180 0"
+      scale="0.3 0.3 0.3" material="src: ./assets/models/ingredients/tuna-can.mtl;" class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1"></a-entity> -->
 
 
     <!-- Pain STOCK -->
@@ -111,11 +117,12 @@
       <a-asset-item id="button" src="./assets/models/btn/button.obj"></a-asset-item>
     </a-assets>
     <a-assets>
-      <a-asset-item id="button" src="./assets/models/btn/bell.glb"></a-asset-item>
+      <a-asset-item id="bell" src="./assets/models/btn/bell.glb"></a-asset-item>
     </a-assets>
     <a-assets>
       <a-asset-item id="speech" src="./assets/models/cmd/Speech.glb"></a-asset-item>
     </a-assets>
+    
 
    <!-- FOUR -->
    <a-entity obj-model="obj: ./assets/models/kitchen/appliance_oven.obj"
@@ -211,7 +218,7 @@
     <!-- CIEL -->
     <a-sky color="#87CEEB"></a-sky>
     
-    <a-text rotation="0 90 0" position="-1.4 2 1" scale="0.4 0.4 0.4" color="#000000" id="valide"></a-box>
+    <a-text rotation="0 90 0" position="-1.4 2 1" scale="0.4 0.4 0.4" color="#000000" id="valide"></a-text>
 
     <!-- DEMARRER LE JEU !!!!! -->
     <a-box rotation="0 90 0" position="-1.5 2 0" scale="0.8 0.3 0.1" color="#00FF00" id="start"></a-box>

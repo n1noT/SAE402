@@ -9,11 +9,6 @@ let dataRecette = [
         ]
     },
     {
-        nom: 'burger poulet', niveau: 1, ingredients: [
-            'pain', 'poulet cuit', 'pain'
-        ]
-    },
-    {
         nom: 'double burger', niveau: 2, ingredients: [
             'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
         ]
@@ -31,7 +26,7 @@ let main = [];
 
 let commandeEntity = function (){
     var bulle = document.createElement('a-gltf-model');
-    bulle.setAttribute('src', './assets/models/cmd/speech.glb');
+    bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
     bulle.setAttribute('position', '-5.5 4 0');
     bulle.setAttribute('rotation', '0 90 0');
     bulle.setAttribute('scale', '2 2 1');
@@ -200,7 +195,6 @@ function updateFollowerPosition(toFollow) {
     follower.setAttribute('position', followerPosition);
 }
 
-
 AFRAME.registerComponent('follow-hand', {
     tick: function () {
         // Obtenir une référence à l'entité de la caméra
@@ -243,7 +237,6 @@ function handlerClicSurBouton(ev) {
         }
     }
 }
-
 
 let handlerClickOnConso = function (ev) {
     let tutoFridge = document.querySelector('#tuto_stepFridge');
@@ -378,7 +371,6 @@ let steakcrame = function (objMain) {
     objMain.setAttribute('material', 'color : #210202');
     objMain.dataset.id = "crame"
 };
-
 
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
@@ -581,8 +573,6 @@ function handlerClickOnBell(ev) {
     }
 }
 
-
-
 function handlerClickOnStart(ev){
     if(ev.target.id=='start'){
         commandeClient(1);
@@ -603,6 +593,42 @@ function handlerClickOnCompost() {
     }
 }
 
+function handlerClickOnRecycle() {
+    let hand = document.querySelector('#handed');
+    if(hand.dataset.tri == "recycle"){
+        hand.remove();
+        main.pop();
+        console.log(main)
+    }
+}
+
+// function handlerClickOnThon(ev) {
+//     if (ev.target.dataset.id == "thon-boite") {
+//         console.log(ev.target.dataset.stock)
+//         if(ev.target.dataset.stock === null){
+//             if(ev.target.dataset.state == 1){
+
+//                 ev.target.dataset.state == 0
+        
+//                 var thon = document.createElement('a-entity');
+        
+//                 thon.setAttribute('obj-model', 'obj: ./assets/models/ingredients/base.obj;');
+//                 thon.setAttribute('position', ev.target.getAttribute('position'));
+//                 thon.setAttribute('rotation', '0 180 0');
+//                 thon.setAttribute('scale', '1 1 1');
+//                 thon.setAttribute('material', 'color: #FFECE4;');
+//                 thon.setAttribute('class', 'consommable');
+//                 thon.setAttribute('data-id', 'thon');
+//                 thon.setAttribute('data-stock', 'stock');
+//                 thon.setAttribute('data-tri', 'compost');
+        
+//                 var scene = document.querySelector('a-scene');
+//                 scene.appendChild(thon);
+//             }
+//         }
+//     }
+// }
+
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
 
@@ -622,12 +648,16 @@ emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 let putCompost = document.querySelector('#compost_bin');
 putCompost.addEventListener('click', handlerClickOnCompost);
 
+let putRecycle = document.querySelector('#recycle_bin');
+putRecycle.addEventListener('click', handlerClickOnRecycle);
+
 let validBell = document.querySelector('#bell_validate');
 validBell.addEventListener('click', handlerClickOnBell);
 
 
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
+// scene.addEventListener('click', handlerClickOnThon);
 scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
 
