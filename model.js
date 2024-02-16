@@ -48,17 +48,23 @@ class KitchenElement {
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
     console.log(bouton)
+
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
             bouton.setAttribute('material', 'color : #2ECB2C');
             bouton.dataset.etat = 'on'
-
+            if (tutoGrill.dataset.etat == 'actif') {
+                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
+                );
+            }
             return
         }
         else if (bouton.dataset.etat == 'on') {
             bouton.setAttribute('material', 'color : #E92323');
             bouton.dataset.etat = 'off'
+
 
             return
         }
@@ -72,6 +78,7 @@ let handlerClickOnFridge = function (ev) {
     let tuto1 = document.querySelector('#tuto_step1');
     let tuto2 = document.querySelector('#tuto_step2');
     let tutoFridge = document.querySelector('#tuto_stepFridge');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
 
     if (ev.target.className == 'frigo-door') {
@@ -102,7 +109,8 @@ let handlerClickOnFridge = function (ev) {
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
             porte.dataset.etat = 'ferme'
-            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !')
+            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !');
+            tutoGrill.setAttribute('value', "Appuie sur le bouton de la plaque pour l'allumer !");
             tutoFridge.dataset.etat = 'inactif'
             return
 
@@ -219,72 +227,45 @@ let handlerClickOnConso = function (ev) {
 
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
-            if (ev.target.dataset.id == 'steak') {
-                if (tutoFridge.dataset.etat == 'actif') {
-                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-                    let ing = document.createElement('a-entity');
+            if (tutoFridge.dataset.etat == 'actif') {
 
-                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-                    ing.setAttribute('position', ev.target.getAttribute('position'));
-                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
-                    ing.setAttribute('material', ev.target.getAttribute('material'));
-                    ing.classList.add('consommable');
-                    ing.dataset.id = ev.target.dataset.id
-                    ing.dataset.stock = 'stock'
-                    tutoFridge.setAttribute('value', 'Clic de nouveau sur la porte pour fermer le frigo !');
-                    tutoFridge.dataset.etat = "inactif"
-                    document.querySelector('a-scene').appendChild(ing);
-
-                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-                    if (main.length == 1) {
-                        console.log("stop")
-                        return
-                    }
-
-                }
-                else {
-                    // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-                    let ing = document.createElement('a-entity');
-
-                    ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-                    ing.setAttribute('position', ev.target.getAttribute('position'));
-                    ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-                    ing.setAttribute('scale', ev.target.getAttribute('scale'));
-                    ing.setAttribute('material', ev.target.getAttribute('material'));
-                    ing.classList.add('consommable');
-                    ing.dataset.id = ev.target.dataset.id
-                    ing.dataset.stock = 'stock'
-
-                    document.querySelector('a-scene').appendChild(ing);
-
-                    // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-                    if (main.length == 1) {
-                        console.log("stop")
-                        return
-                    }
-                }
-
-
-
+                tutoFridge.setAttribute('value', 'Clic de nouveau pour fermer le frigo !');
+                tutoFridge.dataset.etat = "inactif"
 
             }
+
+            // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+            let ing = document.createElement('a-entity');
+
+            ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+            ing.setAttribute('position', ev.target.getAttribute('position'));
+            ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+            ing.setAttribute('scale', ev.target.getAttribute('scale'));
+            ing.setAttribute('material', ev.target.getAttribute('material'));
+            ing.classList.add('consommable');
+            ing.dataset.id = ev.target.dataset.id
+            ing.dataset.stock = 'stock'
+
+            document.querySelector('a-scene').appendChild(ing);
+
+            // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
+            if (main.length == 1) {
+                console.log("stop")
+                return
+            }
+
+
         }
+
+
+
 
         console.log("non-stop")
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
             if (ev.target.id == 'inAssiette') {
-                assiettes[0] = assiettes[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur assiette PLEINE ')
-                console.log(assiettes[0])
-            };
-
-            if (ev.target.id == 'inGrill') {
-                plaques[0] = plaques[0].filter(ing => ing != ev.target.dataset.id)
-                console.log('clic sur plaque PLEINE ')
-                console.log(plaques[0])
+                return
             };
 
             if (!ev.target.hasAttribute('follow-hand')) {
@@ -315,15 +296,10 @@ let handlerClickOnConso = function (ev) {
             return
         }
 
-
-
-
     }
 
-
-
-
 }
+
 
 
 
@@ -386,6 +362,7 @@ let steakcrame = function (objMain) {
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
     let plaque = document.querySelectorAll('.grill');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
     // Récupérer l'index de la plaque sur laquelle on a cliqué
     let plaqueIndex = Array.from(plaque).indexOf(ev.target);
@@ -399,7 +376,7 @@ let handlerClickOnGrill = function (ev) {
             let objMain = document.querySelector('#handed');
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-                
+
                 let yObj = 1;
                 for (let i = 0; i < plaques[0].length; i++) {
                     yObj += 0;
@@ -417,16 +394,23 @@ let handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-    
+                if (tutoGrill.dataset.etat == 'actif') {
+                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit !");
+                }
                 setTimeout(function () {
+                if (tutoGrill.dataset.etat == 'actif') {
+                                    tutoGrill.setAttribute('value', " Recupere ton steak avant qu'il ne brule et dirige-toi vers le plan de travail !");
+                                    }
                     let objCuit = objMain;
                     steakcuit(objCuit);
                 }, 5000);
 
+                
                 setTimeout(function () {
-                    if (objMain.id === 'inGrill'){
+                    
+                    if (objMain.id === 'inGrill') {
                         let objCrame = objMain;
-                    steakcrame(objCrame);
+                        steakcrame(objCrame);
                     }
                 }, 10000);
 
@@ -442,6 +426,16 @@ let handlerClickOnGrill = function (ev) {
         }
     }
 };
+
+
+function handlerClickOnCompost() {
+    let hand = document.querySelector('#handed');
+    if (hand.dataset.tri == "compost") {
+        hand.remove();
+        main.pop();
+        console.log(main)
+    }
+}
 
 
 
@@ -465,3 +459,7 @@ grill.forEach(bouton => {
 // LISTENER FRIDGE
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
+
+// LISTENER COMPOST 
+let putCompost = document.querySelector('#compost_bin');
+putCompost.addEventListener('click', handlerClickOnCompost);
