@@ -136,6 +136,7 @@ let handlerClickOnFridge = function (ev) {
     let tuto1 = document.querySelector('#tuto_step1');
     let tuto2 = document.querySelector('#tuto_step2');
     let tutoFridge = document.querySelector('#tuto_stepFridge');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
 
     if (ev.target.className == 'frigo-door') {
@@ -166,7 +167,8 @@ let handlerClickOnFridge = function (ev) {
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
             porte.dataset.etat = 'ferme'
-            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !')
+            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !');
+            tutoGrill.setAttribute('value', "Appuie sur le bouton de la plaque pour l'allumer !");
             tutoFridge.dataset.etat = 'inactif'
             return
 
@@ -220,23 +222,30 @@ AFRAME.registerComponent('follow-hand', {
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
     console.log(bouton)
-    // 
+
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
             bouton.setAttribute('material', 'color : #2ECB2C');
             bouton.dataset.etat = 'on'
 
+            if (tutoGrill.dataset.etat == 'actif') {
+                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
+                );
+            }
             return
         }
         else if (bouton.dataset.etat == 'on') {
             bouton.setAttribute('material', 'color : #E92323');
             bouton.dataset.etat = 'off'
 
+
             return
         }
     }
 }
+
 
 let handlerClickOnConso = function (ev) {
     let tutoFridge = document.querySelector('#tuto_stepFridge');
@@ -375,6 +384,7 @@ let steakcrame = function (objMain) {
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
     let plaque = document.querySelectorAll('.grill');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
     // Récupérer l'index de la plaque sur laquelle on a cliqué
     let plaqueIndex = Array.from(plaque).indexOf(ev.target);
@@ -407,15 +417,25 @@ let handlerClickOnGrill = function (ev) {
                 objMain.id = 'inGrill';
 
     
+                if (tutoGrill.dataset.etat == 'actif') {
+                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
+                }
                 setTimeout(function () {
-                    let objCuit = objMain;
-                    steakcuit(objCuit);
-                }, 5000);
+                
+                        if (tutoGrill.dataset.etat == 'actif') {
+                            tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                        }
+                        let objCuit = objMain;
+                        steakcuit(objCuit);
+                    }, 5000);
+
 
                 setTimeout(function () {
-                    if (objMain.id === 'inGrill'){
+
+                    if (objMain.id === 'inGrill') {
                         let objCrame = objMain;
                     steakcrame(objCrame);
+                        steakcrame(objCrame);
                     }
                 }, 10000);
 
@@ -576,7 +596,12 @@ function handlerClickOnBell(ev) {
 function handlerClickOnStart(ev){
     if(ev.target.id=='start'){
         commandeClient(1);
-        
+        let tuto1 = document.querySelector('#tuto_step1')
+        tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
+
+        let tuto2 = document.querySelector('#tuto_step2')
+        tuto2.setAttribute('value', 'Il desire un burger. Pour commencer, recupere un steak dans le frigo !')
+
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
             elt.remove();
