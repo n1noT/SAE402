@@ -596,7 +596,72 @@ function handlerClickOnBell(ev) {
     }
 }
 
+let handlerClickOnPlate = function (ev) {
+    let plate= document.querySelectorAll('#plateau');
 
+
+    // Récupérer l'index de la plaque sur laquelle on a cliqué
+    let plaqueIndex = Array.from(plaque).indexOf(ev.target);
+
+    if (ev.target.className == 'grill') {
+        if (main.length < 1) {
+            return;
+        }
+
+        if (main.length == 1 && plaqueIndex !== -1 && btn[plaqueIndex].dataset.etat === 'on') {
+            let objMain = document.querySelector('#handed');
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let yObj = 1;
+                for (let i = 0; i < plaques[0].length; i++) {
+                    yObj += 0;
+                }
+                console.log(yObj);
+
+                let posGrill = ev.target.getAttribute('position');
+
+                let posObj = {
+                    x: posGrill.x,
+                    y: posGrill.y,
+                    z: posGrill.z
+                };
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inGrill';
+                if (tutoGrill.dataset.etat == 'actif') {
+                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
+                }
+                setTimeout(function () {
+                    if (tutoGrill.dataset.etat == 'actif') {
+                        tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                    }
+                    let objCuit = objMain;
+                    steakcuit(objCuit);
+                }, 5000);
+
+
+                setTimeout(function () {
+                    if (objMain.id === 'inGrill') {
+                        let objCrame = objMain;
+                        steakcrame(objCrame);
+                        steakcrame(objCrame);
+                    }
+                }, 15000);
+                
+
+                plaques[0].push(objMain.dataset.id);
+                console.log(plaques[0]);
+
+                main.shift();
+            }
+            console.log(objMain.dataset.id)
+            console.log('clic sur plaque VIDE');
+            console.log(plaques[0]);
+            return;
+        }
+    }
+};
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
