@@ -291,7 +291,10 @@ let handlerClickOnConso = function (ev) {
             ing.classList.add('consommable');
             ing.dataset.id = ev.target.dataset.id;
             ing.dataset.stock = 'stock';
-            ing.dataset.tri = 'compost';
+            ing.dataset.tri = ev.target.dataset.tri;
+            if(ev.target.dataset.id == 'thon-boite'){
+                ing.dataset.state =1
+            }
 
             document.querySelector('a-scene').appendChild(ing);
 
