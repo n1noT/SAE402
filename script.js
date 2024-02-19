@@ -45,6 +45,9 @@ let plaques = [[], [], [], []]
 // Tableau contenant les objet dans la main
 let main = [];
 
+// variable de score
+let scoreJ = 0;
+
 let commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
     bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
@@ -571,6 +574,10 @@ function handlerClickOnBell(ev) {
             let assiette = document.querySelectorAll('#inAssiette')
 
             if (validerCommande() == true) {
+                //mettre a jour le score et l'afficher
+                scoreJ = scoreJ + 100;
+                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0x00ffff')
                 for (let ing of assiette) {
@@ -677,6 +684,10 @@ function handlerClickOnThon(ev) {
     }
 }
         
+
+// Affichage du score en HUD
+let scoreJoueur = document.querySelector('#hud');
+scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
 
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
