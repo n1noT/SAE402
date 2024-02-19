@@ -374,6 +374,8 @@ let handlerClickOnAssiette = function (ev) {
     }
 }
 
+
+
 let steakcuit = function (objMain) {
     objMain.setAttribute('material', 'color : #622828');
     objMain.dataset.id += " cuit"
