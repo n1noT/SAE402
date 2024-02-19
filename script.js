@@ -9,16 +9,32 @@ let dataRecette = [
         ]
     },
     {
-        nom: 'burger poulet', niveau: 1, ingredients: [
-            'pain', 'poulet cuit', 'pain'
+        nom: 'burger thon', niveau: 1, ingredients: [
+            'pain', 'thon', 'pain'
+        ]
+    },
+    {
+        nom: 'cheese burger', niveau: 2, ingredients: [
+            'pain', 'fromage', 'steak', 'pain'
         ]
     },
     {
         nom: 'double burger', niveau: 2, ingredients: [
-            'pain', 'fromage', 'steak', 'pain', 'steak', 'pain'
+            'pain', 'steak', 'pain', 'steak', 'pain'
+        ]
+    },
+    {
+        nom: 'double cheese burger', niveau: 3, ingredients: [
+            'pain', 'fromage', 'steak', 'pain', 'fromage', 'steak', 'pain'
+        ]
+    },
+    {
+        nom: 'triple burger', niveau: 3, ingredients: [
+            'pain', 'fromage', 'steak', 'steak', 'steak', 'pain'
         ]
     },
 ];
+
 
 // Tableau contenant les 3 assiettes où l'on prépare les commandes 
 let assiettes = [[], [], []];
@@ -29,9 +45,9 @@ let plaques = [[], [], [], []]
 // Tableau contenant les objet dans la main
 let main = [];
 
-let commandeEntity = function (){
+let commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
-    bulle.setAttribute('src', './assets/models/cmd/speech.glb');
+    bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
     bulle.setAttribute('position', '-5.5 4 0');
     bulle.setAttribute('rotation', '0 90 0');
     bulle.setAttribute('scale', '2 2 1');
@@ -70,7 +86,7 @@ let commandeEntity = function (){
     var timerControllerEntity = document.createElement('a-entity');
     timerControllerEntity.setAttribute('timer-controller', '');
 
-   
+
     var fullCommande = document.createElement('a-entity');
     fullCommande.id = 'fullCommande'
 
@@ -102,11 +118,11 @@ let commandeClient = function (niveauMax) {
 
     let cmd = document.querySelector('#fullCommande')
 
-    if(cmd){
+    if (cmd) {
         cmd.remove()
         commandeEntity()
     }
-    else{
+    else {
         commandeEntity()
     }
 
@@ -141,6 +157,7 @@ let handlerClickOnFridge = function (ev) {
     let tuto1 = document.querySelector('#tuto_step1');
     let tuto2 = document.querySelector('#tuto_step2');
     let tutoFridge = document.querySelector('#tuto_stepFridge');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
 
     if (ev.target.className == 'frigo-door') {
@@ -171,7 +188,8 @@ let handlerClickOnFridge = function (ev) {
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
             porte.dataset.etat = 'ferme'
-            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !')
+            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !');
+            tutoGrill.setAttribute('value', "Appuie sur le bouton de la plaque pour l'allumer !");
             tutoFridge.dataset.etat = 'inactif'
             return
 
@@ -200,7 +218,6 @@ function updateFollowerPosition(toFollow) {
     follower.setAttribute('position', followerPosition);
 }
 
-
 AFRAME.registerComponent('follow-hand', {
     tick: function () {
         // Obtenir une référence à l'entité de la caméra
@@ -226,18 +243,24 @@ AFRAME.registerComponent('follow-hand', {
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
     console.log(bouton)
-    // 
+
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
             bouton.setAttribute('material', 'color : #2ECB2C');
             bouton.dataset.etat = 'on'
 
+            if (tutoGrill.dataset.etat == 'actif') {
+                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
+                );
+            }
             return
         }
         else if (bouton.dataset.etat == 'on') {
             bouton.setAttribute('material', 'color : #E92323');
             bouton.dataset.etat = 'off'
+
 
             return
         }
@@ -268,7 +291,10 @@ let handlerClickOnConso = function (ev) {
             ing.classList.add('consommable');
             ing.dataset.id = ev.target.dataset.id;
             ing.dataset.stock = 'stock';
-            ing.dataset.tri = 'compost';
+            ing.dataset.tri = ev.target.dataset.tri;
+            if(ev.target.dataset.id == 'thon-boite'){
+                ing.dataset.state =1
+            }
 
             document.querySelector('a-scene').appendChild(ing);
 
@@ -379,10 +405,10 @@ let steakcrame = function (objMain) {
     objMain.dataset.id = "crame"
 };
 
-
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
     let plaque = document.querySelectorAll('.grill');
+    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
     // Récupérer l'index de la plaque sur laquelle on a cliqué
     let plaqueIndex = Array.from(plaque).indexOf(ev.target);
@@ -396,7 +422,7 @@ let handlerClickOnGrill = function (ev) {
             let objMain = document.querySelector('#handed');
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-                
+
                 let yObj = 1;
                 for (let i = 0; i < plaques[0].length; i++) {
                     yObj += 0;
@@ -414,16 +440,26 @@ let handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-    
+
+                if (tutoGrill.dataset.etat == 'actif') {
+                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
+                }
                 setTimeout(function () {
+
+                    if (tutoGrill.dataset.etat == 'actif') {
+                        tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                    }
                     let objCuit = objMain;
                     steakcuit(objCuit);
                 }, 5000);
 
+
                 setTimeout(function () {
-                    if (objMain.id === 'inGrill'){
+
+                    if (objMain.id === 'inGrill') {
                         let objCrame = objMain;
-                    steakcrame(objCrame);
+                        steakcrame(objCrame);
+                        steakcrame(objCrame);
                     }
                 }, 10000);
 
@@ -581,12 +617,15 @@ function handlerClickOnBell(ev) {
     }
 }
 
-
-
-function handlerClickOnStart(ev){
-    if(ev.target.id=='start'){
+function handlerClickOnStart(ev) {
+    if (ev.target.id == 'start') {
         commandeClient(1);
-        
+        let tuto1 = document.querySelector('#tuto_step1')
+        tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
+
+        let tuto2 = document.querySelector('#tuto_step2')
+        tuto2.setAttribute('value', 'Il desire un burger. Pour commencer, recupere un steak dans le frigo !')
+
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
             elt.remove();
@@ -596,12 +635,48 @@ function handlerClickOnStart(ev){
 
 function handlerClickOnCompost() {
     let hand = document.querySelector('#handed');
-    if(hand.dataset.tri == "compost"){
+    if (hand.dataset.tri == "compost") {
         hand.remove();
         main.pop();
         console.log(main)
     }
 }
+
+function handlerClickOnRecycle() {
+    let hand = document.querySelector('#handed');
+    if (hand.dataset.tri == "recycle") {
+        hand.remove();
+        main.pop();
+        console.log(main)
+    }
+}
+
+function handlerClickOnThon(ev) {
+    if(main[0] == 'can-opener'){
+        if (ev.target.dataset.id == "thon-boite") {
+            if (ev.target.dataset.state == 1) {
+                
+                ev.target.dataset.state = 0
+                console.log(ev.target.dataset.state)
+
+                var thon = document.createElement('a-entity');
+                thon.setAttribute('obj-model', 'obj: ./assets/models/ingredients/base.obj;');
+                thon.setAttribute('position', ev.target.getAttribute('position'));
+                thon.setAttribute('rotation', '0 180 0');
+                thon.setAttribute('scale', '1 1 1');
+                thon.setAttribute('material', 'color: #FFECE4;');
+                thon.setAttribute('class', 'consommable');
+                thon.setAttribute('data-id', 'thon');
+                thon.setAttribute('data-stock', '');
+                thon.setAttribute('data-tri', 'compost');
+
+                var scene = document.querySelector('a-scene');
+                scene.appendChild(thon);
+            }
+        }
+    }
+}
+        
 
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
@@ -622,12 +697,16 @@ emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
 let putCompost = document.querySelector('#compost_bin');
 putCompost.addEventListener('click', handlerClickOnCompost);
 
+let putRecycle = document.querySelector('#recycle_bin');
+putRecycle.addEventListener('click', handlerClickOnRecycle);
+
 let validBell = document.querySelector('#bell_validate');
 validBell.addEventListener('click', handlerClickOnBell);
 
 
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
+scene.addEventListener('click', handlerClickOnThon);
 scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
 
