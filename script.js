@@ -463,6 +463,10 @@ let handlerClickOnGrill = function (ev) {
                         let objCrame = objMain;
                         steakcrame(objCrame);
                         steakcrame(objCrame);
+
+                        // mise a jour du score et affichage
+                        scoreJ = scoreJ - 25;
+                        scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
                     }
                 }, 10000);
 
@@ -546,6 +550,10 @@ AFRAME.registerComponent('timer-controller', {
             timerEntity.setAttribute('text', 'value', timerValue);
 
             if (timerValue === 0) {
+                //mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 50;
+                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
                 timerEntity.setAttribute('text', 'color', 'red');
@@ -600,6 +608,10 @@ function handlerClickOnBell(ev) {
 
             }
             else {
+                //mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 50;
+                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0xff00')
 
