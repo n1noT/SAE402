@@ -9,6 +9,11 @@ let dataRecette = [
         ]
     },
     {
+        nom: 'burger thon', niveau: 1, ingredients: [
+            'pain', 'thon', 'pain'
+        ]
+    },
+    {
         nom: 'cheese burger', niveau: 2, ingredients: [
             'pain', 'fromage', 'steak', 'pain'
         ]
@@ -644,9 +649,8 @@ function handlerClickOnRecycle() {
 }
 
 function handlerClickOnThon(ev) {
-    if (ev.target.dataset.id == "thon-boite") {
-        console.log(ev.target.dataset.stock)
-        if (ev.target.dataset.stock === 'null') {
+    if(main[0] == 'can-opener'){
+        if (ev.target.dataset.id == "thon-boite") {
             if (ev.target.dataset.state == 1) {
                 
                 ev.target.dataset.state = 0
@@ -660,7 +664,7 @@ function handlerClickOnThon(ev) {
                 thon.setAttribute('material', 'color: #FFECE4;');
                 thon.setAttribute('class', 'consommable');
                 thon.setAttribute('data-id', 'thon');
-                thon.setAttribute('data-stock', 'stock');
+                thon.setAttribute('data-stock', '');
                 thon.setAttribute('data-tri', 'compost');
 
                 var scene = document.querySelector('a-scene');
@@ -669,6 +673,7 @@ function handlerClickOnThon(ev) {
         }
     }
 }
+        
 
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);

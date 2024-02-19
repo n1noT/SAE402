@@ -41,8 +41,8 @@
       scale="1 1 1 " material="color: #DD3F61;" class="consommable" data-id="steak" data-stock="stock" data-tri="compost"></a-entity>
 
     <!-- Thon Boite STOCK -->
-    <a-entity obj-model="obj: ./assets/models/ingredients/tuna-can.obj; " position="2.4 1.5 -0.7" rotation="0 180 0"
-      scale="0.3 0.3 0.3" material="src: ./assets/models/ingredients/tuna-can.mtl;" class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1"></a-entity> 
+    <a-entity obj-model="obj: ./assets/models/ingredients/tuna-can.obj; mtl: ./assets/models/ingredients/tuna-can.mtl.bak" position="2.4 1.5 -0.7" rotation="0 180 0"
+      scale="0.3 0.3 0.3"  class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1"></a-entity> 
 
 
     <!-- Pain STOCK -->
@@ -79,7 +79,7 @@
       scale="4 4 4" class="assiette"></a-gltf-model> -->
 
 
-    <!-- PLAN DE TRAVAIL -->
+    <!-- Comptoir -->
     <a-gltf-model src="./assets/models/kitchen/counter.glb" position="-3 -1.110 0" rotation="0 90 0"
       scale="1.920 1.1 1"></a-gltf-model>
 
@@ -119,6 +119,12 @@
     </a-assets>
     <a-assets>
       <a-asset-item id="speech" src="./assets/models/cmd/Speech.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="can-opener" src="./assets/models/tools/can-opener.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="plank" src="./assets/models/kitchen/plank.glb"></a-asset-item>
     </a-assets>
     
 
@@ -191,6 +197,10 @@
     <a-text value="Compost" rotation="0 180 0" position="-1.3 0.6 2.8" color="#000" align="center"></a-text>
 
 
+    <!-- Ouvreur de boite de conserve -->
+    <a-entity obj-model="obj: ./assets/models/tools/can-opener.obj"
+   material="src: ./assets/models/tools/can-opener.png" position="1 1 1" rotation="0 0 0"
+   scale="0.13 0.1 0.1" class="consommable" data-id="can-opener"></a-entity>
 
     <!-- SOLS -->
     <a-entity obj-model="obj: ./assets/models/floor/model.obj" material="color: #DED5C5" position="0 -1 0"
