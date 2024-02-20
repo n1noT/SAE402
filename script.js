@@ -15,12 +15,12 @@ let dataRecette = [
     },
     {
         nom: 'cheese burger', niveau: 2, ingredients: [
-            'pain', 'fromage', 'steak', 'pain'
+            'pain', 'fromage', 'steak cuit', 'pain'
         ]
     },
     {
         nom: 'double burger', niveau: 2, ingredients: [
-            'pain', 'steak', 'pain', 'steak', 'pain'
+            'pain', 'steak cuit', 'pain', 'steak cuit', 'pain'
         ]
     },
     {
@@ -45,12 +45,15 @@ let plaques = [[], [], [], []]
 // Tableau contenant les objet dans la main
 let main = [];
 
+// variable de score
+let scoreJ = 0;
+
 let commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
     bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
-    bulle.setAttribute('position', '-5.5 4 0');
+    bulle.setAttribute('position', '-5.5 3.34 0');
     bulle.setAttribute('rotation', '0 90 0');
-    bulle.setAttribute('scale', '2 2 1');
+    bulle.setAttribute('scale', '2 1 1');
     bulle.id = 'bulle';
 
     var character = document.createElement('a-gltf-model');
@@ -61,7 +64,7 @@ let commandeEntity = function () {
 
     var commandeEntity = document.createElement('a-entity');
     commandeEntity.setAttribute('id', 'commande');
-    commandeEntity.setAttribute('position', '-5.2 4.6 1.1');
+    commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
     commandeEntity.setAttribute('rotation', '0 90 0');
     commandeEntity.setAttribute('text', 'value: un burger et plus vite que ca !; color: black; width: 5; align: center');
 
@@ -73,15 +76,15 @@ let commandeEntity = function () {
 
     var ingredientsEntity = document.createElement('a-entity');
     ingredientsEntity.setAttribute('id', 'ingredients');
-    ingredientsEntity.setAttribute('position', '-5.2 4.2 1.1');
-    ingredientsEntity.setAttribute('rotation', '0 90 0');
-    ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 5; align: center');
+    ingredientsEntity.setAttribute('position', '0 1.9 3.3');
+    ingredientsEntity.setAttribute('rotation', '0 180 0');
+    ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 4; align: center');
 
     var timerEntity = document.createElement('a-entity');
     timerEntity.setAttribute('id', 'timer');
-    timerEntity.setAttribute('position', '-5.2 3.9 1.1');
-    timerEntity.setAttribute('rotation', '0 90 0');
-    timerEntity.setAttribute('text', 'value: 10; color: black; width: 8; align: center');
+    // timerEntity.setAttribute('position', '-5.2 3.9 1.1');
+    // timerEntity.setAttribute('rotation', '0 90 0');
+    // timerEntity.setAttribute('text', 'value: 10; color: black; width: 8; align: center');
 
     var timerControllerEntity = document.createElement('a-entity');
     timerControllerEntity.setAttribute('timer-controller', '');
@@ -218,25 +221,35 @@ function updateFollowerPosition(toFollow) {
     follower.setAttribute('position', followerPosition);
 }
 
+// AFRAME.registerComponent('follow-hand', {
+//     tick: function () {
+//         // Obtenir une référence à l'entité de la caméra
+//         var camera = document.getElementById('camera');
+//         // Obtenir la direction dans laquelle la caméra regarde
+//         var cameraDirection = new THREE.Vector3();
+//         camera.object3D.getWorldDirection(cameraDirection);
+
+//         // Définir la distance à laquelle l'entité suiveuse doit être placée devant la caméra
+//         var distance = -1.5; // Distance désirée
+
+//         // Calculer la position de l'entité suiveuse
+//         var followerPosition = new THREE.Vector3();
+//         followerPosition.copy(camera.object3D.position).addScaledVector(cameraDirection, distance);
+
+//         // Mettre à jour la position de l'entité suiveuse
+//         this.el.object3D.position.copy(followerPosition);
+
+
+//     }
+// });
+
 AFRAME.registerComponent('follow-hand', {
     tick: function () {
-        // Obtenir une référence à l'entité de la caméra
-        var camera = document.getElementById('camera');
-        // Obtenir la direction dans laquelle la caméra regarde
-        var cameraDirection = new THREE.Vector3();
-        camera.object3D.getWorldDirection(cameraDirection);
+        var object = this.el;
+        var rightController = document.getElementById('rightController');
+        var rightControllerPosition = rightController.getAttribute('position');
 
-        // Définir la distance à laquelle l'entité suiveuse doit être placée devant la caméra
-        var distance = -1.5; // Distance désirée
-
-        // Calculer la position de l'entité suiveuse
-        var followerPosition = new THREE.Vector3();
-        followerPosition.copy(camera.object3D.position).addScaledVector(cameraDirection, distance);
-
-        // Mettre à jour la position de l'entité suiveuse
-        this.el.object3D.position.copy(followerPosition);
-
-
+        object.setAttribute('position', rightControllerPosition);
     }
 });
 
@@ -460,6 +473,10 @@ let handlerClickOnGrill = function (ev) {
                         let objCrame = objMain;
                         steakcrame(objCrame);
                         steakcrame(objCrame);
+
+                        // mise a jour du score et affichage
+                        scoreJ = scoreJ - 25;
+                        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
                     }
                 }, 10000);
 
@@ -523,7 +540,7 @@ AFRAME.registerComponent('timer-controller', {
     init: function () {
 
 
-        var timerEntity = document.getElementById('timer');
+        var timerEntity = document.getElementById('hud_timer');
         var bulle = document.getElementById('bulle');
         var commandeEntity = document.getElementById('commande');
         var ingredientsEntity = document.getElementById('ingredients');
@@ -531,11 +548,16 @@ AFRAME.registerComponent('timer-controller', {
         // Initialisez le timer à 100 secondes
         var timerValue = 100;
 
+        // récupère la liste des ingrédients requis pour la recette
+        var ingredients = commandes[commandes.length - 1].ingredients;
+        // Affiche les ingrédients en colonne
+        var ingredientsText = ingredients.join('\n');
+
         // Met à jour le timer chaque seconde
         this.interval = setInterval(function () {
             if (timerValue > 0) {
                 commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length - 1].nom} !`);
-                ingredientsEntity.setAttribute('text', 'value', commandes[commandes.length - 1].ingredients)
+                ingredientsEntity.setAttribute('text', 'value', ingredientsText)
                 timerValue--;
             }
 
@@ -543,12 +565,16 @@ AFRAME.registerComponent('timer-controller', {
             timerEntity.setAttribute('text', 'value', timerValue);
 
             if (timerValue === 0) {
+                //mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 50;
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
                 timerEntity.setAttribute('text', 'color', 'red');
                 timerEntity.setAttribute('text', 'value', '0');
 
-                commandeClient(1)
+                commandeClient(2)
                 clearInterval(this.interval)
             }
         }, 1000);
@@ -571,6 +597,11 @@ function handlerClickOnBell(ev) {
             let assiette = document.querySelectorAll('#inAssiette')
 
             if (validerCommande() == true) {
+                // calcul des points par rapport au niveau de la commande
+                scoreJ += 100*commandes[commandes.length - 1].niveau;
+                //mettre a jour le score et l'afficher
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0x00ffff')
                 for (let ing of assiette) {
@@ -588,11 +619,15 @@ function handlerClickOnBell(ev) {
                 }
 
                 console.log(commandes)
-                commandeClient(1)
+                commandeClient(2)
                 console.log(commandes)
 
             }
             else {
+                //mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 50;
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0xff00')
 
@@ -619,7 +654,7 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
-        commandeClient(1);
+        commandeClient(2);
         let tuto1 = document.querySelector('#tuto_step1')
         tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
 
@@ -678,35 +713,54 @@ function handlerClickOnThon(ev) {
 }
         
 
+// Affichage du score en HUD
+let scoreJoueur = document.querySelector('#hud_scorej');
+scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnFridge);
 
 let start = document.querySelectorAll('#start');
 start.forEach(bouton => {
     bouton.addEventListener('click', handlerClickOnStart);
+    document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnStart);
 });
+
 
 let grill = document.querySelectorAll('.grill_btn');
 grill.forEach(bouton => {
     bouton.addEventListener('click', handlerClicSurBouton);
+    document.querySelector('#rightController').addEventListener('triggerdown', handlerClicSurBouton);
 });
 
 let emptyBtn = document.querySelector('#btn_empty_plate');
 emptyBtn.addEventListener('click', handlerClickOnEmptyBtn);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnEmptyBtn);
 
 let putCompost = document.querySelector('#compost_bin');
 putCompost.addEventListener('click', handlerClickOnCompost);
+putCompost.addEventListener('triggerdown', handlerClickOnCompost);
+
+
 
 let putRecycle = document.querySelector('#recycle_bin');
 putRecycle.addEventListener('click', handlerClickOnRecycle);
+putRecycle.addEventListener('triggerdown', handlerClickOnRecycle);
+
+
 
 let validBell = document.querySelector('#bell_validate');
 validBell.addEventListener('click', handlerClickOnBell);
-
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnBell);
 
 let scene = document.querySelector('a-scene');
 scene.addEventListener('click', handlerClickOnConso);
 scene.addEventListener('click', handlerClickOnThon);
 scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnConso);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnThon);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnAssiette);
+document.querySelector('#rightController').addEventListener('triggerdown', handlerClickOnGrill);
 

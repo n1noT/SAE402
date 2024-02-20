@@ -13,12 +13,20 @@
 
 <body>
   <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
-    cursor="rayOrigin: mouse" stats>
+    cursor="rayOrigin: mouse" stats vr-mode-detector>
 
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
 
-    <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
+    <a-entity id="leftController" vive-controls="hand: left"></a-entity>
+       <a-entity id="rightController" vive-controls="hand: right">
+           <a-entity raycaster="showLine:true;" cursor></a-entity>
+       </a-entity>
+
+    <a-entity id="camera" camera look-controls position="0 1.6 0">
+      <a-text id="hud_scorej" overlay position="0.5 0.35 -0.5" width="1.5" height="1.5"></a-text>
+      <a-text id="hud_timer" overlay position="0 0.25 -0.35" width="1.5" height="1.5"></a-text>
+    </a-entity>
 
     <!-- TUTO -->
 
@@ -42,7 +50,7 @@
 
       <!-- Thon Boite STOCK -->
     <a-entity obj-model="obj: ./assets/models/ingredients/tuna-can.obj; mtl: ./assets/models/ingredients/tuna-can.mtl.bak" position="2.4 1.5 -0.7" rotation="0 180 0"
-    scale="0.3 0.3 0.3"  class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1"></a-entity> 
+    scale="0.3 0.3 0.3"  class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1" ></a-entity> 
 
 
     <!-- Pain STOCK -->
@@ -83,12 +91,12 @@
       scale="1.920 1.1 1"></a-gltf-model>
 
     <!-- PLATEAU ATTENTE -->
-    <a-gltf-model src="./assets/models/kitchen/Plate_Square.glb" position="0.7 0.5 -2.4" rotation="0 90 0"
+    <a-gltf-model src="./assets/models/kitchen/Plate_Square.glb" position="0.75 0.5 -2.5" rotation="0 90 0"
       scale="0.6 0.73 0.5" id="plateau"></a-gltf-model>
 
        <!-- Ouvreur de boite de conserve -->
     <a-entity obj-model="obj: ./assets/models/tools/can-opener.obj"
-    material="src: ./assets/models/tools/can-opener.png" position="1 1 1" rotation="0 0 0"
+    material="src: ./assets/models/tools/can-opener.png" position="0 2.2 -3.5" rotation="0 0 0"
     scale="0.13 0.1 0.1" class="consommable" data-id="can-opener"></a-entity>
 
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
@@ -132,9 +140,17 @@
       material="src: ./assets/models/kitchen/appliance_oven.png" position="-0.5 -0.25 -2.6" rotation="0 0 0"
       scale="0.13 0.1 0.1"></a-entity>
 
+      <!-- plan de travail mathis -->
+      <!-- <a-box class="Cube" position="1.25 0.40 -2.65" rotation="0 0 0" color="#BCBCBC" scale="5 0.1 1.2">
+      </a-box> -->
 
-      <a-box class="Cube" position="1.25 0.40 -2.65" rotation="0 0 0" color="#BCBCBC" scale="5 0.1 1.2">
-      </a-box>
+      <!-- plan de travail robin -->
+      <a-gltf-model id="side_table" src="./assets/models/shelf/SideTable.glb" position="2.4 -1.1 -3.1" scale="4 4.2 5.3"></a-gltf-model>
+
+
+
+
+
       
 
     <!--PLANCHA  -->
@@ -202,6 +218,10 @@
     <!-- Text Compost-->
     <a-text value="Compost" rotation="0 180 0" position="-1.3 0.6 2.8" color="#000" align="center"></a-text>
 
+    <!-- Recipe Board -->
+    <a-entity gltf-model="./assets/models/kitchen/clipboard.glb" rotation="0 90 0" position="0 2.3 3.45" scale="3.5 3.5 3.5"></a-entity>
+    <a-text value="Recette" rotation="0 180 0" position="0 2.4 3.3" color="#000" align="center"></a-text>
+
 
 
     <!-- SOLS -->
@@ -224,6 +244,21 @@
     <a-entity gltf-model="./assets/models/wall/Normal-Wall.glb" rotation="0 270 0" position="1.5 -4.3 0"
       scale="2 1 1"></a-entity>
 
+    <a-entity gltf-model="./assets/models/wall/WallShelves.glb" position="0 -0.9 -1.75" scale="1.7 1 1"></a-entity>
+    <a-entity gltf-model="./assets/models/wall/ShojiWall.glb" rotation="0 180 0" position="0 -0.9 1.7" scale="1.75 1 1"></a-entity>
+    <a-entity gltf-model="./assets/models/wall/ShojiWall.glb" rotation="0 -90 0" position="1.7 -0.9 0" scale="1.75 1 1"></a-entity>
+
+    <a-entity gltf-model="./assets/models/wall/WoodLog.glb" rotation="0 0 90" position="3.85 2.5 -3.325" scale="1.9 1 1"></a-entity>
+    <a-entity gltf-model="./assets/models/wall/WoodLog.glb" rotation="0 0 90" position="3.85 2.5 3.325" scale="1.9 1 1"></a-entity>
+
+    <!-- ROOF -->
+    <a-entity gltf-model="./assets/models/roof/RoofPlanks.glb" position="0 4.5 2" rotation="20 0 0" scale="1.5 1.24 1.25"></a-entity>
+    <a-entity gltf-model="./assets/models/roof/RoofPlanks.glb" position="0 4.5 -2" rotation="-20 0 0" scale="1.5 1.24 1.25"></a-entity>
+    <a-entity gltf-model="./assets/models/roof/Pergola.glb" position="-5.3 4.2 .65" scale=".9 1.24 1.25"></a-entity>
+
+
+    <!-- BACKGROUND -->
+    <a-entity gltf-model="./assets/background/MarketStalls.glb" position="-13 -1 1" scale="10 10 10"></a-entity>
 
     <!-- CIEL -->
     <a-sky color="#87CEEB"></a-sky>
