@@ -153,16 +153,15 @@ let validerCommande = function () {
     }
 }
 
-
-let diminuerScore = function() {
+// Perte de point lorsque la porte du frigo est ouverte
+let lowerFridgeScore = function() {
     let porte = document.querySelector('#fridge-door');
     if (porte.dataset.etat == 'ouvert') {
         scoreJ -= 1;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
     }
 }
-
-var intervalID = setInterval(diminuerScore, 1000);
+var intervalID = setInterval(lowerFridgeScore, 1000);
 
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
@@ -251,6 +250,19 @@ AFRAME.registerComponent('follow-hand', {
 
     }
 });
+
+
+// Perte de point lorsque la plaque est allumé
+let lowerGrillScore = function() {
+    let grill = document.querySelectorAll('.grill_btn');
+    for(let btn of grill){
+        if (btn.dataset.etat == 'on') {
+            scoreJ -= 1;
+            scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+        }
+    }
+}
+var intervalID = setInterval(lowerGrillScore, 1000);
 
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
