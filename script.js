@@ -66,7 +66,7 @@ let commandeEntity = function () {
     commandeEntity.setAttribute('id', 'commande');
     commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
     commandeEntity.setAttribute('rotation', '0 90 0');
-    commandeEntity.setAttribute('text', 'value: un burger et plus vite que ca !; color: black; width: 5; align: center');
+    commandeEntity.setAttribute('text', 'value: Bonjour !; color: black; width: 5; align: center');
 
     var valideEntity = document.createElement('a-entity');
     valideEntity.setAttribute('id', 'valide');
@@ -551,13 +551,13 @@ AFRAME.registerComponent('timer-controller', {
     init: function () {
 
 
-        var timerEntity = document.getElementById('hud_timer');
+        var timerEntity = document.getElementById('timer');
         var bulle = document.getElementById('bulle');
         var commandeEntity = document.getElementById('commande');
         var ingredientsEntity = document.getElementById('ingredients');
 
         // Initialisez le timer à 60 secondes
-        var timerValue = 15;
+        var timerValue = 60;
 
         // récupère la liste des ingrédients requis pour la recette
         var ingredients = commandes[commandes.length - 1].ingredients;
@@ -741,7 +741,7 @@ function handlerClickOnThon(ev) {
         
 
 // Affichage du score en HUD
-let scoreJoueur = document.querySelector('#hud_scorej');
+let scoreJoueur = document.querySelector('#scorej');
 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
 let fridge = document.querySelector('#fridge-door');
