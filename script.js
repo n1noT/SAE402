@@ -154,6 +154,16 @@ let validerCommande = function () {
 }
 
 
+let diminuerScore = function() {
+    let porte = document.querySelector('#fridge-door');
+    if (porte.dataset.etat == 'ouvert') {
+        scoreJ -= 1;
+        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+    }
+}
+
+var intervalID = setInterval(diminuerScore, 1000);
+
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
@@ -186,7 +196,6 @@ let handlerClickOnFridge = function (ev) {
             }
         }
         if (porte.dataset.etat == 'ouvert') {
-
             porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
