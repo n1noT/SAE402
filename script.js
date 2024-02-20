@@ -51,9 +51,9 @@ let scoreJ = 0;
 let commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
     bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
-    bulle.setAttribute('position', '-5.5 4 0');
+    bulle.setAttribute('position', '-5.5 3.34 0');
     bulle.setAttribute('rotation', '0 90 0');
-    bulle.setAttribute('scale', '2 2 1');
+    bulle.setAttribute('scale', '2 1 1');
     bulle.id = 'bulle';
 
     var character = document.createElement('a-gltf-model');
@@ -64,7 +64,7 @@ let commandeEntity = function () {
 
     var commandeEntity = document.createElement('a-entity');
     commandeEntity.setAttribute('id', 'commande');
-    commandeEntity.setAttribute('position', '-5.2 4.6 1.1');
+    commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
     commandeEntity.setAttribute('rotation', '0 90 0');
     commandeEntity.setAttribute('text', 'value: un burger et plus vite que ca !; color: black; width: 5; align: center');
 
@@ -82,9 +82,9 @@ let commandeEntity = function () {
 
     var timerEntity = document.createElement('a-entity');
     timerEntity.setAttribute('id', 'timer');
-    timerEntity.setAttribute('position', '-5.2 3.9 1.1');
-    timerEntity.setAttribute('rotation', '0 90 0');
-    timerEntity.setAttribute('text', 'value: 10; color: black; width: 8; align: center');
+    // timerEntity.setAttribute('position', '-5.2 3.9 1.1');
+    // timerEntity.setAttribute('rotation', '0 90 0');
+    // timerEntity.setAttribute('text', 'value: 10; color: black; width: 8; align: center');
 
     var timerControllerEntity = document.createElement('a-entity');
     timerControllerEntity.setAttribute('timer-controller', '');
@@ -530,7 +530,7 @@ AFRAME.registerComponent('timer-controller', {
     init: function () {
 
 
-        var timerEntity = document.getElementById('timer');
+        var timerEntity = document.getElementById('hud_timer');
         var bulle = document.getElementById('bulle');
         var commandeEntity = document.getElementById('commande');
         var ingredientsEntity = document.getElementById('ingredients');
@@ -703,7 +703,7 @@ function handlerClickOnThon(ev) {
         
 
 // Affichage du score en HUD
-let scoreJoueur = document.querySelector('#hud');
+let scoreJoueur = document.querySelector('#hud_scorej');
 scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
 
 let fridge = document.querySelector('#fridge-door');
