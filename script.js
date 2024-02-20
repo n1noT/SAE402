@@ -547,6 +547,19 @@ function handlerClickOnEmptyBtn(ev) {
     }
 }
 
+
+let starsLeft = 3;
+
+function loseStar() {
+  if (starsLeft > 0) {
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    starsLeft--;
+  }
+}
+
+
+
 AFRAME.registerComponent('timer-controller', {
     init: function () {
 
@@ -584,9 +597,17 @@ AFRAME.registerComponent('timer-controller', {
             // si le timer arrive a 0
             if (timerValue === 0) {
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
+
+                loseStar();
                 // mettre a jour le score et l'afficher
-                scoreJ = scoreJ - 50;
+                scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
+                
+
+                // TODO difficulté en fonction du score !
+
+
 
                 // génere la prochaine commande
                 commandeClient(2)
@@ -597,7 +618,6 @@ AFRAME.registerComponent('timer-controller', {
         }, 1000);
     },
 
-    // Assurez-vous de nettoyer l'intervalle lors de la suppression du composant
     remove: function () {
         clearInterval(this.interval);
     },
@@ -620,7 +640,6 @@ function handlerClickOnBell(ev) {
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
-                // commandeEntity.setAttribute('text', 'color', '0x00ffff')
                 for (let ing of assiette) {
                     ing.remove()
                 }
@@ -629,24 +648,23 @@ function handlerClickOnBell(ev) {
                     assiettes[0].pop();
                 }
 
-                console.log(commandes)
 
                 while (commandes.length > 0) {
                     commandes.pop()
                 }
 
-                console.log(commandes)
                 commandeClient(2)
-                console.log(commandes)
+
 
             }
             else {
-                //mettre a jour le score et l'afficher
-                scoreJ = scoreJ - 50;
+                // Perte d'une étoile
+                loseStar()
+                // mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
-                // commandeEntity.setAttribute('text', 'color', '0xff00')
 
                 for (let ing of assiette) {
                     ing.remove()
@@ -656,13 +674,10 @@ function handlerClickOnBell(ev) {
                     assiettes[0].pop();
                 }
 
-
-                console.log(commandes)
-
                 commandes.pop()
-                console.log(commandes[0])
+
                 commandeClient(1)
-                console.log(commandes)
+
             }
 
         }
@@ -671,7 +686,7 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
-        commandeClient(2);
+        commandeClient(1);
         let tuto1 = document.querySelector('#tuto_step1')
         tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
 
