@@ -1,3 +1,5 @@
+// mettre dans un objet avec getter et setter
+
 // Tableau des commandes faites par les clients
 let commandes = [];
 
@@ -257,7 +259,6 @@ AFRAME.registerComponent('follow-hand', {
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
     let tutoGrill = document.querySelector('#tuto_stepGrill');
-    console.log(bouton)
 
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
@@ -313,14 +314,13 @@ let handlerClickOnConso = function (ev) {
 
             // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
             if (main.length == 1) {
-                console.log("stop")
                 return
             }
 
 
         }
 
-        console.log("non-stop")
+        
 
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
@@ -336,8 +336,7 @@ let handlerClickOnConso = function (ev) {
 
                 main.push(ev.target.dataset.id)
             }
-            console.log('main')
-            console.log(main)
+            
             // Arrête le script sinon la suite annulera cette action
             return
         }
@@ -351,8 +350,7 @@ let handlerClickOnConso = function (ev) {
                     main.shift()
                 }
             }
-            console.log('main')
-            console.log(main)
+            
             return
         }
 
@@ -377,12 +375,11 @@ let handlerClickOnAssiette = function (ev) {
 
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-                console.log(assiettes[0].length)
                 let yObj = 1
                 for (let i = 0; i < assiettes[0].length; i++) {
                     yObj += 0.05
                 }
-                console.log(yObj)
+               
 
                 let posAssiette = ev.target.getAttribute('position')
 
@@ -396,12 +393,9 @@ let handlerClickOnAssiette = function (ev) {
                 objMain.id = 'inAssiette'
 
                 assiettes[0].push(objMain.dataset.id)
-                console.log(assiettes[0])
+                
                 main.shift()
             }
-
-            console.log('clic sur assiette VIDE')
-            console.log(assiettes[0])
 
             return
         }
@@ -440,7 +434,7 @@ let handlerClickOnGrill = function (ev) {
                 for (let i = 0; i < plaques[0].length; i++) {
                     yObj += 0;
                 }
-                console.log(yObj);
+               
 
                 let posGrill = ev.target.getAttribute('position');
 
@@ -481,13 +475,11 @@ let handlerClickOnGrill = function (ev) {
                 }, 10000);
 
                 plaques[0].push(objMain.dataset.id);
-                console.log(plaques[0]);
+                
 
                 main.shift();
             }
-            console.log(objMain.dataset.id)
-            console.log('clic sur plaque VIDE');
-            console.log(plaques[0]);
+            
             return;
         }
     }
@@ -612,15 +604,11 @@ function handlerClickOnBell(ev) {
                     assiettes[0].pop();
                 }
 
-                console.log(commandes)
-
                 while (commandes.length > 0) {
                     commandes.pop()
                 }
 
-                console.log(commandes)
                 commandeClient(2)
-                console.log(commandes)
 
             }
             else {
@@ -639,13 +627,9 @@ function handlerClickOnBell(ev) {
                     assiettes[0].pop();
                 }
 
-
-                console.log(commandes)
-
                 commandes.pop()
-                console.log(commandes[0])
                 commandeClient(1)
-                console.log(commandes)
+               
             }
 
         }
@@ -673,7 +657,7 @@ function handlerClickOnCompost() {
     if (hand.dataset.tri == "compost") {
         hand.remove();
         main.pop();
-        console.log(main)
+       
     }
 }
 
@@ -682,7 +666,7 @@ function handlerClickOnRecycle() {
     if (hand.dataset.tri == "recycle") {
         hand.remove();
         main.pop();
-        console.log(main)
+       
     }
 }
 
@@ -692,7 +676,7 @@ function handlerClickOnThon(ev) {
             if (ev.target.dataset.state == 1) {
                 
                 ev.target.dataset.state = 0
-                console.log(ev.target.dataset.state)
+                
 
                 var thon = document.createElement('a-entity');
                 thon.setAttribute('obj-model', 'obj: ./assets/models/ingredients/base.obj;');
