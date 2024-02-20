@@ -43,6 +43,11 @@ let assiettes = [[], [], []];
 let plaques = [[], [], [], []]
 
 // Tableau contenant la contenance du plateau
+let plateau = [];
+
+let containerThon = [];
+
+let containerOB = [];
 
 
 // Tableau contenant les objet dans la main
@@ -467,18 +472,19 @@ let handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-                
+
                 if (tutoGrill.dataset.etat == 'actif') {
                     tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
                 }
                 setTimeout(function () {
                     if (objMain.id === 'inGrill') {
-                    if (tutoGrill.dataset.etat == 'actif') {
-                        tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                        if (tutoGrill.dataset.etat == 'actif') {
+                            tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                        }
+                        let objCuit = objMain;
+                        steakcuit(objCuit);
                     }
-                    let objCuit = objMain;
-                    steakcuit(objCuit);
-                }}, 5000);
+                }, 5000);
 
 
                 setTimeout(function () {
@@ -507,7 +513,7 @@ let handlerClickOnGrill = function (ev) {
     }
 };
 
-let plateau = [];
+
 
 let handlerClickOnPlate = function (ev) {
     // Récupérer l'élément plateau
@@ -557,15 +563,30 @@ let handlerClickOnPlate = function (ev) {
             }
 
         }
-    }
 
-    console.log('clic sur plaque VIDE');
+    } else {
+        // Si l'élément cliqué n'est pas sur le plateau, vérifier s'il s'agit d'un objet sur le plateau à enlever
+        let objInPlate = document.querySelector('#inPlate');
+        if (objInPlate && ev.target.id == 'inPlate') {
+            // Retirer l'objet du plateau
+            let index = plateau.indexOf(objInPlate.dataset.id);
+            if (index > -1) {
+                plateau.splice(index, 1);
+                console.log(plateau);
+                // Réinitialiser l'ID et d'autres attributs de l'objet enlevé du plateau
+                objInPlate.removeAttribute('id');
+                // Réinsérer l'objet dans le tableau main ou effectuer toute autre action nécessaire
+                // main.push(objInPlate); // Cela dépend de la logique de votre application
+            }
+        }
+        console.log(plateau)
+
+    }
 };
 
-let containerOB = [];
 
 let handlerClickOnContainerOB = function (ev) {
-        
+
 
     if (ev.target.className == 'containerO-B' || ev.target.id == 'inContainer') {
         if (main.length < 1) {
@@ -588,7 +609,7 @@ let handlerClickOnContainerOB = function (ev) {
                 objMain.id = 'inContainer'
 
                 containerOB.push(objMain.dataset.id)
-          
+
                 main.shift()
             }
 
@@ -599,15 +620,11 @@ let handlerClickOnContainerOB = function (ev) {
     }
 }
 
-let containerThon = [];
 
 let handlerClickOnContainerThon = function (ev) {
-    
-    let container = document.querySelector(".containerThon")
-    
-    console.log(container)
 
-    console.log(ev.target.className)
+    let container = document.querySelector(".containerThon")
+
     if (ev.target.className == 'containerThon' || ev.target.id == 'inContainer') {
         if (main.length < 1) {
             return
@@ -618,10 +635,10 @@ let handlerClickOnContainerThon = function (ev) {
 
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-       
+
                 let posPlate = container.getAttribute('position');
 
-                let rotPlate = container.getAttribute('rotation');
+
 
 
                 console.log(posPlate)
@@ -631,20 +648,16 @@ let handlerClickOnContainerThon = function (ev) {
                     z: -2.7
                 };
 
-                let rotObj = {
-                    x: -90,
-                    y: 0,
-                    z: 0
-                };
 
 
-                
+
+
                 objMain.setAttribute('position', posObj);
-                objMain.setAttribute('rotation', rotObj);
+
                 objMain.id = 'inContainer'
 
                 containerThon.push(objMain.dataset.id)
-          
+
                 main.shift()
             }
 
@@ -868,7 +881,7 @@ function handlerClickOnThon(ev) {
 
                 var thon = document.createElement('a-entity');
                 thon.setAttribute('obj-model', 'obj: ./assets/models/ingredients/base.obj;');
-                thon.setAttribute('position', ev.target.getAttribute('position'));
+                thon.setAttribute('position', "2 0.5 -2.25");
                 thon.setAttribute('rotation', '0 180 0');
                 thon.setAttribute('scale', '1 1 1');
                 thon.setAttribute('material', 'color: #FFECE4;');
