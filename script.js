@@ -76,9 +76,9 @@ let commandeEntity = function () {
 
     var ingredientsEntity = document.createElement('a-entity');
     ingredientsEntity.setAttribute('id', 'ingredients');
-    ingredientsEntity.setAttribute('position', '-5.2 4.2 1.1');
-    ingredientsEntity.setAttribute('rotation', '0 90 0');
-    ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 5; align: center');
+    ingredientsEntity.setAttribute('position', '0 1.9 3.3');
+    ingredientsEntity.setAttribute('rotation', '0 180 0');
+    ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 4; align: center');
 
     var timerEntity = document.createElement('a-entity');
     timerEntity.setAttribute('id', 'timer');
@@ -538,11 +538,16 @@ AFRAME.registerComponent('timer-controller', {
         // Initialisez le timer à 100 secondes
         var timerValue = 100;
 
+        // récupère la liste des ingrédients requis pour la recette
+        var ingredients = commandes[commandes.length - 1].ingredients;
+        // Affiche les ingrédients en colonne
+        var ingredientsText = ingredients.join('\n');
+
         // Met à jour le timer chaque seconde
         this.interval = setInterval(function () {
             if (timerValue > 0) {
                 commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length - 1].nom} !`);
-                ingredientsEntity.setAttribute('text', 'value', commandes[commandes.length - 1].ingredients)
+                ingredientsEntity.setAttribute('text', 'value', ingredientsText)
                 timerValue--;
             }
 
