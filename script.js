@@ -621,14 +621,26 @@ let handlerClickOnContainerThon = function (ev) {
        
                 let posPlate = container.getAttribute('position');
 
+                let rotPlate = container.getAttribute('rotation');
+
+
                 console.log(posPlate)
                 let posObj = {
-                    x: posPlate.x ,
-                    y: posPlate.y ,
-                    z: posPlate.z
+                    x: 1.9,
+                    y: 0.55,
+                    z: -2.7
                 };
+
+                let rotObj = {
+                    x: -90,
+                    y: 0,
+                    z: 0
+                };
+
+
                 
                 objMain.setAttribute('position', posObj);
+                objMain.setAttribute('rotation', rotObj);
                 objMain.id = 'inContainer'
 
                 containerThon.push(objMain.dataset.id)
