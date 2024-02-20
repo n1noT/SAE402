@@ -467,18 +467,18 @@ let handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-
+                
                 if (tutoGrill.dataset.etat == 'actif') {
                     tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
                 }
                 setTimeout(function () {
-
+                    if (objMain.id === 'inGrill') {
                     if (tutoGrill.dataset.etat == 'actif') {
                         tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
                     }
                     let objCuit = objMain;
                     steakcuit(objCuit);
-                }, 5000);
+                }}, 5000);
 
 
                 setTimeout(function () {
@@ -562,7 +562,86 @@ let handlerClickOnPlate = function (ev) {
     console.log('clic sur plaque VIDE');
 };
 
+let containerOB = [];
 
+let handlerClickOnContainerOB = function (ev) {
+        
+
+    if (ev.target.className == 'containerO-B' || ev.target.id == 'inContainer') {
+        if (main.length < 1) {
+            return
+        }
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let posObj = {
+                    x: 0,
+                    y: 2.2,
+                    z: -3.5
+                }
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inContainer'
+
+                containerOB.push(objMain.dataset.id)
+          
+                main.shift()
+            }
+
+            console.log('clic sur assiette VIDE')
+
+            return
+        }
+    }
+}
+
+let containerThon = [];
+
+let handlerClickOnContainerThon = function (ev) {
+    
+    let container = document.querySelector(".containerThon")
+    
+    console.log(container)
+
+    console.log(ev.target.className)
+    if (ev.target.className == 'containerThon' || ev.target.id == 'inContainer') {
+        if (main.length < 1) {
+            return
+        }
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+       
+                let posPlate = container.getAttribute('position');
+
+                console.log(posPlate)
+                let posObj = {
+                    x: posPlate.x ,
+                    y: posPlate.y ,
+                    z: posPlate.z
+                };
+                
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inContainer'
+
+                containerThon.push(objMain.dataset.id)
+          
+                main.shift()
+            }
+
+            console.log('clic sur assiette VIDE')
+
+            return
+        }
+    }
+}
 
 function handlerClickOnEmptyBtn(ev) {
     if (ev.target.id == 'btn_empty_plate') {
@@ -830,5 +909,8 @@ scene.addEventListener('click', handlerClickOnThon);
 scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
 scene.addEventListener('click', handlerClickOnPlate);
+scene.addEventListener('click', handlerClickOnContainerOB);
+scene.addEventListener('click', handlerClickOnContainerThon);
+
 
 
