@@ -15,12 +15,12 @@ let dataRecette = [
     },
     {
         nom: 'cheese burger', niveau: 2, ingredients: [
-            'pain', 'fromage', 'steak', 'pain'
+            'pain', 'fromage', 'steak cuit', 'pain'
         ]
     },
     {
         nom: 'double burger', niveau: 2, ingredients: [
-            'pain', 'steak', 'pain', 'steak', 'pain'
+            'pain', 'steak cuit', 'pain', 'steak cuit', 'pain'
         ]
     },
     {
@@ -466,7 +466,7 @@ let handlerClickOnGrill = function (ev) {
 
                         // mise a jour du score et affichage
                         scoreJ = scoreJ - 25;
-                        scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+                        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
                     }
                 }, 10000);
 
@@ -557,14 +557,14 @@ AFRAME.registerComponent('timer-controller', {
             if (timerValue === 0) {
                 //mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 50;
-                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
                 timerEntity.setAttribute('text', 'color', 'red');
                 timerEntity.setAttribute('text', 'value', '0');
 
-                commandeClient(1)
+                commandeClient(2)
                 clearInterval(this.interval)
             }
         }, 1000);
@@ -587,9 +587,10 @@ function handlerClickOnBell(ev) {
             let assiette = document.querySelectorAll('#inAssiette')
 
             if (validerCommande() == true) {
+                // calcul des points par rapport au niveau de la commande
+                scoreJ += 100*commandes[commandes.length - 1].niveau;
                 //mettre a jour le score et l'afficher
-                scoreJ = scoreJ + 100;
-                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0x00ffff')
@@ -608,14 +609,14 @@ function handlerClickOnBell(ev) {
                 }
 
                 console.log(commandes)
-                commandeClient(1)
+                commandeClient(2)
                 console.log(commandes)
 
             }
             else {
                 //mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 50;
-                scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
                 // commandeEntity.setAttribute('text', 'color', '0xff00')
@@ -643,7 +644,7 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
-        commandeClient(1);
+        commandeClient(2);
         let tuto1 = document.querySelector('#tuto_step1')
         tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
 
@@ -704,7 +705,7 @@ function handlerClickOnThon(ev) {
 
 // Affichage du score en HUD
 let scoreJoueur = document.querySelector('#hud_scorej');
-scoreJoueur.setAttribute('text', 'value', `${scoreJ}`);
+scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', handlerClickOnFridge);
