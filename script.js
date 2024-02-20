@@ -663,7 +663,12 @@ function handlerClickOnCompost() {
     if (hand.dataset.tri == "compost") {
         hand.remove();
         main.pop();
-        console.log(main)
+    }
+    else if(hand.dataset.tri == "recycle"){
+        scoreJ = scoreJ - 50;
+        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+        hand.remove();
+        main.pop();
     }
 }
 
@@ -672,7 +677,12 @@ function handlerClickOnRecycle() {
     if (hand.dataset.tri == "recycle") {
         hand.remove();
         main.pop();
-        console.log(main)
+    }
+    else if(hand.dataset.tri == "compost"){
+        scoreJ = scoreJ - 50;
+        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+        hand.remove();
+        main.pop();
     }
 }
 
