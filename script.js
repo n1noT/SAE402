@@ -40,7 +40,14 @@ let dataRecette = [
 let assiettes = [[], [], []];
 
 // Tableau contenant les 4 contenances des plaques de cuisson
-let plaques = [[], [], [], []]
+let plaques = [[], [], [], []];
+
+// Tableau contenant la contenance du plateau
+let plateau = [];
+
+let containerThon = [];
+
+let containerOB = [];
 
 // Tableau contenant les objet dans la main
 let main = [];
@@ -469,12 +476,13 @@ let handlerClickOnGrill = function (ev) {
                     tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
                 }
                 setTimeout(function () {
-
-                    if (tutoGrill.dataset.etat == 'actif') {
-                        tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                    if (objMain.id === 'inGrill') {
+                        if (tutoGrill.dataset.etat == 'actif') {
+                            tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
+                        }
+                        let objCuit = objMain;
+                        steakcuit(objCuit);
                     }
-                    let objCuit = objMain;
-                    steakcuit(objCuit);
                 }, 5000);
 
 
@@ -503,6 +511,161 @@ let handlerClickOnGrill = function (ev) {
         }
     }
 };
+
+
+let handlerClickOnPlate = function (ev) {
+    // Récupérer l'élément plateau
+    let plate = document.querySelector('.plateau');
+
+    if (ev.target.className == 'plateau' || ev.target.id == 'inPlate') {
+        // Vérifier si la main n'est pas vide
+        if (main.length < 1) {
+            return;
+        }
+        if (plateau.length < 2) {
+            let objMain = document.querySelector('#handed');
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+
+
+                // Vérifier si un steak est déjà sur le plateau
+                if (plateau.length > 0) {
+                    // Si un steak est déjà présent, décaler le nouveau steak à droite du dernier steak sur le plateau
+                    let lastSteakPosition = plate.getAttribute('position');
+                    console.log(lastSteakPosition);
+                    let posObj = {
+                        x: lastSteakPosition.x + 0.2, // décaler le nouveau steak de 0.1 vers la droite
+                        y: lastSteakPosition.y + 0.02,
+                        z: lastSteakPosition.z
+                    };
+                    objMain.setAttribute('position', posObj);
+                } else {
+                    // Si aucun steak n'est présent sur le plateau, placer le nouveau steak à la position par défaut du plateau
+                    let posPlate = plate.getAttribute('position');
+                    let posObj = {
+                        x: posPlate.x - 0.15,
+                        y: posPlate.y + 0.02,
+                        z: posPlate.z
+                    };
+                    objMain.setAttribute('position', posObj);
+                }
+
+                // Ajouter l'ID de l'objet principal dans le tableau plateau
+                plateau.push(objMain.dataset.id);
+                console.log(plateau);
+
+                objMain.id = 'inPlate';
+                main.shift();
+                return
+            }
+
+        }
+
+    } else {
+        // Si l'élément cliqué n'est pas sur le plateau, vérifier s'il s'agit d'un objet sur le plateau à enlever
+        let objInPlate = document.querySelector('#inPlate');
+        if (objInPlate && ev.target.id == 'inPlate') {
+            // Retirer l'objet du plateau
+            let index = plateau.indexOf(objInPlate.dataset.id);
+            if (index > -1) {
+                plateau.splice(index, 1);
+                console.log(plateau);
+                // Réinitialiser l'ID et d'autres attributs de l'objet enlevé du plateau
+                objInPlate.removeAttribute('id');
+                // Réinsérer l'objet dans le tableau main ou effectuer toute autre action nécessaire
+                // main.push(objInPlate); // Cela dépend de la logique de votre application
+            }
+        }
+        console.log(plateau)
+
+    }
+};
+
+
+let handlerClickOnContainerOB = function (ev) {
+
+
+    if (ev.target.className == 'containerO-B' || ev.target.id == 'inContainer') {
+        if (main.length < 1) {
+            return
+        }
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let posObj = {
+                    x: 0,
+                    y: 2.2,
+                    z: -3.5
+                }
+
+                objMain.setAttribute('position', posObj);
+                objMain.id = 'inContainer'
+
+                containerOB.push(objMain.dataset.id)
+
+                main.shift()
+            }
+
+            console.log('clic sur assiette VIDE')
+
+            return
+        }
+    }
+}
+
+
+let handlerClickOnContainerThon = function (ev) {
+
+    let container = document.querySelector(".containerThon")
+
+    if (ev.target.className == 'containerThon' || ev.target.id == 'inContainer') {
+        if (main.length < 1) {
+            return
+        }
+
+        if (main.length == 1) {
+            let objMain = document.querySelector('#handed')
+
+            if (objMain.hasAttribute('follow-hand')) {
+                objMain.removeAttribute('follow-hand');
+
+                let posPlate = container.getAttribute('position');
+
+
+
+
+                console.log(posPlate)
+                let posObj = {
+                    x: 1.9,
+                    y: 0.55,
+                    z: -2.7
+                };
+
+
+
+
+
+                objMain.setAttribute('position', posObj);
+
+                objMain.id = 'inContainer'
+
+                containerThon.push(objMain.dataset.id)
+
+                main.shift()
+            }
+
+            console.log('clic sur assiette VIDE')
+
+            return
+        }
+    }
+}
+
 
 function handlerClickOnEmptyBtn(ev) {
     if (ev.target.id == 'btn_empty_plate') {
@@ -811,4 +974,7 @@ scene.addEventListener('click', handlerClickOnConso);
 scene.addEventListener('click', handlerClickOnThon);
 scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
+scene.addEventListener('click', handlerClickOnPlate);
+scene.addEventListener('click', handlerClickOnContainerOB);
+scene.addEventListener('click', handlerClickOnContainerThon);
 
