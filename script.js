@@ -756,7 +756,6 @@ AFRAME.registerComponent('timer-controller', {
             // si le timer arrive a 0
             if (timerValue === 0) {
 
-                loseStar();
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
@@ -768,11 +767,13 @@ AFRAME.registerComponent('timer-controller', {
 
 
 
-                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !')
+                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !');
 
-                setTimeout(function() {  
+                setTimeout(function() {
                     commandeClient(2)
+                    loseStar();
                 }, 1000);
+
 
                 clearInterval(this.interval)
             }
@@ -845,10 +846,11 @@ function handlerClickOnBell(ev) {
 
                 setTimeout(function() {  
                     commandeClient(2)
+                    // Perte d'une étoile
+                    loseStar()
                 }, 1000);
+
                 
-                // Perte d'une étoile
-                loseStar()
 
                 return
             }
@@ -945,7 +947,6 @@ function loseStar() {
     const starElement = document.getElementById(`star${starsLeft}`);
     starElement.setAttribute('material', 'color', '#808080');
     starsLeft--;
-    console.log(starsLeft);
   }
   else if (starsLeft == 1){
     const starElement = document.getElementById(`star${starsLeft}`);
