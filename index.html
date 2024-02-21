@@ -18,7 +18,7 @@
     <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
 
 
-    <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
+    <a-camera id="camera" camera look-controls rotation="45 20 0" position="0 1.6 0"></a-camera>
 
     <a-text id="timer" rotation="0 60 0" position="-2.65 1.2 -2.3" scale="1 1 1" color="#FFF" align="center"></a-text>
     <a-text id="scorej" rotation="0 90 0" position="-3 4.1 0" color="#FFF" align="center"></a-text>
@@ -265,9 +265,9 @@
     <a-box position="-2.71 1.2 -2.34" rotation="0 -210 0" color="#111111" scale="0 .28 .7"></a-box>
 
     <!-- RATE -->
-    <a-entity id="star1" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
-    <a-entity id="star2" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
-    <a-entity id="star3" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 -0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+    <a-entity id="star1" class="stars" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+    <a-entity id="star2" class="stars" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+    <a-entity id="star3" class="stars" obj-model="obj: ./assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 -0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
 
 
 

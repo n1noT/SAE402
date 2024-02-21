@@ -68,6 +68,7 @@ let commandeEntity = function () {
     character.setAttribute('position', '-5.7 -1 0');
     character.setAttribute('rotation', '0 90 0');
     character.setAttribute('scale', '2 2 2');
+    character.setAttribute('id', 'character');
 
     var commandeEntity = document.createElement('a-entity');
     commandeEntity.setAttribute('id', 'commande');
@@ -728,8 +729,11 @@ function loseStar() {
 }
 
 let resetGame = function(){
-    scoreJ = 0;
-    scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+
+    let objMain = document.querySelector('#handed');
+    let character = document.querySelector('#character');
+    character.remove();
+
     // Vide le tableau des ingrédients dans assiette
     while (assiettes[0].length > 0) {
         assiettes[0].pop();
@@ -737,7 +741,33 @@ let resetGame = function(){
     // vider la main
     while (main.length > 0) {
         main.pop();
+        objMain.remove();
     };
+
+    let scene =  document.querySelector("a-scene");
+
+    var box = document.createElement("a-box");
+    box.setAttribute("rotation", "0 90 0");
+    box.setAttribute("position", "-1.5 2 0");
+    box.setAttribute("scale", "0.8 0.3 0.1");
+    box.setAttribute("color", "#00FF00");
+    box.setAttribute("id", "start");
+    scene.appendChild(box);
+    
+    // Création du texte
+    var text = document.createElement("a-text");
+    text.setAttribute("value", "LANCER LE JEU");
+    text.setAttribute("rotation", "0 90 0");
+    text.setAttribute("position", "-1.4 2 0.325");
+    text.setAttribute("scale", "0.4 0.4 0.4");
+    text.setAttribute("color", "#000000");
+    text.setAttribute("id", "start");
+    scene.appendChild(text);
+
+    let start = document.querySelectorAll('#start');
+    start.forEach(bouton => {
+    bouton.addEventListener('click', handlerClickOnStart);
+});
 }
 
 
@@ -870,7 +900,17 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
+        // définir le score a 0
+        scoreJ = 0;
+        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+        // redonner toutes les étoiles
+        let starsElement = document.querySelectorAll('.stars');
+        for(let star of starsElement){
+            star.setAttribute('material', 'color', '#FFFB00');
+        }
+        //générer une commande de niveau 1
         commandeClient(1);
+
         let tuto1 = document.querySelector('#tuto_step1')
         tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
 
