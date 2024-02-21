@@ -723,7 +723,7 @@ AFRAME.registerComponent('timer-controller', {
         var ingredientsEntity = document.getElementById('ingredients');
 
         // Initialisez le timer à 60 secondes
-        var timerValue = 60;
+        var timerValue = 10;
 
         // récupère la liste des ingrédients requis pour la recette
         var ingredients = commandes[commandes.length - 1].ingredients;
@@ -732,6 +732,12 @@ AFRAME.registerComponent('timer-controller', {
 
         // Met à jour le timer chaque seconde
         this.interval = setInterval(function () {
+            // Vérifie si le timer est déjà à zéro
+            if (timerValue < 0) {
+                clearInterval(this.interval); // Arrête le timer
+                return; // Sort de la fonction setInterval
+            }
+
             // Met à jour le texte du timer
             timerEntity.setAttribute('text', 'value', timerValue);
             ingredientsEntity.setAttribute('text', 'value', ingredientsText)
@@ -743,32 +749,37 @@ AFRAME.registerComponent('timer-controller', {
             }
 
             // si le timer passe en dessous de 10
-            if (timerValue < 10){
+            if (timerValue < 10) {
                 timerEntity.setAttribute('text', 'color', 'red');
             }
-            
+
             // si le timer arrive a 0
             if (timerValue === 0) {
-                commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
                 loseStar();
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
-                
+
 
                 // TODO difficulté en fonction du score !
 
 
 
-                // génere la prochaine commande
-                commandeClient(2)
+
+                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !')
+
+                setTimeout(function() {  
+                    commandeClient(2)
+                }, 1000);
+
                 clearInterval(this.interval)
             }
 
             timerValue--;
         }, 1000);
+
     },
 
     remove: function () {
@@ -820,8 +831,6 @@ function handlerClickOnBell(ev) {
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
                 
-                commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
-                
                 for (let ing of assiette) {
                     ing.remove()
                 }
@@ -832,7 +841,11 @@ function handlerClickOnBell(ev) {
                 
                 commandes.pop()
                 
-                commandeClient(1)
+                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !')
+
+                setTimeout(function() {  
+                    commandeClient(2)
+                }, 1000);
                 
                 // Perte d'une étoile
                 loseStar()
