@@ -40,7 +40,7 @@ let dataRecette = [
 let assiettes = [[], [], []];
 
 // Tableau contenant les 4 contenances des plaques de cuisson
-let plaques = [[], [], [], []]
+let plaques = [[], [], [], []];
 
 // Tableau contenant la contenance du plateau
 let plateau = [];
@@ -48,7 +48,6 @@ let plateau = [];
 let containerThon = [];
 
 let containerOB = [];
-
 
 // Tableau contenant les objet dans la main
 let main = [];
@@ -74,7 +73,7 @@ let commandeEntity = function () {
     commandeEntity.setAttribute('id', 'commande');
     commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
     commandeEntity.setAttribute('rotation', '0 90 0');
-    commandeEntity.setAttribute('text', 'value: un burger et plus vite que ca !; color: black; width: 5; align: center');
+    commandeEntity.setAttribute('text', 'value: Bonjour !; color: black; width: 5; align: center');
 
     var valideEntity = document.createElement('a-entity');
     valideEntity.setAttribute('id', 'valide');
@@ -162,7 +161,7 @@ let validerCommande = function () {
 }
 
 // Perte de point lorsque la porte du frigo est ouverte
-let lowerFridgeScore = function () {
+let lowerFridgeScore = function() {
     let porte = document.querySelector('#fridge-door');
     if (porte.dataset.etat == 'ouvert') {
         scoreJ -= 1;
@@ -174,42 +173,24 @@ var intervalID = setInterval(lowerFridgeScore, 1000);
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
-    let tuto1 = document.querySelector('#tuto_step1');
-    let tuto2 = document.querySelector('#tuto_step2');
-    let tutoFridge = document.querySelector('#tuto_stepFridge');
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
-
-
+    
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
-            if (tutoFridge.dataset.etat == 'actif') {
-                tuto1.setAttribute("value", " ");
-                tuto2.setAttribute("value", " ");
-                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
-                porte.setAttribute('rotation', '0 90 180');
-                porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ouvert'
-                tutoFridge.setAttribute('value', 'Clic une fois sur le steak pour le recuperer ! ');
-
-                return
-            }
-            else {
+            
                 porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
                 porte.setAttribute('rotation', '0 90 180');
                 porte.setAttribute('scale', '0.8 0.9 0.6');
                 porte.dataset.etat = 'ouvert'
 
                 return
-            }
+            
         }
         if (porte.dataset.etat == 'ouvert') {
             porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
             porte.dataset.etat = 'ferme'
-            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !');
-            tutoGrill.setAttribute('value', "Appuie sur le bouton de la plaque pour l'allumer !");
-            tutoFridge.dataset.etat = 'inactif'
+
             return
 
         }
@@ -261,9 +242,9 @@ AFRAME.registerComponent('follow-hand', {
 
 
 // Perte de point lorsque la plaque est allumé
-let lowerGrillScore = function () {
+let lowerGrillScore = function() {
     let grill = document.querySelectorAll('.grill_btn');
-    for (let btn of grill) {
+    for(let btn of grill){
         if (btn.dataset.etat == 'on') {
             scoreJ -= 1;
             scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
@@ -275,7 +256,7 @@ var intervalID = setInterval(lowerGrillScore, 1000);
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
+
     console.log(bouton)
 
     if (ev.target.className == 'grill_btn') {
@@ -283,10 +264,7 @@ function handlerClicSurBouton(ev) {
             bouton.setAttribute('material', 'color : #2ECB2C');
             bouton.dataset.etat = 'on'
 
-            if (tutoGrill.dataset.etat == 'actif') {
-                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
-                );
-            }
+    
             return
         }
         else if (bouton.dataset.etat == 'on') {
@@ -301,16 +279,10 @@ function handlerClicSurBouton(ev) {
 
 
 let handlerClickOnConso = function (ev) {
-    let tutoFridge = document.querySelector('#tuto_stepFridge');
 
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
-            if (tutoFridge.dataset.etat == 'actif') {
-
-                tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
-                tutoFridge.dataset.etat = "inactif"
-
-            }
+            
 
             // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
             let ing = document.createElement('a-entity');
@@ -324,8 +296,8 @@ let handlerClickOnConso = function (ev) {
             ing.dataset.id = ev.target.dataset.id;
             ing.dataset.stock = 'stock';
             ing.dataset.tri = ev.target.dataset.tri;
-            if (ev.target.dataset.id == 'thon-boite') {
-                ing.dataset.state = 1
+            if(ev.target.dataset.id == 'thon-boite'){
+                ing.dataset.state =1
             }
 
             document.querySelector('a-scene').appendChild(ing);
@@ -440,7 +412,7 @@ let steakcrame = function (objMain) {
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
     let plaque = document.querySelectorAll('.grill');
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
+
 
     // Récupérer l'index de la plaque sur laquelle on a cliqué
     let plaqueIndex = Array.from(plaque).indexOf(ev.target);
@@ -473,14 +445,10 @@ let handlerClickOnGrill = function (ev) {
                 objMain.id = 'inGrill';
 
 
-                if (tutoGrill.dataset.etat == 'actif') {
-                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
-                }
+          
                 setTimeout(function () {
                     if (objMain.id === 'inGrill') {
-                        if (tutoGrill.dataset.etat == 'actif') {
-                            tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
-                        }
+        
                         let objCuit = objMain;
                         steakcuit(objCuit);
                     }
@@ -495,7 +463,7 @@ let handlerClickOnGrill = function (ev) {
                         steakcrame(objCrame);
 
                         // mise a jour du score et affichage
-                        scoreJ = scoreJ - 25;
+                        scoreJ = scoreJ - 50;
                         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
                     }
                 }, 10000);
@@ -512,7 +480,6 @@ let handlerClickOnGrill = function (ev) {
         }
     }
 };
-
 
 
 let handlerClickOnPlate = function (ev) {
@@ -668,6 +635,7 @@ let handlerClickOnContainerThon = function (ev) {
     }
 }
 
+
 function handlerClickOnEmptyBtn(ev) {
     if (ev.target.id == 'btn_empty_plate') {
         if (assiettes[0].length < 1) {
@@ -711,17 +679,49 @@ function handlerClickOnEmptyBtn(ev) {
     }
 }
 
+
+let starsLeft = 3;
+
+function loseStar() {
+  if (starsLeft > 1) {
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    starsLeft--;
+    console.log(starsLeft);
+  }
+  else if (starsLeft == 1){
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    resetGame();
+  }
+}
+
+let resetGame = function(){
+    scoreJ = 0;
+    scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+    // Vide le tableau des ingrédients dans assiette
+    while (assiettes[0].length > 0) {
+        assiettes[0].pop();
+    };
+    // vider la main
+    while (main.length > 0) {
+        main.pop();
+    };
+}
+
+
+
 AFRAME.registerComponent('timer-controller', {
     init: function () {
 
 
-        var timerEntity = document.getElementById('hud_timer');
+        var timerEntity = document.getElementById('timer');
         var bulle = document.getElementById('bulle');
         var commandeEntity = document.getElementById('commande');
         var ingredientsEntity = document.getElementById('ingredients');
 
-        // Initialisez le timer à 100 secondes
-        var timerValue = 100;
+        // Initialisez le timer à 60 secondes
+        var timerValue = 60;
 
         // récupère la liste des ingrédients requis pour la recette
         var ingredients = commandes[commandes.length - 1].ingredients;
@@ -730,32 +730,45 @@ AFRAME.registerComponent('timer-controller', {
 
         // Met à jour le timer chaque seconde
         this.interval = setInterval(function () {
-            if (timerValue > 0) {
-                commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length - 1].nom} !`);
-                ingredientsEntity.setAttribute('text', 'value', ingredientsText)
-                timerValue--;
-            }
-
             // Met à jour le texte du timer
             timerEntity.setAttribute('text', 'value', timerValue);
+            ingredientsEntity.setAttribute('text', 'value', ingredientsText)
 
+            // si le timer est au dessus de 9
+            if (timerValue > 9) {
+                commandeEntity.setAttribute('text', 'value', `Je voudrais un ${commandes[commandes.length - 1].nom} !`);
+                timerEntity.setAttribute('text', 'color', 'white');
+            }
+
+            // si le timer passe en dessous de 10
+            if (timerValue < 10){
+                timerEntity.setAttribute('text', 'color', 'red');
+            }
+            
+            // si le timer arrive a 0
             if (timerValue === 0) {
-                //mettre a jour le score et l'afficher
-                scoreJ = scoreJ - 50;
-                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
-                timerEntity.setAttribute('text', 'color', 'red');
-                timerEntity.setAttribute('text', 'value', '0');
+                loseStar();
+                // mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 100;
+                scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
+                
+
+                // TODO difficulté en fonction du score !
+
+
+
+                // génere la prochaine commande
                 commandeClient(2)
                 clearInterval(this.interval)
             }
+
+            timerValue--;
         }, 1000);
     },
 
-    // Assurez-vous de nettoyer l'intervalle lors de la suppression du composant
     remove: function () {
         clearInterval(this.interval);
     },
@@ -773,12 +786,11 @@ function handlerClickOnBell(ev) {
 
             if (validerCommande() == true) {
                 // calcul des points par rapport au niveau de la commande
-                scoreJ += 100 * commandes[commandes.length - 1].niveau;
+                scoreJ += 100*commandes[commandes.length - 1].niveau;
                 //mettre a jour le score et l'afficher
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
                 commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
-                // commandeEntity.setAttribute('text', 'color', '0x00ffff')
                 for (let ing of assiette) {
                     ing.remove()
                 }
@@ -787,40 +799,38 @@ function handlerClickOnBell(ev) {
                     assiettes[0].pop();
                 }
 
-                console.log(commandes)
 
                 while (commandes.length > 0) {
                     commandes.pop()
                 }
 
-                console.log(commandes)
                 commandeClient(2)
-                console.log(commandes)
+
 
             }
             else {
-                //mettre a jour le score et l'afficher
-                scoreJ = scoreJ - 50;
+                // mettre a jour le score et l'afficher
+                scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-
+                
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
-                // commandeEntity.setAttribute('text', 'color', '0xff00')
-
+                
                 for (let ing of assiette) {
                     ing.remove()
                 }
-
+                
                 while (assiettes[0].length > 0) {
                     assiettes[0].pop();
                 }
-
-
-                console.log(commandes)
-
+                
                 commandes.pop()
-                console.log(commandes[0])
+                
                 commandeClient(1)
-                console.log(commandes)
+                
+                // Perte d'une étoile
+                loseStar()
+
+                return
             }
 
         }
@@ -829,13 +839,7 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
-        commandeClient(2);
-        let tuto1 = document.querySelector('#tuto_step1')
-        tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
-
-        let tuto2 = document.querySelector('#tuto_step2')
-        tuto2.setAttribute('value', 'Il desire un burger. Pour commencer, recupere un steak dans le frigo !')
-
+        commandeClient(1);
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
             elt.remove();
@@ -849,7 +853,7 @@ function handlerClickOnCompost() {
         hand.remove();
         main.pop();
     }
-    else if (hand.dataset.tri == "recycle") {
+    else if(hand.dataset.tri == "recycle"){
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -863,7 +867,7 @@ function handlerClickOnRecycle() {
         hand.remove();
         main.pop();
     }
-    else if (hand.dataset.tri == "compost") {
+    else if(hand.dataset.tri == "compost"){
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -896,10 +900,10 @@ function handlerClickOnThon(ev) {
         }
     }
 }
-
+        
 
 // Affichage du score en HUD
-let scoreJoueur = document.querySelector('#hud_scorej');
+let scoreJoueur = document.querySelector('#scorej');
 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
 let fridge = document.querySelector('#fridge-door');
@@ -936,6 +940,3 @@ scene.addEventListener('click', handlerClickOnGrill);
 scene.addEventListener('click', handlerClickOnPlate);
 scene.addEventListener('click', handlerClickOnContainerOB);
 scene.addEventListener('click', handlerClickOnContainerThon);
-
-
-
