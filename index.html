@@ -281,6 +281,299 @@
     <!-- CIEL -->
     <a-sky color="#87CEEB"></a-sky>
 
+    <!-- <a-text rotation="0 90 0" position="-1.4 2 1" scale="0.4 0.4 0.4" color="#000000" id="valide"></a-text> -->
+
+      <!-- DEMARRER LE JEU !!!!! -->
+      <a-box rotation="0 90 0" position="-1.5 2 0" scale="0.8 0.3 0.1" color="#00FF00" id="start"></a-box>
+      <a-text value="Jouer" rotation="0 90 0" position="-1.4 2 0.25" scale="0.8 0.8 0.8" color="#FFF"
+        id="start"></a-box>
+
+  </a-scene>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>
+<!-- https://aframe.io/docs/1.5.0/introduction/entity-component-system.html -->
+<html>
+
+<head>
+  <title>EcoChef</title>
+  <meta name="description" content="Community Components Example">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/c-frame/aframe-particle-system-component@a5a8449/dist/aframe-particle-system-component.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@d5f3f8/dist/aframe-extras.min.js"></script>
+</head>
+
+<body>
+  <a-scene inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js"
+    cursor="rayOrigin: mouse" stats>
+
+    <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
+
+
+    <a-entity id="camera" camera look-controls position="0 1.6 0"></a-entity>
+
+    <a-text id="timer" rotation="0 60 0" position="-2.65 1.2 -2.3" scale="1 1 1" color="#FFF" align="center"></a-text>
+    <a-text id="scorej" rotation="0 90 0" position="-3 4.1 0" color="#FFF" align="center"></a-text>
+
+    <!-- TUTO -->
+
+    <!-- <a-text id="tuto_step1" value="Ton premier client est arrive, prepare sa commande !" position="-5 2.5 -1.5"
+      rotation="0 90 0" color="#8C0FEA" align="center" scale="0.8 0.8 0.8"></a-text>
+    <a-text id="tuto_step2" value="Il desire un burger. Pour commencer, recupere un steak dans le frigo !"
+      position="-5 2 -1.5" rotation="0 90 0" color="#8C0FEA" align="center" scale="0.8 0.8 0.8"></a-text>
+    <a-text id="tuto_stepFridge" value="Clic une fois sur le frigo pour l'ouvrir ! " position="2.2 2.7 -1.3"
+      rotation="0 -90 0" color="#8C0FEA" data-etat="actif" align="center" scale="0.8 0.8 0.8"></a-text>
+    <a-text id="tuto_stepGrill" value=" " position="0 2 -3.6" rotation="0 0 0" color="#8C0FEA" data-etat="actif"
+      align="center" scale="0.8 0.8 0.8"></a-text> -->
+    <!-- <a-text id="tuto_step4" value=" " position="2.2 2.7 -1.3"
+      rotation="0 -90 0" color="#8C0FEA" align="center" width="4" data-etat="inactif"></a-text>
+    <a-text id="tuto_step5" value=" " position="2.2 2.7 -1.3" rotation="0 -90 0" color="#8C0FEA" align="center"
+      data-etat="inactif"></a-text> -->
+
+    <!-- Steak cru STOCK -->
+    <a-entity obj-model="obj: ../assets/models/ingredients/base.obj; " position="2.4 0.5 0.3" rotation="0 180 0"
+      scale="1 1 1 " material="color: #DD3F61;" class="consommable" data-id="steak" data-stock="stock"
+      data-tri="compost"></a-entity>
+
+      <!-- Thon Boite STOCK -->
+    <a-entity obj-model="obj: ../assets/models/ingredients/tuna-can.obj; mtl: ../assets/models/ingredients/tuna-can.mtl.bak" position="2.4 1.5 -0.7" rotation="0 180 0"
+    scale="0.3 0.3 0.3"  class="consommable" data-id="thon-boite" data-stock="stock" data-tri="recycle" data-state="1"></a-entity> 
+
+
+    <!-- Pain STOCK -->
+    <a-entity obj-model="obj: ../assets/models/ingredients/base.obj; " position="2.4 0.3 1.8" rotation="0 180 0"
+      scale="1 1 1 " material="src: ../assets/models/ingredients/texturepain.webp;" class="consommable" data-id="pain"
+      data-stock="stock" data-tri="compost"></a-entity>
+
+    <!-- Fromage STOCK -->
+    <a-entity obj-model="obj: ../assets/models/ingredients/cheese.obj; mtl: ../assets/models/ingredients/cheese.mtl.bak"
+      position="2.4 1 0.2" rotation="0 180 0" scale="1 1 1 " class="consommable" data-id="fromage" data-stock="stock"
+      data-tri="compost"></a-entity>
+
+    <a-entity obj-model="obj: ../assets/models/kitchen/Wall.obj; mtl: ../assets/models/kitchen/Wall.mtl" position="-2 0 1"
+      rotation="0 180 0" scale="4 4 4 "></a-entity>
+
+
+    <!-- PLATEAU -->
+
+    <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3 1 -1.5" rotation="0 180 0"
+      scale="4 4 4" class="assiette"></a-gltf-model> -->
+
+    <!-- Assiette  -->
+    <a-gltf-model src="../assets/models/tools/plate.glb" position="-3 1 0" rotation="0 180 0" scale="4 4 4"
+      class="assiette"></a-gltf-model>
+    <!--Btn Vider Assiette-->
+    <a-entity id="btn_empty_plate" class="" obj-model="obj: ../assets/models/btn/button.obj;" position="-3 1.025 -0.8"
+      scale="0.2 0.4 0.2" material="color: #E92323;" data-etat="off" clickable></a-entity>
+    <!--Btn Valider Assiette-->
+    <a-gltf-model src="../assets/models/btn/bell.glb" position="-3 1.12 1" rotation="0 0 0" scale="0.5 0.4 0.5"
+      id="bell_validate" clickable></a-gltf-model>
+
+    <!-- <a-gltf-model src="./assets/models/tools/plate.glb" position="-3. 1 1.5" rotation="0 90 0"
+      scale="4 4 4" class="assiette"></a-gltf-model> -->
+
+
+    <!-- PLAN DE TRAVAIL -->
+    <a-gltf-model src="../assets/models/kitchen/counter.glb" position="-3 -1.110 0" rotation="0 90 0"
+      scale="1.920 1.1 1"></a-gltf-model>
+
+      <a-box class="containerTable" position="1.9 0.5 -2.7" rotation="0 0 0" opacity="0" color="#82603E" scale="0.8 0.06 1.3"  ></a-box>
+
+    <!-- PLATEAU ATTENTE -->
+    <a-gltf-model src="../assets/models/kitchen/Plate_Square.glb" position="0.85 0.5 -2.5" rotation="0 90 0"
+      scale="0.6 0.73 0.6" class="plateau"></a-gltf-model>
+
+    
+    <!-- Conteneur ouvreur de boîte -->
+    <a-box class="containerO-B" position="0.02 1.8 -4.3" rotation="0 0 0" color="#82603E" scale="1 1.3 1.3" opacity="0" ></a-box>
+
+    <!-- Ouvreur de boite de conserve -->
+    <a-entity obj-model="obj: ../assets/models/tools/can-opener.obj"
+    material="src: ../assets/models/tools/can-opener.png" position="0 2.2 -3.5" rotation="0 0 0"
+    scale="0.13 0.1 0.1" class="consommable" data-id="can-opener"  ></a-entity>
+
+    <!-- https://github.com/IdeaSpaceVR/aframe-particle-system-component -->
+
+    <!-- ASSETS GLB -->
+    <a-assets>
+      <a-asset-item id="wall" src="../assets/models/wall/Normal-Wall.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="freezer" src="../assets/models/fridge/Freezer.glb"></a-asset-item>
+    </a-assets>
+    <a-asset-item id="door-close" src="../assets/models/fridge/door/door-close.glb"></a-asset-item>
+    </a-assets>
+    </a-assets>
+    <a-asset-item id="door-open" src="../assets/models/fridge/door/door-open.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="shelf" src="../assets/models/shelf/Shelf.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="recycle" src="../assets/models/bins/Recycle.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="trash" src="../assets/models/bins/Trash.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="stove" src="../assets/models/stove/Stove.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="button" src="../assets/models/btn/button.obj"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="button" src="../assets/models/btn/bell.glb"></a-asset-item>
+    </a-assets>
+    <a-assets>
+      <a-asset-item id="speech" src="../assets/models/cmd/Speech.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- FOUR -->
+    <a-entity obj-model="obj: ../assets/models/kitchen/appliance_oven.obj"
+      material="src: ../assets/models/kitchen/appliance_oven.png" position="-0.5 -0.25 -2.6" rotation="0 0 0"
+      scale="0.13 0.1 0.1"></a-entity>
+
+      <!-- plan de travail mathis -->
+      <!-- <a-box class="Cube" position="1.25 0.40 -2.65" rotation="0 0 0" color="#BCBCBC" scale="5 0.1 1.2">
+      </a-box> -->
+
+      <!-- plan de travail robin -->
+      <a-gltf-model id="side_table" src="../assets/models/shelf/SideTable.glb" position="2.4 -1.1 -3.1" scale="4 4.2 5.3"></a-gltf-model>
+
+
+
+
+
+      
+
+    <!--PLANCHA  -->
+    <a-box class="Cube" position="-0.5 -0.2 -2.8" rotation="0 0 0" color="#888" scale="1.390 1.6 1.3"></a-box>
+    <!-- Text Plancha-->
+    <a-text value="Grill" position="-0.1 1.2 -2.5" color="#000" align="center"></a-text>
+
+    <!--Plaque de cuisson 1-->
+    <a-entity gltf-model="../assets/models/stove/Stove.glb" position="-0.70 0.6 -2.8" scale="0.06 0.06 0.06"
+      class="grill" data-grill="1"></a-entity>
+    <!--Btn 1-->
+    <a-entity id="grill_btn1" class="grill_btn" obj-model="obj: ../assets/models/btn/button.obj;"
+      position="-1.02 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
+      data-grill="1"></a-entity>
+
+    <!--Plaque de cuisson 2-->
+    <a-entity gltf-model="../assets/models/stove/Stove.glb" position="-0.3 0.6 -2.8" scale="0.06 0.06 0.06" class="grill"
+      data-grill="2"></a-entity>
+    <!--Btn 2-->
+    <a-entity id="grill_btn2" class="grill_btn" obj-model="obj: ../assets/models/btn/button.obj;"
+      position="0.03 0.630 -2.8" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
+      data-grill="2"></a-entity>
+
+    <!--Plaque de cuisson 3-->
+    <a-entity gltf-model="../assets/models/stove/Stove.glb" position="-0.70 0.6 -2.4" scale="0.06 0.06 0.06"
+      class="grill" data-grill="3"></a-entity>
+    <!--Btn 3-->
+    <a-entity id="grill_btn3" class="grill_btn" obj-model="obj: ../assets/models/btn/button.obj;"
+      position="-1.02 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
+      data-grill="3"></a-entity>
+
+    <!--Plaque de cuisson 4-->
+    <a-entity gltf-model="../assets/models/stove/Stove.glb" position="-0.3 0.6 -2.4" scale="0.06 0.06 0.06" class="grill"
+      data-grill="4"></a-entity>
+    <!--Btn 4-->
+    <a-entity id="grill_btn4" class="grill_btn" obj-model="obj: ../assets/models/btn/button.obj;"
+      position="0.03 0.630 -2.3" scale="0.15 0.15 0.15" material="color: #E92323;" data-etat="off"
+      data-grill="4"></a-entity>
+
+    <!--Frigo  -->
+    <a-entity gltf-model="../assets/models/fridge/Freezer.glb" rotation="0 180 0" position="3 -1 -1"
+      scale="0.03 0.04 0.08" data-id="fridge" clickable></a-entity>
+    <!-- Porte frigo -->
+    <a-entity id="fridge-door" class="frigo-door" gltf-model="../assets/models/fridge/door/door-close.glb"
+      rotation="0 270 0" position="1.8 0.5 -0.16" data-etat="ferme" scale="0.82 1.1 1" clickable></a-entity>
+
+    <!-- Text Frigo-->
+    <a-text value="Frigo" rotation="0 270 0" position="1.8 2 -1.2" color="#000" align="center"></a-text>
+
+    <!--Étagère  -->
+    <a-entity gltf-model="../assets/models/shelf/Shelf.glb" rotation="0 270 0" position="2.5 0 2"
+      scale="1 1 1.5 "></a-entity>
+    <!-- Text Étagère-->
+    <a-text value="Stock" rotation="0 270 0" position="2.5 1 1.7" color="#000" align="center"></a-text>
+
+    <!--Recycler  -->
+    <a-entity gltf-model="../assets/models/bins/Recycle.glb" rotation="0  0 0" position="0 -0.3 2.5" scale="1 1 2 "
+      id="recycle_bin"></a-entity>
+    <!-- Text Recycle-->
+    <a-text value="Recycler" rotation="0 180 0" position="0 0.6 2.8" color="#000" align="center"></a-text>
+
+    <!--Compost -->
+    <a-entity gltf-model="../assets/models/bins/Trash.glb" rotation="0  0 0" position="-1.3 -0.3 2.8" scale="0.3 0.3 0.3"
+      id="compost_bin"></a-entity>
+    <!-- Text Compost-->
+    <a-text value="Compost" rotation="0 180 0" position="-1.3 0.6 2.8" color="#000" align="center"></a-text>
+
+    <!-- Recipe Board -->
+    <a-entity gltf-model="../assets/models/kitchen/clipboard.glb" rotation="0 90 0" position="0 2.3 3.45" scale="3.5 3.5 3.5"></a-entity>
+    <a-text value="Recette" rotation="0 180 0" position="0 2.4 3.3" color="#000" align="center"></a-text>
+
+
+
+    <!-- SOLS -->
+    <a-entity obj-model="obj: ../assets/models/floor/model.obj" material="color: #DED5C5" position="0 -1 0"
+      rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ../assets/models/floor/model.obj" material="color: #DED5C5" position="0 -1 3.84"
+      rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ../assets/models/floor/model.obj" material="color: #DED5C5" position="-3.84 -1 3.84"
+      rotation="0 180 0" scale="4 4 4"></a-entity>
+    <a-entity obj-model="obj: ../assets/models/floor/model.obj" material="color: #DED5C5" position="-3.84 -1 0"
+      rotation="0 180 0" scale="4 4 4"></a-entity>
+
+    <!-- MURS CUISINE -->
+    <a-entity gltf-model="../assets/models/wall/Normal-Wall.glb" rotation="0 90 0" position="-1.5 -4.3 0"
+      scale="2 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/Normal-Wall.glb" rotation="0 0 0" position="0 -4.3 -1.5"
+      scale="2 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/Normal-Wall.glb" rotation="0 180 0" position="0 -4.3 1.5"
+      scale="2 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/Normal-Wall.glb" rotation="0 270 0" position="1.5 -4.3 0"
+      scale="2 1 1"></a-entity>
+
+    <a-entity gltf-model="../assets/models/wall/WallShelves.glb" position="0 -0.9 -1.75" scale="1.7 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/ShojiWall.glb" rotation="0 180 0" position="0 -0.9 1.7" scale="1.75 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/ShojiWall.glb" rotation="0 -90 0" position="1.7 -0.9 0" scale="1.75 1 1"></a-entity>
+
+    <a-entity gltf-model="../assets/models/wall/WoodLog.glb" rotation="0 0 90" position="3.85 2.5 -3.325" scale="1.9 1 1"></a-entity>
+    <a-entity gltf-model="../assets/models/wall/WoodLog.glb" rotation="0 0 90" position="3.85 2.5 3.325" scale="1.9 1 1"></a-entity>
+
+    <!-- ROOF -->
+    <a-entity gltf-model="../assets/models/roof/RoofPlanks.glb" position="0 4.5 2" rotation="20 0 0" scale="1.5 1.24 1.25"></a-entity>
+    <a-entity gltf-model="../assets/models/roof/RoofPlanks.glb" position="0 4.5 -2" rotation="-20 0 0" scale="1.5 1.24 1.25"></a-entity>
+    <a-entity gltf-model="../assets/models/roof/Pergola.glb" position="-5.3 4.2 .65" scale=".9 1.24 1.25"></a-entity>
+
+    <a-entity gltf-model="../assets/models/roof/RoofSign.glb" position="-3.05 5 0" rotation="0 90 180" scale=".6 .65 .6"></a-entity>
+
+
+    <!-- CLOCK -->
+    <a-entity gltf-model="../assets/models/kitchen/Clock.glb" position="-3 1 -2.5" rotation="-90 0 -210" scale=".007 .007 .007"></a-entity>
+    <a-box position="-2.71 1.2 -2.34" rotation="0 -210 0" color="#111111" scale="0 .28 .7"></a-box>
+
+    <!-- RATE -->
+    <a-entity id="star1" obj-model="obj: ../assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+    <a-entity id="star2" obj-model="obj: ../assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 0" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+    <a-entity id="star3" obj-model="obj: ../assets/models/rate/star.obj" material="color : #FFFB00" position="-3 3.5 -0.5" rotation="0 90 0" scale=".2 .2 .2"></a-entity>
+
+
+
+
+    <!-- BACKGROUND -->
+    <a-entity gltf-model="../assets/background/MarketStalls.glb" position="-13 -1 1" scale="10 10 10"></a-entity>
+
+    <!-- CIEL -->
+    <a-sky color="#87CEEB"></a-sky>
+
     <a-text rotation="0 90 0" position="-1.4 2 1" scale="0.4 0.4 0.4" color="#000000" id="valide"></a-text>
 
       <!-- DEMARRER LE JEU !!!!! -->
