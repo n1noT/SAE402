@@ -551,18 +551,30 @@ function handlerClickOnEmptyBtn(ev) {
 let starsLeft = 3;
 
 function loseStar() {
-  if (starsLeft > 0) {
+  if (starsLeft > 1) {
     const starElement = document.getElementById(`star${starsLeft}`);
     starElement.setAttribute('material', 'color', '#808080');
     starsLeft--;
+    console.log(starsLeft);
   }
-  else if (starsLeft == 0){
-
-
-    // TODO
-
-
+  else if (starsLeft == 1){
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    resetGame();
   }
+}
+
+let resetGame = function(){
+    scoreJ = 0;
+    scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+    // Vide le tableau des ingrédients dans assiette
+    while (assiettes[0].length > 0) {
+        assiettes[0].pop();
+    };
+    // vider la main
+    while (main.length > 0) {
+        main.pop();
+    };
 }
 
 
@@ -665,26 +677,28 @@ function handlerClickOnBell(ev) {
 
             }
             else {
-                // Perte d'une étoile
-                loseStar()
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-
+                
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
-
+                
                 for (let ing of assiette) {
                     ing.remove()
                 }
-
+                
                 while (assiettes[0].length > 0) {
                     assiettes[0].pop();
                 }
-
+                
                 commandes.pop()
-
+                
                 commandeClient(1)
+                
+                // Perte d'une étoile
+                loseStar()
 
+                return
             }
 
         }
