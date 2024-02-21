@@ -45,7 +45,7 @@ let plaques = [[], [], [], []];
 // Tableau contenant la contenance du plateau
 let plateau = [];
 
-let containerThon = [];
+let table = [];
 
 let containerOB = [];
 
@@ -161,7 +161,7 @@ let validerCommande = function () {
 }
 
 // Perte de point lorsque la porte du frigo est ouverte
-let lowerFridgeScore = function() {
+let lowerFridgeScore = function () {
     let porte = document.querySelector('#fridge-door');
     if (porte.dataset.etat == 'ouvert') {
         scoreJ -= 1;
@@ -173,29 +173,29 @@ var intervalID = setInterval(lowerFridgeScore, 1000);
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
-    
+
 
 
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
 
-                porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-open.glb');
-                porte.setAttribute('rotation', '0 90 180');
-                porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ouvert'
-
-                return
-            }
-        }
-        if (porte.dataset.etat == 'ouvert') {
-            porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-close.glb');
+            porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-open.glb');
             porte.setAttribute('rotation', '0 90 180');
-            porte.setAttribute('scale', '0.9 1.1 1');
-            porte.dataset.etat = 'ferme'
-            
-            return
+            porte.setAttribute('scale', '0.8 0.9 0.6');
+            porte.dataset.etat = 'ouvert'
 
+            return
         }
+    }
+    if (porte.dataset.etat == 'ouvert') {
+        porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-close.glb');
+        porte.setAttribute('rotation', '0 90 180');
+        porte.setAttribute('scale', '0.9 1.1 1');
+        porte.dataset.etat = 'ferme'
+
+        return
+
+    }
 
 }
 
@@ -244,9 +244,9 @@ AFRAME.registerComponent('follow-hand', {
 
 
 // Perte de point lorsque la plaque est allumé
-let lowerGrillScore = function() {
+let lowerGrillScore = function () {
     let grill = document.querySelectorAll('.grill_btn');
-    for(let btn of grill){
+    for (let btn of grill) {
         if (btn.dataset.etat == 'on') {
             scoreJ -= 1;
             scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
@@ -278,45 +278,42 @@ function handlerClicSurBouton(ev) {
 
 
 let handlerClickOnConso = function (ev) {
-
-
     if (ev.target.className == 'consommable') {
-        if (ev.target.dataset.stock == 'stock') {
-            // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
-            let ing = document.createElement('a-entity');
-
-            ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
-            ing.setAttribute('position', ev.target.getAttribute('position'));
-            ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
-            ing.setAttribute('scale', ev.target.getAttribute('scale'));
-            ing.setAttribute('material', ev.target.getAttribute('material'));
-            ing.classList.add('consommable');
-            ing.dataset.id = ev.target.dataset.id;
-            ing.dataset.stock = 'stock';
-            ing.dataset.tri = ev.target.dataset.tri;
-            if(ev.target.dataset.id == 'thon-boite'){
-                ing.dataset.state =1
-            }
-
-            document.querySelector('a-scene').appendChild(ing);
-
-            // S'il y a un objet dans la main le script s'arrête pour ne pas avoir plusieurs objets dans la main et créer des conflits
-            if (main.length == 1) {
-
-                return
-            }
-
-
-        }
-
-
-
         // Si la main est vide on attribue follow-hand ce qui le fait suivre la caméra
         if (main.length < 1) {
+            if (ev.target.dataset.stock == 'stock') {
+
+                // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
+                let ing = document.createElement('a-entity');
+
+                ing.setAttribute('obj-model', ev.target.getAttribute('obj-model'));
+                ing.setAttribute('position', ev.target.getAttribute('position'));
+                ing.setAttribute('rotation', ev.target.getAttribute('rotation'));
+                ing.setAttribute('scale', ev.target.getAttribute('scale'));
+                ing.setAttribute('material', ev.target.getAttribute('material'));
+                ing.classList.add('consommable');
+                ing.dataset.id = ev.target.dataset.id;
+                ing.dataset.stock = 'stock';
+                ing.dataset.tri = ev.target.dataset.tri;
+                if (ev.target.dataset.id == 'thon-boite') {
+                    ing.dataset.state = 1
+                }
+
+                document.querySelector('a-scene').appendChild(ing);
+
+            }
             // Si un ingrédient est dans l'assiette on ne peut pas le reprendre pour ne pas créer de conflit entre le tableau asseite[i] et la vue 
             if (ev.target.id == 'inAssiette') {
                 return
             };
+            if (ev.target.id == 'inPlate') {
+                plateau = plateau.filter(obj => obj.x !== ev.target.getAttribute('position').x);
+
+            }
+            if (ev.target.id == 'inTable') {
+                table = table.filter(obj => obj.z !== ev.target.getAttribute('position').z);
+
+            }
 
             if (!ev.target.hasAttribute('follow-hand')) {
                 ev.target.setAttribute('follow-hand', '');
@@ -325,25 +322,22 @@ let handlerClickOnConso = function (ev) {
 
                 main.push(ev.target.dataset.id)
             }
-            
+
             // Arrête le script sinon la suite annulera cette action
             return
         }
 
-        // Si la main est pleine on retire follow-hand ce qui "pose" l'objet dans la main dans l'espace
+     
+    }
+    else{
         if (main.length == 1) {
-            // if (ev.target.hasAttribute('follow-hand')) {
-            //     ev.target.removeAttribute('follow-hand');
-            //     if (ev.target.id == 'handed') {
-            //         ev.target.id = ''
-            //         main.shift()
-            //     }
-            // }
-            
-            return
+            if (ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'fridge' ) {
+                let hand = document.querySelector('#handed');
+                hand.remove()
+                main.shift()
+                return
+            }
         }
-
-        console.log(ev.target)
     }
 
 
@@ -366,7 +360,7 @@ let handlerClickOnAssiette = function (ev) {
                 for (let i = 0; i < assiettes[0].length; i++) {
                     yObj += 0.05
                 }
-              
+
 
                 let posAssiette = ev.target.getAttribute('position')
 
@@ -380,7 +374,7 @@ let handlerClickOnAssiette = function (ev) {
                 objMain.id = 'inAssiette'
 
                 assiettes[0].push(objMain.dataset.id)
-         
+
                 main.shift()
             }
 
@@ -454,11 +448,11 @@ let handlerClickOnGrill = function (ev) {
                 }, 10000);
 
                 plaques[0].push(objMain.dataset.id);
-            
+
 
                 main.shift();
             }
-            
+
             return;
         }
     }
@@ -470,45 +464,43 @@ let handlerClickOnPlate = function (ev) {
         // Récupérer l'élément plateau
         let plate = document.querySelector('.plateau');
 
-        
         if (main.length < 1) {
-            if(ev.target.id == 'inPlate'){
-                console.log(plateau)
-                plateau = plateau.filter(obj => obj.position.y !== ev.target.getAttribute('position').y);
-                console.log(plateau)
-            }
             return;
         }
-        if (plateau.length < 2 && main[0] != "can-opener") {
-            let objMain = document.querySelector('#handed');
-            if (objMain.hasAttribute('follow-hand')) {
-                objMain.removeAttribute('follow-hand');
 
-                // Vérifier si un steak est déjà sur le plateau
-                if (plateau.length > 0) {
-                    // Si un steak est déjà présent, décaler le nouveau steak à droite du dernier steak sur le plateau
-                    let lastSteakPosition = plate.getAttribute('position');
-             
-                    let posObj = {
-                        x: lastSteakPosition.x + 0.2, // décaler le nouveau steak de 0.1 vers la droite
-                        y: lastSteakPosition.y + 0.02,
-                        z: lastSteakPosition.z
-                    };
-                    objMain.setAttribute('position', posObj);
-                } else {
-                    // Si aucun steak n'est présent sur le plateau, placer le nouveau steak à la position par défaut du plateau
+        if (plateau.length < 2) {
+            let objMain = document.querySelector('#handed');
+            if (objMain.dataset.id == 'steak' || objMain.dataset.id == 'steak cuit') {
+                if (objMain.hasAttribute('follow-hand')) {
+                    objMain.removeAttribute('follow-hand');
+
                     let posPlate = plate.getAttribute('position');
-                    let posObj = {
-                        x: posPlate.x - 0.15,
-                        y: posPlate.y + 0.02,
-                        z: posPlate.z
-                    };
-                    objMain.setAttribute('position', posObj);
+
+                    if (plateau.length == 0 || plateau[0].x == posPlate.x + 0.2) {
+                        let posObj = {
+                            x: posPlate.x - 0.15,
+                            y: posPlate.y + 0.02,
+                            z: posPlate.z
+                        };
+
+                        objMain.setAttribute('position', posObj);
+                    }
+
+                    else {
+                        let posObj = {
+                            x: posPlate.x + 0.2,
+                            y: posPlate.y + 0.02,
+                            z: posPlate.z
+                        };
+
+                        objMain.setAttribute('position', posObj);
+                    }
+
                 }
 
-                // Ajouter l'ID de l'objet principal dans le tableau plateau
+                // Ajouter la position de l'objet principal dans le tableau plateau
                 plateau.push(objMain.getAttribute('position'));
-      
+
 
                 objMain.id = 'inPlate';
                 main.shift();
@@ -517,74 +509,92 @@ let handlerClickOnPlate = function (ev) {
 
         }
 
-    } 
-};
+    }
+
+}
+
 
 
 let handlerClickOnContainerOB = function (ev) {
     if (ev.target.className == 'containerO-B' || ev.target.id == 'inContainer') {
-        if(main[0] =="can-opener"){
+        if (main[0] == "can-opener") {
             if (main.length < 1) {
                 return
             }
-    
+
             if (main.length == 1) {
                 let objMain = document.querySelector('#handed')
-    
+
                 if (objMain.hasAttribute('follow-hand')) {
                     objMain.removeAttribute('follow-hand');
-    
+
                     let posObj = {
                         x: 0,
                         y: 2.2,
                         z: -3.5
                     }
-    
+
                     objMain.setAttribute('position', posObj);
                     objMain.id = 'inContainer'
-    
+
                     containerOB.push(objMain.dataset.id)
-    
+
                     main.shift()
                 }
-    
+
                 return
             }
         }
-        
+
     }
 }
 
 
-let handlerClickOnContainerThon = function (ev) {
+let handlerClickOnTable = function (ev) {
 
-    if (ev.target.className == 'containerThon' || ev.target.id == 'inContainer') {
+    if (ev.target.className == 'containerTable' || ev.target.id == 'inTable') {
+        // Récupérer l'élément plateau
+        let containerTable = document.querySelector('.containerTable');
+
         if (main.length < 1) {
-            return
+            return;
         }
 
-        if (main.length == 1) {
-            let objMain = document.querySelector('#handed')
-
+        if (table.length < 2 && main[0] != "can-opener") {
+            let objMain = document.querySelector('#handed');
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
 
+                let posTbl = containerTable.getAttribute('position');
 
-                let posObj = {
-                    x: 1.9,
-                    y: 0.55,
-                    z: -2.7
-                };
+                if (table.length == 0 || table[0].z == posTbl.z + 0.45) {
+                    let posObj = {
+                        x: posTbl.x,
+                        y: posTbl.y + 0.05,
+                        z: posTbl.z - 0.15
+                    };
 
-                objMain.setAttribute('position', posObj);
+                    objMain.setAttribute('position', posObj);
+                }
 
-                objMain.id = 'inContainer'
+                else {
+                    let posObj = {
+                        x: posTbl.x,
+                        y: posTbl.y + 0.05,
+                        z: posTbl.z + 0.45
+                    };
 
-                containerThon.push(objMain.dataset.id)
+                    objMain.setAttribute('position', posObj);
+                }
 
-                main.shift()
             }
 
+            // Ajouter la position de l'objet principal dans le tableau plateau
+            table.push(objMain.getAttribute('position'));
+
+
+            objMain.id = 'inTable';
+            main.shift();
             return
         }
     }
@@ -638,20 +648,20 @@ function handlerClickOnEmptyBtn(ev) {
 let starsLeft = 3;
 
 function loseStar() {
-  if (starsLeft > 1) {
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    starsLeft--;
+    if (starsLeft > 1) {
+        const starElement = document.getElementById(`star${starsLeft}`);
+        starElement.setAttribute('material', 'color', '#808080');
+        starsLeft--;
 
-  }
-  else if (starsLeft == 1){
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    resetGame();
-  }
+    }
+    else if (starsLeft == 1) {
+        const starElement = document.getElementById(`star${starsLeft}`);
+        starElement.setAttribute('material', 'color', '#808080');
+        resetGame();
+    }
 }
 
-let resetGame = function(){
+let resetGame = function () {
     scoreJ = 0;
     scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
     // Vide le tableau des ingrédients dans assiette
@@ -671,7 +681,6 @@ AFRAME.registerComponent('timer-controller', {
 
 
         var timerEntity = document.getElementById('timer');
-        var bulle = document.getElementById('bulle');
         var commandeEntity = document.getElementById('commande');
         var ingredientsEntity = document.getElementById('ingredients');
 
@@ -696,10 +705,10 @@ AFRAME.registerComponent('timer-controller', {
             }
 
             // si le timer passe en dessous de 10
-            if (timerValue < 10){
+            if (timerValue < 10) {
                 timerEntity.setAttribute('text', 'color', 'red');
             }
-            
+
             // si le timer arrive a 0
             if (timerValue === 0) {
                 commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
@@ -709,7 +718,7 @@ AFRAME.registerComponent('timer-controller', {
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
-                
+
 
                 // TODO difficulté en fonction du score !
 
@@ -741,7 +750,7 @@ function handlerClickOnBell(ev) {
 
             if (validerCommande() == true) {
                 // calcul des points par rapport au niveau de la commande
-                scoreJ += 100*commandes[commandes.length - 1].niveau;
+                scoreJ += 100 * commandes[commandes.length - 1].niveau;
                 //mettre a jour le score et l'afficher
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
@@ -767,21 +776,21 @@ function handlerClickOnBell(ev) {
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-                
+
                 commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
-                
+
                 for (let ing of assiette) {
                     ing.remove()
                 }
-                
+
                 while (assiettes[0].length > 0) {
                     assiettes[0].pop();
                 }
-                
+
                 commandes.pop()
-                
+
                 commandeClient(1)
-                
+
                 // Perte d'une étoile
                 loseStar()
 
@@ -809,7 +818,7 @@ function handlerClickOnCompost() {
         hand.remove();
         main.pop();
     }
-    else if(hand.dataset.tri == "recycle"){
+    else if (hand.dataset.tri == "recycle") {
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -823,7 +832,7 @@ function handlerClickOnRecycle() {
         hand.remove();
         main.pop();
     }
-    else if(hand.dataset.tri == "compost"){
+    else if (hand.dataset.tri == "compost") {
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -832,10 +841,10 @@ function handlerClickOnRecycle() {
 }
 
 function handlerClickOnThon(ev) {
-    if(main[0] == 'can-opener'){
+    if (main[0] == 'can-opener') {
         if (ev.target.dataset.id == "thon-boite") {
             if (ev.target.dataset.state == 1) {
-                
+
                 ev.target.dataset.state = 0
 
                 var thon = document.createElement('a-entity');
@@ -855,7 +864,7 @@ function handlerClickOnThon(ev) {
         }
     }
 }
-        
+
 
 // Affichage du score en HUD
 let scoreJoueur = document.querySelector('#scorej');
@@ -894,5 +903,5 @@ scene.addEventListener('click', handlerClickOnAssiette);
 scene.addEventListener('click', handlerClickOnGrill);
 scene.addEventListener('click', handlerClickOnPlate);
 scene.addEventListener('click', handlerClickOnContainerOB);
-scene.addEventListener('click', handlerClickOnContainerThon);
+scene.addEventListener('click', handlerClickOnTable);
 
