@@ -712,65 +712,6 @@ function handlerClickOnEmptyBtn(ev) {
 }
 
 
-let starsLeft = 3;
-
-function loseStar() {
-  if (starsLeft > 1) {
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    starsLeft--;
-    console.log(starsLeft);
-  }
-  else if (starsLeft == 1){
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    resetGame();
-  }
-}
-
-let resetGame = function(){
-
-    let objMain = document.querySelector('#handed');
-    let character = document.querySelector('#character');
-    character.remove();
-
-    // Vide le tableau des ingrédients dans assiette
-    while (assiettes[0].length > 0) {
-        assiettes[0].pop();
-    };
-    // vider la main
-    while (main.length > 0) {
-        main.pop();
-        objMain.remove();
-    };
-
-    let scene =  document.querySelector("a-scene");
-
-    var box = document.createElement("a-box");
-    box.setAttribute("rotation", "0 90 0");
-    box.setAttribute("position", "-1.5 2 0");
-    box.setAttribute("scale", "0.8 0.3 0.1");
-    box.setAttribute("color", "#00FF00");
-    box.setAttribute("id", "start");
-    scene.appendChild(box);
-    
-    // Création du texte
-    var text = document.createElement("a-text");
-    text.setAttribute("value", "LANCER LE JEU");
-    text.setAttribute("rotation", "0 90 0");
-    text.setAttribute("position", "-1.4 2 0.325");
-    text.setAttribute("scale", "0.4 0.4 0.4");
-    text.setAttribute("color", "#000000");
-    text.setAttribute("id", "start");
-    scene.appendChild(text);
-
-    let start = document.querySelectorAll('#start');
-    start.forEach(bouton => {
-    bouton.addEventListener('click', handlerClickOnStart);
-});
-}
-
-
 
 AFRAME.registerComponent('timer-controller', {
     init: function () {
@@ -976,6 +917,66 @@ function handlerClickOnThon(ev) {
             }
         }
     }
+}
+
+
+let starsLeft = 3;
+
+function loseStar() {
+  if (starsLeft > 1) {
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    starsLeft--;
+    console.log(starsLeft);
+  }
+  else if (starsLeft == 1){
+    const starElement = document.getElementById(`star${starsLeft}`);
+    starElement.setAttribute('material', 'color', '#808080');
+    resetGame();
+    starsLeft = 3;
+  }
+}
+
+let resetGame = function(){
+
+    let objMain = document.querySelector('#handed');
+
+    // Vide le tableau des ingrédients dans assiette
+    while (assiettes[0].length > 0) {
+        assiettes[0].pop();
+    };
+    // vider la main
+    while (main.length > 0) {
+        main.pop();
+        objMain.remove();
+    };
+
+    fullCommande.remove();
+
+    let scene =  document.querySelector("a-scene");
+
+    var box = document.createElement("a-box");
+    box.setAttribute("rotation", "0 90 0");
+    box.setAttribute("position", "-1.5 2 0");
+    box.setAttribute("scale", "0.8 0.3 0.1");
+    box.setAttribute("color", "#00FF00");
+    box.setAttribute("id", "start");
+    scene.appendChild(box);
+    
+    // Création du texte
+    var text = document.createElement("a-text");
+    text.setAttribute("value", "LANCER LE JEU");
+    text.setAttribute("rotation", "0 90 0");
+    text.setAttribute("position", "-1.4 2 0.325");
+    text.setAttribute("scale", "0.4 0.4 0.4");
+    text.setAttribute("color", "#000000");
+    text.setAttribute("id", "start");
+    scene.appendChild(text);
+
+    let start = document.querySelectorAll('#start');
+    start.forEach(bouton => {
+    bouton.addEventListener('click', handlerClickOnStart);
+});
 }
         
 
