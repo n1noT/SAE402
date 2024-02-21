@@ -556,6 +556,13 @@ function loseStar() {
     starElement.setAttribute('material', 'color', '#808080');
     starsLeft--;
   }
+  else if (starsLeft == 0){
+
+
+    // TODO
+
+
+  }
 }
 
 
