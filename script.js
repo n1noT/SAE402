@@ -783,7 +783,7 @@ function handlerClickOnBell(ev) {
 
         }
         else {
-            var commandeEntity = document.getElementById('valide');
+            var commandeEntity = document.getElementById('commande');
             let assiette = document.querySelectorAll('#inAssiette')
 
             if (validerCommande() == true) {
@@ -792,7 +792,8 @@ function handlerClickOnBell(ev) {
                 //mettre a jour le score et l'afficher
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
-                commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
+
+
                 for (let ing of assiette) {
                     ing.remove()
                 }
@@ -806,7 +807,11 @@ function handlerClickOnBell(ev) {
                     commandes.pop()
                 }
 
-                commandeClient(2)
+                commandeEntity.setAttribute('text', 'value', 'Merci !')
+
+                setTimeout(function() {  
+                    commandeClient(2)
+                }, 1000);
 
 
             }
