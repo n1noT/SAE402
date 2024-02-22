@@ -60,7 +60,7 @@ let commandeEntity = function () {
     bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
     bulle.setAttribute('position', '-5.5 3.34 0');
     bulle.setAttribute('rotation', '0 90 0');
-    bulle.setAttribute('scale', '2 1 1');
+    bulle.setAttribute('scale', '2.5 1 1');
     bulle.id = 'bulle';
 
     var character = document.createElement('a-gltf-model');
@@ -72,7 +72,7 @@ let commandeEntity = function () {
 
     var commandeEntity = document.createElement('a-entity');
     commandeEntity.setAttribute('id', 'commande');
-    commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
+    commandeEntity.setAttribute('position', '-5.2 3.6 1.45');
     commandeEntity.setAttribute('rotation', '0 90 0');
     commandeEntity.setAttribute('text', 'value: Bonjour !; color: black; width: 5; align: center');
 
@@ -84,7 +84,7 @@ let commandeEntity = function () {
 
     var ingredientsEntity = document.createElement('a-entity');
     ingredientsEntity.setAttribute('id', 'ingredients');
-    ingredientsEntity.setAttribute('position', '0 1.9 3.3');
+    ingredientsEntity.setAttribute('position', '0 1.75 3.3');
     ingredientsEntity.setAttribute('rotation', '0 180 0');
     ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 4; align: center');
 
@@ -820,7 +820,7 @@ function handlerClickOnStart(ev) {
             star.setAttribute('material', 'color', '#FFFB00');
         }
         //générer une commande de niveau 1
-        commandeClient(1);
+        commandeClient(3);
 
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
