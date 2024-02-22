@@ -174,42 +174,25 @@ var intervalID = setInterval(lowerFridgeScore, 1000);
 // FRIDGE
 let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
-    let tuto1 = document.querySelector('#tuto_step1');
-    let tuto2 = document.querySelector('#tuto_step2');
-    let tutoFridge = document.querySelector('#tuto_stepFridge');
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
 
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
-            if (tutoFridge.dataset.etat == 'actif') {
-                tuto1.setAttribute("value", " ");
-                tuto2.setAttribute("value", " ");
-                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
-                porte.setAttribute('rotation', '0 90 180');
-                porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ouvert'
-                tutoFridge.setAttribute('value', 'Clic une fois sur le steak pour le recuperer ! ');
 
-                return
-            }
-            else {
-                porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
-                porte.setAttribute('rotation', '0 90 180');
-                porte.setAttribute('scale', '0.8 0.9 0.6');
-                porte.dataset.etat = 'ouvert'
 
-                return
-            }
+            porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+            porte.setAttribute('rotation', '0 90 180');
+            porte.setAttribute('scale', '0.8 0.9 0.6');
+            porte.dataset.etat = 'ouvert'
+
+            return
+            
         }
         if (porte.dataset.etat == 'ouvert') {
             porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
             porte.dataset.etat = 'ferme'
-            tutoFridge.setAttribute('value', 'Rends-toi au Grill pour faire cuire le steak !');
-            tutoGrill.setAttribute('value', "Appuie sur le bouton de la plaque pour l'allumer !");
-            tutoFridge.dataset.etat = 'inactif'
             return
 
         }
@@ -275,7 +258,6 @@ var intervalID = setInterval(lowerGrillScore, 1000);
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
     console.log(bouton)
 
     if (ev.target.className == 'grill_btn') {
@@ -283,10 +265,6 @@ function handlerClicSurBouton(ev) {
             bouton.setAttribute('material', 'color : #2ECB2C');
             bouton.dataset.etat = 'on'
 
-            if (tutoGrill.dataset.etat == 'actif') {
-                tutoGrill.setAttribute('value', "Maintenant, tu peux placer le steak sur la plaque !"
-                );
-            }
             return
         }
         else if (bouton.dataset.etat == 'on') {
@@ -301,16 +279,9 @@ function handlerClicSurBouton(ev) {
 
 
 let handlerClickOnConso = function (ev) {
-    let tutoFridge = document.querySelector('#tuto_stepFridge');
 
     if (ev.target.className == 'consommable') {
         if (ev.target.dataset.stock == 'stock') {
-            if (tutoFridge.dataset.etat == 'actif') {
-
-                tutoFridge.setAttribute('value', 'Clic de nouveau pour le fermer !');
-                tutoFridge.dataset.etat = "inactif"
-
-            }
 
             // Créer une copie de l'élement ingredient choisi dans le stock pour avoir une reserve infini
             let ing = document.createElement('a-entity');
@@ -440,7 +411,6 @@ let steakcrame = function (objMain) {
 let handlerClickOnGrill = function (ev) {
     let btn = document.querySelectorAll('.grill_btn');
     let plaque = document.querySelectorAll('.grill');
-    let tutoGrill = document.querySelector('#tuto_stepGrill');
 
     // Récupérer l'index de la plaque sur laquelle on a cliqué
     let plaqueIndex = Array.from(plaque).indexOf(ev.target);
@@ -473,14 +443,8 @@ let handlerClickOnGrill = function (ev) {
                 objMain.id = 'inGrill';
 
 
-                if (tutoGrill.dataset.etat == 'actif') {
-                    tutoGrill.setAttribute('value', "Patiente pendant que le steak cuit... Attention a ne pas le faire bruler !");
-                }
                 setTimeout(function () {
                     if (objMain.id === 'inGrill') {
-                        if (tutoGrill.dataset.etat == 'actif') {
-                            tutoGrill.setAttribute('value', "Appuie sur le bouton pour eteindre la plaque et dirige-toi vers le plan de travail !");
-                        }
                         let objCuit = objMain;
                         steakcuit(objCuit);
                     }
@@ -884,12 +848,6 @@ function handlerClickOnStart(ev) {
         //générer une commande de niveau 1
         commandeClient(1);
 
-        let tuto1 = document.querySelector('#tuto_step1')
-        tuto1.setAttribute('value', 'Ton premier client est arrive, prepare sa commande !')
-
-        let tuto2 = document.querySelector('#tuto_step2')
-        tuto2.setAttribute('value', 'Il desire un burger. Pour commencer, recupere un steak dans le frigo !')
-
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
             elt.remove();
@@ -926,15 +884,14 @@ function handlerClickOnRecycle() {
 }
 
 function handlerClickOnThon(ev) {
-    if(main[0] == 'can-opener'){
+    if (main[0] == 'can-opener') {
         if (ev.target.dataset.id == "thon-boite") {
             if (ev.target.dataset.state == 1) {
-                
+
                 ev.target.dataset.state = 0
-                console.log(ev.target.dataset.state)
 
                 var thon = document.createElement('a-entity');
-                thon.setAttribute('obj-model', 'obj: ./assets/models/ingredients/base.obj;');
+                thon.setAttribute('obj-model', 'obj: ../assets/models/ingredients/base.obj;');
                 thon.setAttribute('position', ev.target.getAttribute('position'));
                 thon.setAttribute('rotation', '0 180 0');
                 thon.setAttribute('scale', '1 1 1');
