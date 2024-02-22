@@ -331,11 +331,19 @@ let handlerClickOnConso = function (ev) {
     }
     else{
         if (main.length == 1) {
-            if (ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'fridge' ) {
-                let hand = document.querySelector('#handed');
-                hand.remove()
-                main.shift()
-                return
+            if (ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'fridge' && main[0] != 'pain') {
+                    let hand = document.querySelector('#handed');
+                    hand.remove()
+                    main.shift()
+                    return
+                
+            }
+            if(ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'shelf' && main[0] == 'pain'){
+                    let hand = document.querySelector('#handed');
+                    hand.remove()
+                    main.shift()
+                    return
+                
             }
         }
     }
