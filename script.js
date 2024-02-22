@@ -723,7 +723,7 @@ AFRAME.registerComponent('timer-controller', {
         var ingredientsEntity = document.getElementById('ingredients');
 
         // Initialisez le timer à 60 secondes
-        var timerValue = 10;
+        var timerValue = 60;
 
         // récupère la liste des ingrédients requis pour la recette
         var ingredients = commandes[commandes.length - 1].ingredients;
@@ -770,7 +770,7 @@ AFRAME.registerComponent('timer-controller', {
                 commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !');
 
                 setTimeout(function() {
-                    commandeClient(2)
+                    difficultyByScore();
                     loseStar();
                 }, 1000);
 
@@ -787,6 +787,18 @@ AFRAME.registerComponent('timer-controller', {
         clearInterval(this.interval);
     },
 });
+
+let difficultyByScore = function(){
+    if(scoreJ < 300){
+        commandeClient(1)
+    }
+    else if(scoreJ < 500){
+        commandeClient(2)
+    }
+    else {
+        commandeClient(3)
+    }
+}
 
 function handlerClickOnBell(ev) {
     if (ev.target.id == 'bell_validate') {
@@ -821,8 +833,8 @@ function handlerClickOnBell(ev) {
 
                 commandeEntity.setAttribute('text', 'value', 'Merci !')
 
-                setTimeout(function() {  
-                    commandeClient(2)
+                setTimeout(function() {
+                    difficultyByScore();
                 }, 1000);
 
 
@@ -844,8 +856,8 @@ function handlerClickOnBell(ev) {
                 
                 commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !')
 
-                setTimeout(function() {  
-                    commandeClient(2)
+                setTimeout(function() {
+                    difficultyByScore();
                     // Perte d'une étoile
                     loseStar()
                 }, 1000);
