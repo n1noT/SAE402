@@ -1,4 +1,4 @@
- // Tableau des commandes faites par les clients
+// Tableau des commandes faites par les clients
 let commandes = [];
 
 // Tableau des recettes que les clients peuvent commander 
@@ -57,22 +57,21 @@ let scoreJ = 0;
 
 let commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
-    bulle.setAttribute('src', './assets/models/cmd/Speech.glb');
+    bulle.setAttribute('src', '../assets/models/cmd/Speech.glb');
     bulle.setAttribute('position', '-5.5 3.34 0');
     bulle.setAttribute('rotation', '0 90 0');
-    bulle.setAttribute('scale', '2.5 1 1');
+    bulle.setAttribute('scale', '2 1 1');
     bulle.id = 'bulle';
 
     var character = document.createElement('a-gltf-model');
-    character.setAttribute('src', './assets/models/character/BeachCharacter.glb');
+    character.setAttribute('src', '../assets/models/character/BeachCharacter.glb');
     character.setAttribute('position', '-5.7 -1 0');
     character.setAttribute('rotation', '0 90 0');
     character.setAttribute('scale', '2 2 2');
-    character.setAttribute('id', 'character');
 
     var commandeEntity = document.createElement('a-entity');
     commandeEntity.setAttribute('id', 'commande');
-    commandeEntity.setAttribute('position', '-5.2 3.6 1.45');
+    commandeEntity.setAttribute('position', '-5.2 3.6 1.1');
     commandeEntity.setAttribute('rotation', '0 90 0');
     commandeEntity.setAttribute('text', 'value: Bonjour !; color: black; width: 5; align: center');
 
@@ -84,7 +83,7 @@ let commandeEntity = function () {
 
     var ingredientsEntity = document.createElement('a-entity');
     ingredientsEntity.setAttribute('id', 'ingredients');
-    ingredientsEntity.setAttribute('position', '0 1.75 3.3');
+    ingredientsEntity.setAttribute('position', '0 1.9 3.3');
     ingredientsEntity.setAttribute('rotation', '0 180 0');
     ingredientsEntity.setAttribute('text', 'value: ; color: black; width: 4; align: center');
 
@@ -162,7 +161,7 @@ let validerCommande = function () {
 }
 
 // Perte de point lorsque la porte du frigo est ouverte
-let lowerFridgeScore = function() {
+let lowerFridgeScore = function () {
     let porte = document.querySelector('#fridge-door');
     if (porte.dataset.etat == 'ouvert') {
         scoreJ -= 1;
@@ -176,29 +175,30 @@ let handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
 
 
+
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
 
-
-            porte.setAttribute('gltf-model', './assets/models/fridge/door/door-open.glb');
+            porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-open.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.8 0.9 0.6');
             porte.dataset.etat = 'ouvert'
 
             return
-            
         }
-        if (porte.dataset.etat == 'ouvert') {
-            porte.setAttribute('gltf-model', './assets/models/fridge/door/door-close.glb');
-            porte.setAttribute('rotation', '0 90 180');
-            porte.setAttribute('scale', '0.9 1.1 1');
-            porte.dataset.etat = 'ferme'
-            return
+    }
+    if (porte.dataset.etat == 'ouvert') {
+        porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-close.glb');
+        porte.setAttribute('rotation', '0 90 180');
+        porte.setAttribute('scale', '0.9 1.1 1');
+        porte.dataset.etat = 'ferme'
 
-        }
+        return
 
     }
+
 }
+
 
 // Fonction pour mettre à jour la position de l'entité "follower" à une distance fixe de la caméra
 function updateFollowerPosition(toFollow) {
@@ -244,9 +244,9 @@ AFRAME.registerComponent('follow-hand', {
 
 
 // Perte de point lorsque la plaque est allumé
-let lowerGrillScore = function() {
+let lowerGrillScore = function () {
     let grill = document.querySelectorAll('.grill_btn');
-    for(let btn of grill){
+    for (let btn of grill) {
         if (btn.dataset.etat == 'on') {
             scoreJ -= 1;
             scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
@@ -258,7 +258,6 @@ var intervalID = setInterval(lowerGrillScore, 1000);
 // GRILL - BOUTONS
 function handlerClicSurBouton(ev) {
     let bouton = ev.target;
-    console.log(bouton)
 
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {
@@ -365,11 +364,11 @@ let handlerClickOnAssiette = function (ev) {
 
             if (objMain.hasAttribute('follow-hand')) {
                 objMain.removeAttribute('follow-hand');
-                console.log(assiettes[0].length)
                 let yObj = 1
                 for (let i = 0; i < assiettes[0].length; i++) {
                     yObj += 0.05
                 }
+
 
                 let posAssiette = ev.target.getAttribute('position')
 
@@ -383,6 +382,7 @@ let handlerClickOnAssiette = function (ev) {
                 objMain.id = 'inAssiette'
 
                 assiettes[0].push(objMain.dataset.id)
+
                 main.shift()
             }
 
@@ -434,7 +434,6 @@ let handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-
                 setTimeout(function () {
                     if (objMain.id === 'inGrill') {
                         let objCuit = objMain;
@@ -458,8 +457,10 @@ let handlerClickOnGrill = function (ev) {
 
                 plaques[0].push(objMain.dataset.id);
 
+
                 main.shift();
             }
+
             return;
         }
     }
@@ -519,6 +520,7 @@ let handlerClickOnPlate = function (ev) {
     }
 
 }
+
 
 
 let handlerClickOnContainerOB = function (ev) {
@@ -651,6 +653,36 @@ function handlerClickOnEmptyBtn(ev) {
 }
 
 
+let starsLeft = 3;
+
+function loseStar() {
+    if (starsLeft > 1) {
+        const starElement = document.getElementById(`star${starsLeft}`);
+        starElement.setAttribute('material', 'color', '#808080');
+        starsLeft--;
+
+    }
+    else if (starsLeft == 1) {
+        const starElement = document.getElementById(`star${starsLeft}`);
+        starElement.setAttribute('material', 'color', '#808080');
+        resetGame();
+    }
+}
+
+let resetGame = function () {
+    scoreJ = 0;
+    scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
+    // Vide le tableau des ingrédients dans assiette
+    while (assiettes[0].length > 0) {
+        assiettes[0].pop();
+    };
+    // vider la main
+    while (main.length > 0) {
+        main.pop();
+    };
+}
+
+
 
 AFRAME.registerComponent('timer-controller', {
     init: function () {
@@ -670,12 +702,6 @@ AFRAME.registerComponent('timer-controller', {
 
         // Met à jour le timer chaque seconde
         this.interval = setInterval(function () {
-            // Vérifie si le timer est déjà à zéro
-            if (timerValue < 0) {
-                clearInterval(this.interval); // Arrête le timer
-                return; // Sort de la fonction setInterval
-            }
-
             // Met à jour le texte du timer
             timerEntity.setAttribute('text', 'value', timerValue);
             ingredientsEntity.setAttribute('text', 'value', ingredientsText)
@@ -693,7 +719,9 @@ AFRAME.registerComponent('timer-controller', {
 
             // si le timer arrive a 0
             if (timerValue === 0) {
+                commandeEntity.setAttribute('text', 'value', 'Dommage, je me casse !');
 
+                loseStar();
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
@@ -704,39 +732,19 @@ AFRAME.registerComponent('timer-controller', {
 
 
 
-
-                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !');
-
-                setTimeout(function() {
-                    difficultyByScore();
-                    loseStar();
-                }, 1000);
-
-
+                // génere la prochaine commande
+                commandeClient(2)
                 clearInterval(this.interval)
             }
 
             timerValue--;
         }, 1000);
-
     },
 
     remove: function () {
         clearInterval(this.interval);
     },
 });
-
-let difficultyByScore = function(){
-    if(scoreJ < 300){
-        commandeClient(1)
-    }
-    else if(scoreJ < 500){
-        commandeClient(2)
-    }
-    else {
-        commandeClient(3)
-    }
-}
 
 function handlerClickOnBell(ev) {
     if (ev.target.id == 'bell_validate') {
@@ -745,17 +753,16 @@ function handlerClickOnBell(ev) {
 
         }
         else {
-            var commandeEntity = document.getElementById('commande');
+            var commandeEntity = document.getElementById('valide');
             let assiette = document.querySelectorAll('#inAssiette')
 
             if (validerCommande() == true) {
                 // calcul des points par rapport au niveau de la commande
-                scoreJ += 100*commandes[commandes.length - 1].niveau;
+                scoreJ += 100 * commandes[commandes.length - 1].niveau;
                 //mettre a jour le score et l'afficher
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
 
-
-
+                commandeEntity.setAttribute('text', 'value', 'commande VALIDE')
                 for (let ing of assiette) {
                     ing.remove()
                 }
@@ -769,11 +776,7 @@ function handlerClickOnBell(ev) {
                     commandes.pop()
                 }
 
-                commandeEntity.setAttribute('text', 'value', 'Merci !')
-
-                setTimeout(function() {
-                    difficultyByScore();
-                }, 1000);
+                commandeClient(2)
 
 
             }
@@ -781,26 +784,23 @@ function handlerClickOnBell(ev) {
                 // mettre a jour le score et l'afficher
                 scoreJ = scoreJ - 100;
                 scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-                
+
+                commandeEntity.setAttribute('text', 'value', 'commande INVALIDE')
+
                 for (let ing of assiette) {
                     ing.remove()
                 }
-                
+
                 while (assiettes[0].length > 0) {
                     assiettes[0].pop();
                 }
-                
+
                 commandes.pop()
-                
-                commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !')
 
-                setTimeout(function() {
-                    difficultyByScore();
-                    // Perte d'une étoile
-                    loseStar()
-                }, 1000);
+                commandeClient(1)
 
-                
+                // Perte d'une étoile
+                loseStar()
 
                 return
             }
@@ -811,16 +811,7 @@ function handlerClickOnBell(ev) {
 
 function handlerClickOnStart(ev) {
     if (ev.target.id == 'start') {
-        // définir le score a 0
-        scoreJ = 0;
-        scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
-        // redonner toutes les étoiles
-        let starsElement = document.querySelectorAll('.stars');
-        for(let star of starsElement){
-            star.setAttribute('material', 'color', '#FFFB00');
-        }
-        //générer une commande de niveau 1
-        commandeClient(3);
+        commandeClient(1);
 
         let start = document.querySelectorAll('#start');
         start.forEach(elt => {
@@ -835,7 +826,7 @@ function handlerClickOnCompost() {
         hand.remove();
         main.pop();
     }
-    else if(hand.dataset.tri == "recycle"){
+    else if (hand.dataset.tri == "recycle") {
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -849,7 +840,7 @@ function handlerClickOnRecycle() {
         hand.remove();
         main.pop();
     }
-    else if(hand.dataset.tri == "compost"){
+    else if (hand.dataset.tri == "compost") {
         scoreJ = scoreJ - 50;
         scoreJoueur.setAttribute('text', 'value', `SCORE : ${scoreJ}`);
         hand.remove();
@@ -882,65 +873,6 @@ function handlerClickOnThon(ev) {
     }
 }
 
-
-let starsLeft = 3;
-
-function loseStar() {
-  if (starsLeft > 1) {
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    starsLeft--;
-  }
-  else if (starsLeft == 1){
-    const starElement = document.getElementById(`star${starsLeft}`);
-    starElement.setAttribute('material', 'color', '#808080');
-    resetGame();
-    starsLeft = 3;
-  }
-}
-
-let resetGame = function(){
-
-    let objMain = document.querySelector('#handed');
-
-    // Vide le tableau des ingrédients dans assiette
-    while (assiettes[0].length > 0) {
-        assiettes[0].pop();
-    };
-    // vider la main
-    while (main.length > 0) {
-        main.pop();
-        objMain.remove();
-    };
-
-    fullCommande.remove();
-
-    let scene =  document.querySelector("a-scene");
-
-    var box = document.createElement("a-box");
-    box.setAttribute("rotation", "0 90 0");
-    box.setAttribute("position", "-1.5 2 0");
-    box.setAttribute("scale", "0.8 0.3 0.1");
-    box.setAttribute("color", "#00FF00");
-    box.setAttribute("id", "start");
-    scene.appendChild(box);
-    
-    // Création du texte
-    var text = document.createElement("a-text");
-    text.setAttribute("value", "LANCER LE JEU");
-    text.setAttribute("rotation", "0 90 0");
-    text.setAttribute("position", "-1.4 2 0.325");
-    text.setAttribute("scale", "0.4 0.4 0.4");
-    text.setAttribute("color", "#000000");
-    text.setAttribute("id", "start");
-    scene.appendChild(text);
-
-    let start = document.querySelectorAll('#start');
-    start.forEach(bouton => {
-    bouton.addEventListener('click', handlerClickOnStart);
-});
-}
-        
 
 // Affichage du score en HUD
 let scoreJoueur = document.querySelector('#scorej');
@@ -980,3 +912,4 @@ scene.addEventListener('click', handlerClickOnGrill);
 scene.addEventListener('click', handlerClickOnPlate);
 scene.addEventListener('click', handlerClickOnContainerOB);
 scene.addEventListener('click', handlerClickOnTable);
+
