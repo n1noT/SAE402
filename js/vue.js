@@ -1,6 +1,6 @@
 let V = {}
 
-// Vue
+// Fonction qui crée le visuel de la commande 
 V.commandeEntity = function () {
     var bulle = document.createElement('a-gltf-model');
     bulle.setAttribute('src', '../assets/models/cmd/Speech.glb');
@@ -56,8 +56,8 @@ V.commandeEntity = function () {
     scene.appendChild(fullCommande);
 }
 
-// Vue
-// FRIDGE
+
+// Fonction qui ouvre et ferme la porte du frigo
 V.handlerClickOnFridge = function (ev) {
     let porte = document.querySelector('#fridge-door');
 
@@ -65,7 +65,7 @@ V.handlerClickOnFridge = function (ev) {
     if (ev.target.className == 'frigo-door') {
         if (porte.dataset.etat == 'ferme') {
 
-
+            //Change le modèle en ouvert
             porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-open.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.8 0.9 0.6');
@@ -75,6 +75,7 @@ V.handlerClickOnFridge = function (ev) {
             
         }
         if (porte.dataset.etat == 'ouvert') {
+            //Change le modèle en fermé
             porte.setAttribute('gltf-model', '../assets/models/fridge/door/door-close.glb');
             porte.setAttribute('rotation', '0 90 180');
             porte.setAttribute('scale', '0.9 1.1 1');
@@ -86,45 +87,43 @@ V.handlerClickOnFridge = function (ev) {
     }
 }
 
-// Vue
 // Fonction pour mettre à jour la position de l'entité "follower" à une distance fixe de la caméra
 V.updateFollowerPosition = function (toFollow) {
-    // Obtenir une référence à l'entité de la caméra
+    // Récupère la caméra
     var camera = document.getElementById('camera');
-    // Obtenir la position de la caméra
+    // Récupère la position de la caméra
     var cameraPosition = camera.getAttribute('position');
 
-    // Définir la position de l'entité suiveuse à une distance fixe de la caméra
-    var distance = 1; // Distance désirée
+    // Défini la distance à la caméra
+    var distance = 1; 
+
     var followerPosition = {
         x: cameraPosition.x,
         y: cameraPosition.y,
-        z: cameraPosition.z - distance // Ajustez cette valeur pour changer la distance
+        z: cameraPosition.z - distance 
     };
 
-    // Mettre à jour la position de l'entité suiveuse
+    // Met à jour la position de l'entité suiveuse
     var follower = document.getElementById(toFollow);
     follower.setAttribute('position', followerPosition);
 }
 
-
-// Vue
+// Cuit le steak
 V.steakcuit = function (objMain) {
     objMain.setAttribute('material', 'color : #622828');
     objMain.dataset.id += " cuit"
 };
 
-// Vue
+// Crame l'objet
 V.steakcrame = function (objMain) {
     objMain.setAttribute('material', 'color : #210202');
     objMain.dataset.id = "crame"
 };
 
-// Vue
-// GRILL - BOUTONS
+
+// Fonction qui change l'état du bouton
 V.handlerClicSurBouton = function (ev) {
     let bouton = ev.target;
-    console.log(bouton)
 
     if (ev.target.className == 'grill_btn') {
         if (bouton.dataset.etat == 'off') {

@@ -37,35 +37,32 @@ let dataRecette = [
     },
 ];
 
-// Model
+
 // Tableau contenant les 3 assiettes où l'on prépare les commandes 
 let assiette = [];
 
-// Model
 // Tableau contenant les 4 contenances des plaques de cuisson
 let plaques = [[], [], [], []];
 
-// Model
-// Tableau contenant la contenance du plateau
+// Tableau contenant les objets dans le plateau
 let plateau = [];
 
-// Model
+// Tableau contenant les objets sur la table
 let table = [];
 
-// Model
+// Tableau contenant l'ouvre-boite
 let containerOB = [];
 
-// Model
 // Tableau contenant les objet dans la main 
 let main = [];
 
-// Model
-// variable de score 
+// Variable de score 
 let scoreJ = 0;
 
-// Model
+// Variable des étoiles
 let starsLeft = 3;
 
+// Objet M contenant les getters et setters
 export const M = {
     get dataRecette() {
         return dataRecette;

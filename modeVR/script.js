@@ -3,7 +3,7 @@ import { C } from '../js/controller.js';
 import { V } from '../js/vue.js';
 
 
-
+// Composant qui fait en sorte qu'un objet suive la main/manette
 AFRAME.registerComponent('follow-hand', {
     tick: function () {
         var object = this.el;
@@ -14,6 +14,7 @@ AFRAME.registerComponent('follow-hand', {
     }
 });
 
+// Attribution des EventListener
 let fridge = document.querySelector('#fridge-door');
 fridge.addEventListener('click', V.handlerClickOnFridge);
 document.querySelector('#rightController').addEventListener('triggerdown', V.handlerClickOnFridge);
