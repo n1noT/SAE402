@@ -206,7 +206,7 @@ body {
     color: var(--white);
     padding: 1rem 1.5rem;
     border-radius: 5px;
-    transition: box-shadow 0.2s, transform 0.2s;
+    transition: box-shadow 0.5s, transform 0.5s;
 }
 
 .accueil__btn:hover {
@@ -343,14 +343,68 @@ body {
 .container3 {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+.container3__title{
+    color: var(--green);
+    font-family: var(--ff-base);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.container3__section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem 6rem;
 }
 
 .container3__description {
     color: #000;
     font-family: var(--ff-base);
-    font-size: 1.625rem;
+    font-size: 1rem;
     font-weight: 400;
-    width: 66rem;
+}
+
+
+.container3__btn {
+    padding: 0.6875rem 1.3125rem;
+    width: 8rem;
+    background-color: var(--light-green);
+    border-radius: 0.25rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+
+.container3__btn:hover {
+    box-shadow: 0 4px 0px var(--green), 0 1px 3px var(--green);
+    transform: translateY(-1px);
+}
+
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 8rem;
+    background: #345732;
+    padding: 2rem;
+}
+
+
+.footer__copyright {
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    font-family: Poppins;
+    font-weight: 400;
+
 }
 
 
@@ -429,7 +483,6 @@ body {
         text-align: left;
     }
 
-    .container
 
     .container2 {
         display: flex;
@@ -467,5 +520,50 @@ body {
 
     .bloc__description {
         font-size: 1.25rem;
+    }
+
+    .container {
+     
+        justify-content: flex-end;
+    }
+    
+    .container3__section{
+        align-items: flex-start;
+        gap: 2rem;   
+        padding: 6rem 16rem;
+    }
+    
+    
+    .container3__title{
+        color: var(--green);
+        font-family: var(--ff-base);
+        font-size: 3rem;
+        font-weight: 700;
+    }
+    
+    
+    .container3__description {
+        font-size: 1.5rem;
+        text-align: left;
+    }
+    
+    
+    .container3__btn {
+        padding: 0.6875rem 1.3125rem;
+        width: 10rem;
+        background-color: var(--light-green);
+        border-radius: 0.25rem;
+        font-size: 1.2rem;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .footer__links {
+        left: 10%;
+        top: 10%;
+    }
+
+    .footer__social-icons {
+        right: 10%;
+        top: 10%;
     }
 }
