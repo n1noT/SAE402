@@ -533,15 +533,16 @@ AFRAME.registerComponent('timer-controller', {
 
                 commandeEntity.setAttribute('text', 'value', 'Je ne reviendrai plus !');
 
+                // Met un délai de 1 seconde 
                 setTimeout(function() {
                     difficultyByScore();
                     loseStar();
                 }, 1000);
 
-
+                //Reset l'intervalle
                 clearInterval(this.interval)
             }
-
+            // fait diminuer le timer
             timerValue--;
         }, 1000);
 
@@ -552,7 +553,7 @@ AFRAME.registerComponent('timer-controller', {
     },
 });
 
-
+// focntion qui définit la difficulté en fonction du score
 let difficultyByScore = function(){
     if(M.scoreJ < 300){
         commandeClient(1)
@@ -724,13 +725,15 @@ C.handlerClickOnThon = function(ev) {
     }
 }
 
-
+//Fonction qui retire une étoile en cas d'échec
 let loseStar = function() {
+    // Si le tableau étoile est supérieur à 1 retire une étoile
   if (M.starsLeft > 1) {
     const starElement = document.getElementById(`star${M.starsLeft}`);
     starElement.setAttribute('material', 'color', '#808080');
     M.starsLeft--;
   }
+  // Reset le jeu car plus d'étoile
   else if (M.starsLeft == 1){
     const starElement = document.getElementById(`star${M.starsLeft}`);
     starElement.setAttribute('material', 'color', '#808080');
@@ -739,7 +742,7 @@ let loseStar = function() {
   }
 }
 
-
+// Fonction qui reset la partie
 let resetGame = function(){
 
     let objMain = document.querySelector('#handed');
@@ -783,7 +786,7 @@ let resetGame = function(){
 }
         
 
-// Affichage du score en 
+// Affichage du score 
 let scoreJoueur = document.querySelector('#scorej');
 scoreJoueur.setAttribute('text', 'value', `SCORE : ${M.scoreJ}`);
 
