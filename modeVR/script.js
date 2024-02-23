@@ -10,7 +10,12 @@ AFRAME.registerComponent('follow-hand', {
         var rightController = document.getElementById('rightController');
         var rightControllerPosition = rightController.getAttribute('position');
 
-        object.setAttribute('position', rightControllerPosition);
+        // place l'objet à la position de la main avec une hauteur de 0.1 de plus pour éviter les conflits au clic
+        object.setAttribute('position', {
+            x: rightControllerPosition.x,
+            y: rightControllerPosition.y + 0.1,
+            z: rightControllerPosition.z 
+        });
     }
 });
 
