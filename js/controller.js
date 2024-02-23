@@ -145,8 +145,8 @@ C.handlerClickOnConso = function (ev) {
     else{
         // Si on a un objet dans la main
         if (M.main.length == 1) {
-            // Si l'on clique sur le stock ou le frigo cela "replace" l'objet dans celui-ci et le fait disparaitre de la main à condition qu'il ne soit pas du pain
-            if (ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'fridge' && M.main[0] != 'pain') {
+            // Si l'on clique sur le stock ou le frigo cela "replace" l'objet dans celui-ci et le fait disparaitre de la main à condition qu'il ne soit pas du pain ou une boite de thon
+            if (ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'fridge' && M.main[0] != 'pain' && M.main[0] != 'thon-boite') {
                     let hand = document.querySelector('#handed');
                     hand.remove()
                     M.main.shift()
@@ -154,7 +154,7 @@ C.handlerClickOnConso = function (ev) {
                 
             }
             // L'inverse du précédent pour le pain si l'on clique sur l'étagère
-            if(ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'shelf' && M.main[0] == 'pain'){
+            if(ev.target.dataset.stock == 'stock' || ev.target.dataset.id == 'shelf' && M.main[0] == 'pain' && M.main[0] != 'thon-boite'){
                     let hand = document.querySelector('#handed');
                     hand.remove()
                     M.main.shift()
@@ -230,6 +230,7 @@ C.handlerClickOnGrill = function (ev) {
             return;
         }
 
+        // Vérifie que le bouton correspondant est 'on' 
         if (M.main.length == 1 && plaqueIndex !== -1 && btn[plaqueIndex].dataset.etat === 'on') {
             let objMain = document.querySelector('#handed');
             if (objMain.hasAttribute('follow-hand')) {
@@ -251,7 +252,7 @@ C.handlerClickOnGrill = function (ev) {
                 objMain.setAttribute('position', posObj);
                 objMain.id = 'inGrill';
 
-
+                // Cuit le steak au bout de 5s
                 setTimeout(function () {
                     if (objMain.id === 'inGrill') {
                         let objCuit = objMain;
@@ -259,7 +260,7 @@ C.handlerClickOnGrill = function (ev) {
                     }
                 }, 5000);
 
-
+                // Crame le steak au bout de 5s
                 setTimeout(function () {
 
                     if (objMain.id === 'inGrill') {
@@ -272,6 +273,7 @@ C.handlerClickOnGrill = function (ev) {
                     }
                 }, 10000);
 
+                // Met l'objet dans le tableau plaques
                 M.plaques[0].push(objMain.dataset.id);
 
                 M.main.shift();
